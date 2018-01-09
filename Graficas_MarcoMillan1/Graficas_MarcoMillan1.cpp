@@ -19,7 +19,7 @@ int main()
 {
 	string checker = "mesh_";
 	float ftest;
-	string a,b;
+	string a,b,filename;
 	string::iterator sit;
 	char c,cont;
 	vector<vertex*> model;
@@ -28,8 +28,10 @@ int main()
 	int totalvert = 0;
 	bool trigger = false;
 	ifstream mreader;
+	cout << "Enter file name" << endl << "File must have extension" << endl;
+	cin >> filename;
 	cout << "Iniciating..." << endl;
-	mreader.open("Pig.X");
+	mreader.open(filename);
 	if (!mreader.is_open())
 	{
 		Sleep(20);
@@ -40,13 +42,13 @@ int main()
 	}
 	else
 	{
-		cout << "Loading model Pig.X..." << endl;
+		cout << "Loading model"<< filename<<"..." << endl;
 		Sleep(500);
 		mreader.seekg(0, mreader.end);
 		size = mreader.tellg();
 		cout << "File size... " << size<<endl;
 		mreader.seekg(0, mreader.beg);
-		//aqui se posiciona en mesh_Object03
+		//aqui se posiciona en mesh
 		while(true)
 		{
 			mreader >> a;
@@ -84,6 +86,7 @@ int main()
 			}
 			model.push_back(p);
 		}
+		mreader.close();
 		cout << "All vertex have been loaded into model_vector..." << endl;
 		
 		Sleep(2000);
