@@ -17,8 +17,10 @@ struct vertex
 };
 int main()
 {
+	string checker = "mesh_";
 	float ftest;
-	string a;
+	string a,b;
+	string::iterator sit;
 	char c,cont;
 	vector<vertex*> model;
 	vector<vertex*>::iterator mit;
@@ -45,9 +47,19 @@ int main()
 		cout << "File size... " << size<<endl;
 		mreader.seekg(0, mreader.beg);
 		//aqui se posiciona en mesh_Object03
-		while(a!="mesh_Object03")
+		while(true)
 		{
 			mreader >> a;
+			if (a=="Mesh")
+			{
+				mreader >> a;	
+				b = a.substr(0, 5);
+				if (b==checker)
+				{
+					break;
+				}
+
+			}
 		}
 		mreader >> c >> totalvert >> c;
 		cout<<endl<<endl<<"Object vertex: " << totalvert << endl;
