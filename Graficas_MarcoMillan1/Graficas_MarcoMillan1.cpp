@@ -75,9 +75,9 @@ int main()
 			if (!trigger)
 			{
 				cont = _getch();
-				if (cont != 13&&cont==32)
+				while (cont!=32&&cont!=13)
 				{
-					//continuo un vertice
+					cont = _getch();
 				}
 				if (cont == 13)
 				{
@@ -89,7 +89,7 @@ int main()
 		mreader.close();
 		cout << "All vertex have been loaded into model_vector..." << endl;
 		
-		Sleep(2000);
+		Sleep(500);
 		/*for ( mit = model.begin(); mit != model.end(); mit++)
 		{
 			cout<<"vertice "<<":	x: "<<(*mit)->x << "	y: " << (*mit)->y << "	z: " << (*mit)->z<<endl;
