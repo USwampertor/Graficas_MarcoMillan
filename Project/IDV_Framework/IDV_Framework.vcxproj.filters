@@ -35,5 +35,8 @@
     <ClInclude Include="incl\IDVWindow\IDVWin32Manager.h">
       <Filter>Header Files\IDVWindow\Win32</Filter>
     </ClInclude>
+    <ClInclude Include="incl\IDVDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
