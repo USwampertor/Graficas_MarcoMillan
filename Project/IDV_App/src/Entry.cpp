@@ -8,6 +8,7 @@ IDVBaseApplication *g_pApplication = 0;
 IDVBaseWindow	   *g_pWindow = 0;
 
 int main(int arg, char ** args) {
+	Parser p1;
 	
 	PrintFromLibrary();
 	g_pApplication = new IDVTestApplication();
@@ -15,7 +16,7 @@ int main(int arg, char ** args) {
 	g_pWindow->InitGlobalVars();
 	g_pWindow->OnCreateApplication();
 
-	g_pWindow->UpdateApplication();
+	//g_pWindow->UpdateApplication();
 
 	g_pWindow->OnDestroyApplication();
 
