@@ -1,5 +1,0 @@
-﻿  Graficas_MarcoMillan1.cpp
-c:\users\propietario\documents\visual studio 2015\projects\graficas_marcomillan1\graficas_marcomillan1\graficas_marcomillan1.cpp(44): warning C4244: '=': conversión de 'std::streamoff' a 'int'; posible pérdida de datos
-c:\users\propietario\documents\visual studio 2015\projects\graficas_marcomillan1\graficas_marcomillan1\graficas_marcomillan1.cpp(20): warning C4101: 'ftest': variable local sin referencia
-  Graficas_MarcoMillan1.vcxproj -> C:\Users\PROPIETARIO\documents\visual studio 2015\Projects\Graficas_MarcoMillan1\Debug\Graficas_MarcoMillan1.exe
-  Graficas_MarcoMillan1.vcxproj -> C:\Users\PROPIETARIO\documents\visual studio 2015\Projects\Graficas_MarcoMillan1\Debug\Graficas_MarcoMillan1.pdb (Full PDB)
