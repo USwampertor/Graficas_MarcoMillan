@@ -22,6 +22,7 @@ void IDVWin32Manager::OnCreateApplication() {
 	}
 
 	m_pApplication->CreateAssets();
+
 }
 
 void IDVWin32Manager::OnDestroyApplication() {
@@ -37,11 +38,22 @@ void IDVWin32Manager::UpdateApplication() {
 
 void IDVWin32Manager::ProcessInput() {
 	SDL_Event       evento;
-	while (SDL_PollEvent(&evento)) {
-		switch (evento.type) {
-		case SDL_KEYDOWN: {
+	while (SDL_PollEvent(&evento)) 
+	{
+		switch (evento.type) 
+		{
+		case SDL_KEYDOWN: 
+		{
 			if (evento.key.keysym.sym == SDLK_q) {
 				m_bAlive = false;
+			}
+			if (evento.key.keysym.sym == SDLK_SPACE)
+			{
+				printf("holi \n");
+			}
+			if (evento.key.keysym.sym == SDLK_RETURN)
+			{
+				printf("holi a todos \n");
 			}
 			
 		}break;

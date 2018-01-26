@@ -8,14 +8,17 @@ IDVBaseApplication *g_pApplication = 0;
 IDVBaseWindow	   *g_pWindow = 0;
 
 int main(int arg, char ** args) {
+	std::string file;
 	Parser p1;
 	PrintFromLibrary();
+	std::cin>>file;
+	p1.Load(file);
 	g_pApplication = new IDVTestApplication();
 	g_pWindow = new IDVWin32Manager((IDVBaseApplication*)g_pApplication);
 	g_pWindow->InitGlobalVars();
 	g_pWindow->OnCreateApplication();
 
-	//g_pWindow->UpdateApplication();
+	g_pWindow->UpdateApplication();
 
 	g_pWindow->OnDestroyApplication();
 

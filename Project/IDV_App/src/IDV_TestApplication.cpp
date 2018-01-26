@@ -15,7 +15,7 @@ void IDVTestApplication::DestroyAssets() {
 }
 
 void IDVTestApplication::OnUpdate() {
-	printf("Alive\n");
+	//printf("Alive\n");
 }
 
 void IDVTestApplication::OnDraw(){
