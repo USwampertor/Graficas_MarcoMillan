@@ -1,3 +1,3 @@
 ﻿  IDVParser.cpp
-c:\users\propietario\documents\5to cuatri\graficas_marcomillan\project\idv_parser\src\idvparser.cpp(31): warning C4244: '=': conversión de 'std::streamoff' a 'int'; posible pérdida de datos
+c:\users\propietario\documents\5to cuatri\graficas_marcomillan\project\idv_parser\src\idvparser.cpp(32): warning C4244: '=': conversión de 'std::streamoff' a 'int'; posible pérdida de datos
   IDV_Parser.vcxproj -> C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\Lib\Debug\Win32\IDV_Parser.lib

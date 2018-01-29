@@ -11,7 +11,7 @@ int main(int arg, char ** args) {
 	std::string file;
 	Parser p1;
 	PrintFromLibrary();
-	std::cin>>file;
+	std::cin >> file;
 	p1.Load(file);
 	g_pApplication = new IDVTestApplication();
 	g_pWindow = new IDVWin32Manager((IDVBaseApplication*)g_pApplication);

@@ -53,7 +53,7 @@ void IDVWin32Manager::ProcessInput() {
 			}
 			if (evento.key.keysym.sym == SDLK_RETURN)
 			{
-				printf("holi a todos \n");
+				printf("jaja \n");
 			}
 			
 		}break;

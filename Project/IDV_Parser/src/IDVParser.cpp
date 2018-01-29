@@ -24,6 +24,7 @@ bool Parser::Load(std::string filename)
 		mreader.open(filename);
 		if (!mreader.is_open())
 		{
+			std::cout << "couldnt find " << filename << "in specified directory" << std::endl;
 			return false;
 		}
 		
@@ -55,11 +56,7 @@ bool Parser::Load(std::string filename)
 				model.push_back(p);
 			}
 		mreader.close();
-		std::cout << "holi" << std::endl;
-		for (mit=model.begin(); mit!= model.end(); mit++)
-		{
-			std::cout<< "x:"<< (*mit)->x<<" y: "<<(*mit)->y<<" z: " <<(*mit)->z<<std::endl;
-		}
+		
 		return true;
 		
 };
