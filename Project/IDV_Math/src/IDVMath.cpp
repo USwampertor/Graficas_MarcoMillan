@@ -24,11 +24,125 @@ void XMatMultiply(XMATRIX44 & result, const XMATRIX44 & A, const XMATRIX44 & B)
 	result.m44 = (A.m41*B.m14 + A.m42*B.m24 + A.m43*B.m34 + A.m44*B.m44);
 	
 }
+
+void XMatTranslation(XMATRIX44 & ToTranslate, const float & dX, const float & dY, const float & dZ)
+{
+	ToTranslate.m11 += dX; ToTranslate.m12 += dX; ToTranslate.m13 += dX; ToTranslate.m14 += dX;
+	ToTranslate.m21 += dY; ToTranslate.m22 += dY; ToTranslate.m23 += dY; ToTranslate.m24 += dY;
+	ToTranslate.m31 += dZ; ToTranslate.m32 += dZ; ToTranslate.m33 += dZ; ToTranslate.m34 += dZ;
+	
+}
+
+void XMatTranslation(XMATRIX44 & ToTranslate, XVECTOR3&Differential)
+{
+	ToTranslate.m11 += Differential.x; ToTranslate.m12 += Differential.x; ToTranslate.m13 += Differential.x; ToTranslate.m14 += Differential.x;
+	ToTranslate.m21 += Differential.y; ToTranslate.m22 += Differential.y; ToTranslate.m23 += Differential.y; ToTranslate.m24 += Differential.y;
+	ToTranslate.m31 += Differential.z; ToTranslate.m32 += Differential.z; ToTranslate.m33 += Differential.z; ToTranslate.m34 += Differential.z;
+
+}
+
+void XMatScaling(XMATRIX44 & ToScale, const float & kX, const float &kY, const float &kZ)
+{
+	ToScale.m11 *= kX; ToScale.m12 *= kX; ToScale.m13 *= kX; ToScale.m14 *= kX;
+	ToScale.m21 *= kY; ToScale.m22 *= kY; ToScale.m23 *= kY; ToScale.m24 *= kY;
+	ToScale.m31 *= kZ; ToScale.m32 *= kZ; ToScale.m33 *= kZ; ToScale.m34 *= kZ;
+
+}
+
+void XMatRotationXLH(XMATRIX44 & RotateXLH, const float & thetta)
+{
+	XMATRIX44 Temp = RotateXLH;
+	Temp = RotateXLH;
+	Temp.m21 = (RotateXLH.m21*cos(thetta)) + (RotateXLH.m31*sin(thetta)); Temp.m22 = (RotateXLH.m22*cos(thetta)) + (RotateXLH.m32*sin(thetta)); 
+	Temp.m23 = (RotateXLH.m23*cos(thetta)) + (RotateXLH.m33*sin(thetta)); Temp.m24 = (RotateXLH.m24*cos(thetta)) + (RotateXLH.m34*sin(thetta));
+	
+	Temp.m31 = (-RotateXLH.m21*sin(thetta)) + (RotateXLH.m31*cos(thetta)); Temp.m32 = (-RotateXLH.m22*sin(thetta)) + (RotateXLH.m32*cos(thetta));
+	Temp.m33 = (-RotateXLH.m23*sin(thetta)) + (RotateXLH.m33*cos(thetta)); Temp.m34 = (-RotateXLH.m24*sin(thetta)) + (RotateXLH.m34*cos(thetta));
+	
+	RotateXLH=Temp;
+}
+
+void XMatRotationXRH(XMATRIX44 & RotateXRH, const float & thetta)
+{
+	XMATRIX44 Temp = RotateXRH;
+	Temp = RotateXRH;
+	Temp.m21 = (RotateXRH.m21*cos(thetta)) - (RotateXRH.m31*sin(thetta)); Temp.m22 = (RotateXRH.m22*cos(thetta)) - (RotateXRH.m32*sin(thetta));
+	Temp.m23 = (RotateXRH.m23*cos(thetta)) - (RotateXRH.m33*sin(thetta)); Temp.m24 = (RotateXRH.m24*cos(thetta)) - (RotateXRH.m34*sin(thetta));
+
+	Temp.m31 = (RotateXRH.m21*sin(thetta)) + (RotateXRH.m31*cos(thetta)); Temp.m32 = (RotateXRH.m22*sin(thetta)) + (RotateXRH.m32*cos(thetta));
+	Temp.m33 = (RotateXRH.m23*sin(thetta)) + (RotateXRH.m33*cos(thetta)); Temp.m34 = (RotateXRH.m24*sin(thetta)) + (RotateXRH.m34*cos(thetta));
+
+	RotateXRH = Temp;
+}
+
+void XMatRotationYLH(XMATRIX44 & RotateYLH, const float & thetta)
+{
+	XMATRIX44 Temp = RotateYLH;
+	Temp = RotateYLH;
+	Temp.m11 = (RotateYLH.m11*cos(thetta)) - (RotateYLH.m31*sin(thetta)); Temp.m12 = (RotateYLH.m12*cos(thetta)) - (RotateYLH.m32*sin(thetta));
+	Temp.m13 = (RotateYLH.m13*cos(thetta)) - (RotateYLH.m33*sin(thetta)); Temp.m14 = (RotateYLH.m14*cos(thetta)) - (RotateYLH.m34*sin(thetta));
+					  																							  
+	Temp.m31 = (RotateYLH.m11*sin(thetta)) + (RotateYLH.m31*cos(thetta)); Temp.m32 = (RotateYLH.m12*sin(thetta)) + (RotateYLH.m32*cos(thetta));
+	Temp.m33 = (RotateYLH.m13*sin(thetta)) + (RotateYLH.m33*cos(thetta)); Temp.m34 = (RotateYLH.m14*sin(thetta)) + (RotateYLH.m34*cos(thetta));
+
+	RotateYLH = Temp;
+}
+
+void XMatRotationYRH(XMATRIX44 & RotateYRH, const float & thetta)
+{
+	XMATRIX44 Temp = RotateYRH;
+	Temp = RotateYRH;
+	Temp.m11 = (RotateYRH.m11*cos(thetta)) + (RotateYRH.m31*sin(thetta)); Temp.m12 = (RotateYRH.m12*cos(thetta)) + (RotateYRH.m32*sin(thetta));
+	Temp.m13 = (RotateYRH.m13*cos(thetta)) + (RotateYRH.m33*sin(thetta)); Temp.m14 = (RotateYRH.m14*cos(thetta)) + (RotateYRH.m34*sin(thetta));
+
+	Temp.m31 = (-RotateYRH.m11*sin(thetta)) + (RotateYRH.m31*cos(thetta)); Temp.m32 = (-RotateYRH.m12*sin(thetta)) + (RotateYRH.m32*cos(thetta));
+	Temp.m33 = (-RotateYRH.m13*sin(thetta)) + (RotateYRH.m33*cos(thetta)); Temp.m34 = (-RotateYRH.m14*sin(thetta)) + (RotateYRH.m34*cos(thetta));
+
+	RotateYRH = Temp;
+}
+
+void XMatRotationZLH(XMATRIX44 &RotateZLH, const float & thetta)
+{
+	XMATRIX44 Temp = RotateZLH;
+	Temp = RotateZLH;
+	Temp.m11 = (RotateZLH.m11*cos(thetta)) + (RotateZLH.m21*sin(thetta)); Temp.m12 = (RotateZLH.m12*cos(thetta)) + (RotateZLH.m22*sin(thetta));
+	Temp.m13 = (RotateZLH.m13*cos(thetta)) + (RotateZLH.m23*sin(thetta)); Temp.m14 = (RotateZLH.m14*cos(thetta)) + (RotateZLH.m24*sin(thetta));
+
+	Temp.m31 = (-RotateZLH.m11*sin(thetta)) + (RotateZLH.m21*cos(thetta)); Temp.m32 = (-RotateZLH.m12*sin(thetta)) + (RotateZLH.m22*cos(thetta));
+	Temp.m33 = (-RotateZLH.m13*sin(thetta)) + (RotateZLH.m23*cos(thetta)); Temp.m34 = (-RotateZLH.m14*sin(thetta)) + (RotateZLH.m24*cos(thetta));
+
+	RotateZLH = Temp;
+}
+
+void XMatRotationZRH(XMATRIX44 & RotateZRH, const float & thetta)
+{
+	XMATRIX44 Temp = RotateZRH;
+	Temp = RotateZRH;
+	Temp.m11 = (RotateZRH.m11*cos(thetta)) - (RotateZRH.m21*sin(thetta)); Temp.m12 = (RotateZRH.m12*cos(thetta)) - (RotateZRH.m22*sin(thetta));
+	Temp.m13 = (RotateZRH.m13*cos(thetta)) - (RotateZRH.m23*sin(thetta)); Temp.m14 = (RotateZRH.m14*cos(thetta)) - (RotateZRH.m24*sin(thetta));
+					   								 										 							   
+	Temp.m31 = (RotateZRH.m11*sin(thetta)) + (RotateZRH.m21*cos(thetta)); Temp.m32 = (RotateZRH.m12*sin(thetta)) + (RotateZRH.m22*cos(thetta));
+	Temp.m33 = (RotateZRH.m13*sin(thetta)) + (RotateZRH.m23*cos(thetta)); Temp.m34 = (RotateZRH.m14*sin(thetta)) + (RotateZRH.m24*cos(thetta));
+
+	RotateZRH = Temp;
+}
+
+void XMatTranspose(XMATRIX44 & ToTranspose, XMATRIX44 Transposed)
+{
+	Transposed.m12 = ToTranspose.m21; Transposed.m13 = ToTranspose.m31; Transposed.m14 = ToTranspose.m41;
+	Transposed.m21 = ToTranspose.m12; Transposed.m23 = ToTranspose.m32; Transposed.m24 = ToTranspose.m42;
+	Transposed.m31 = ToTranspose.m13; Transposed.m32 = ToTranspose.m23; Transposed.m34 = ToTranspose.m43;
+	Transposed.m41 = ToTranspose.m14; Transposed.m42 = ToTranspose.m24; Transposed.m43 = ToTranspose.m34;
+
+}
+
 void XMatIdentity(XMATRIX44 & matrix)
 {
-	memset(&matrix.m[0], 0, sizeof(matrix));
+	memset(&matrix.m[0], 0, sizeof(matrix.m));
 	matrix.m11 = 1; matrix.m22 = 1; matrix.m33 = 1; matrix.m44 = 1;
+
 }
+
 void XMatViewLookAtLH(XMATRIX44 &mpout, const XVECTOR3 &camPos, const XVECTOR3 &lookAt, const XVECTOR3 &upAxis) {
 	XVECTOR3 zaxe = lookAt - camPos;
 	zaxe.Normalize();
@@ -147,8 +261,199 @@ void XMatOrthoRH(XMATRIX44 &m, const float &w, const float &h, const float &zn, 
 	m.m[3][3] = 1.0f;
 }
 
+void XMatRotationAxisLH(XMATRIX44 & MatrixLH, const XVECTOR3 & RAxisLH, const float & thetta)
+{
+	XMATRIX44 Temp = MatrixLH;
+	XVECTOR3 Normal;
+	float costhetta = cos(thetta);
+	float sinthetta = sin(thetta);
+	float oneminusc = (1 - costhetta);
+	XVec3Normalize(Normal, RAxisLH);
+	Temp.m11 = (
+		(MatrixLH.m11*((Normal.x*Normal.x*oneminusc) + costhetta)) + 
+		(MatrixLH.m21*((Normal.x*Normal.y*oneminusc) + (sinthetta*Normal.z))) + 
+		(MatrixLH.m31*((Normal.x*Normal.z*oneminusc) - (sinthetta*Normal.y)))
+		);
+	Temp.m12= (
+		(MatrixLH.m12*((Normal.x*Normal.x*oneminusc) + costhetta)) +
+		(MatrixLH.m22*((Normal.x*Normal.y*oneminusc) + (sinthetta*Normal.z))) +
+		(MatrixLH.m32*((Normal.x*Normal.z*oneminusc) - (sinthetta*Normal.y)))
+		);
+	Temp.m13 = (
+		(MatrixLH.m13*((Normal.x*Normal.x*oneminusc) + costhetta)) +
+		(MatrixLH.m23*((Normal.x*Normal.y*oneminusc) + (sinthetta*Normal.z))) +
+		(MatrixLH.m33*((Normal.x*Normal.z*oneminusc) - (sinthetta*Normal.y)))
+		);
+	Temp.m14 = (
+		(MatrixLH.m14*((Normal.x*Normal.x*oneminusc) + costhetta)) +
+		(MatrixLH.m24*((Normal.x*Normal.y*oneminusc) + (sinthetta*Normal.z))) +
+		(MatrixLH.m34*((Normal.x*Normal.z*oneminusc) - (sinthetta*Normal.y)))
+		);
+
+	Temp.m21 = (
+		(MatrixLH.m11*((Normal.y*Normal.x*oneminusc) - (sinthetta*Normal.z))) +
+		(MatrixLH.m21*((Normal.y*Normal.y*oneminusc) + costhetta)) +
+		(MatrixLH.m31*((Normal.y*Normal.z*oneminusc) + (sinthetta*Normal.x)))
+		);
+	Temp.m22 = (
+		(MatrixLH.m12*((Normal.y*Normal.x*oneminusc) - (sinthetta*Normal.z))) +
+		(MatrixLH.m22*((Normal.y*Normal.y*oneminusc) + costhetta)) +
+		(MatrixLH.m33*((Normal.y*Normal.z*oneminusc) + (sinthetta*Normal.x)))
+		);
+	Temp.m23 = (
+		(MatrixLH.m13*((Normal.y*Normal.x*oneminusc) - (sinthetta*Normal.z))) +
+		(MatrixLH.m23*((Normal.y*Normal.y*oneminusc) + costhetta)) +
+		(MatrixLH.m33*((Normal.y*Normal.z*oneminusc) + (sinthetta*Normal.x)))
+		);
+	Temp.m24 = (
+		(MatrixLH.m14*((Normal.y*Normal.x*oneminusc) - (sinthetta*Normal.z))) +
+		(MatrixLH.m24*((Normal.y*Normal.y*oneminusc) + costhetta)) +
+		(MatrixLH.m34*((Normal.y*Normal.z*oneminusc) + (sinthetta*Normal.x)))
+		);
+	Temp.m31 = (
+		(MatrixLH.m11*((Normal.z*Normal.x*oneminusc) + (sinthetta*Normal.y))) +
+		(MatrixLH.m21*((Normal.z*Normal.y*oneminusc) - (sinthetta*Normal.x))) +
+		(MatrixLH.m31*((Normal.z*Normal.z*oneminusc) + costhetta))
+		);
+	Temp.m32 = (
+		(MatrixLH.m12*((Normal.z*Normal.x*oneminusc) + (sinthetta*Normal.y))) +
+		(MatrixLH.m22*((Normal.z*Normal.y*oneminusc) - (sinthetta*Normal.x))) +
+		(MatrixLH.m32*((Normal.z*Normal.z*oneminusc) + costhetta))
+		);
+	Temp.m33 = (
+		(MatrixLH.m13*((Normal.z*Normal.x*oneminusc) + (sinthetta*Normal.y))) +
+		(MatrixLH.m23*((Normal.z*Normal.y*oneminusc) - (sinthetta*Normal.x))) +
+		(MatrixLH.m33*((Normal.z*Normal.z*oneminusc) + costhetta))
+		);
+	Temp.m34 = (
+		(MatrixLH.m14*((Normal.z*Normal.x*oneminusc) + (sinthetta*Normal.y))) +
+		(MatrixLH.m24*((Normal.z*Normal.y*oneminusc) - (sinthetta*Normal.x))) +
+		(MatrixLH.m34*((Normal.z*Normal.z*oneminusc) + costhetta))
+		);
+	MatrixLH = Temp;
+}
+
+void XMatRotationAxisRH(XMATRIX44 & MatrixRH, const XVECTOR3 & RAxisRH, const float & thetta)
+{
+	XMATRIX44 Temp = MatrixRH;
+	XVECTOR3 Normal;
+	float costhetta = cos(thetta);
+	float sinthetta = sin(thetta);
+	float oneminusc = (1 - costhetta);
+	XVec3Normalize(Normal, RAxisRH);
+	Temp.m11 = (
+		(MatrixRH.m11*((Normal.x*Normal.x*oneminusc) + costhetta)) +
+		(MatrixRH.m21*((Normal.x*Normal.y*oneminusc) - (sinthetta*Normal.z))) +
+		(MatrixRH.m31*((Normal.x*Normal.z*oneminusc) + (sinthetta*Normal.y)))
+		);
+	Temp.m12 = (
+		(MatrixRH.m12*((Normal.x*Normal.x*oneminusc) + costhetta)) +
+		(MatrixRH.m22*((Normal.x*Normal.y*oneminusc) - (sinthetta*Normal.z))) +
+		(MatrixRH.m32*((Normal.x*Normal.z*oneminusc) + (sinthetta*Normal.y)))
+		);
+	Temp.m13 = (
+		(MatrixRH.m13*((Normal.x*Normal.x*oneminusc) + costhetta)) +
+		(MatrixRH.m23*((Normal.x*Normal.y*oneminusc) - (sinthetta*Normal.z))) +
+		(MatrixRH.m33*((Normal.x*Normal.z*oneminusc) + (sinthetta*Normal.y)))
+		);
+	Temp.m14 = (
+		(MatrixRH.m14*((Normal.x*Normal.x*oneminusc) + costhetta)) +
+		(MatrixRH.m24*((Normal.x*Normal.y*oneminusc) - (sinthetta*Normal.z))) +
+		(MatrixRH.m34*((Normal.x*Normal.z*oneminusc) + (sinthetta*Normal.y)))
+		);
+
+	Temp.m21 = (
+		(MatrixRH.m11*((Normal.y*Normal.x*oneminusc) + (sinthetta*Normal.z))) +
+		(MatrixRH.m21*((Normal.y*Normal.y*oneminusc) + costhetta)) +
+		(MatrixRH.m31*((Normal.y*Normal.z*oneminusc) - (sinthetta*Normal.x)))
+		);
+	Temp.m22 = (
+		(MatrixRH.m12*((Normal.y*Normal.x*oneminusc) + (sinthetta*Normal.z))) +
+		(MatrixRH.m22*((Normal.y*Normal.y*oneminusc) + costhetta)) +
+		(MatrixRH.m33*((Normal.y*Normal.z*oneminusc) - (sinthetta*Normal.x)))
+		);
+	Temp.m23 = (
+		(MatrixRH.m13*((Normal.y*Normal.x*oneminusc) + (sinthetta*Normal.z))) +
+		(MatrixRH.m23*((Normal.y*Normal.y*oneminusc) + costhetta)) +
+		(MatrixRH.m33*((Normal.y*Normal.z*oneminusc) - (sinthetta*Normal.x)))
+		);
+	Temp.m24 = (
+		(MatrixRH.m14*((Normal.y*Normal.x*oneminusc) + (sinthetta*Normal.z))) +
+		(MatrixRH.m24*((Normal.y*Normal.y*oneminusc) + costhetta)) +
+		(MatrixRH.m34*((Normal.y*Normal.z*oneminusc) - (sinthetta*Normal.x)))
+		);
+	Temp.m31 = (
+		(MatrixRH.m11*((Normal.z*Normal.x*oneminusc) - (sinthetta*Normal.y))) +
+		(MatrixRH.m21*((Normal.z*Normal.y*oneminusc) + (sinthetta*Normal.x))) +
+		(MatrixRH.m31*((Normal.z*Normal.z*oneminusc) + costhetta))
+		);
+	Temp.m32 = (
+		(MatrixRH.m12*((Normal.z*Normal.x*oneminusc) - (sinthetta*Normal.y))) +
+		(MatrixRH.m22*((Normal.z*Normal.y*oneminusc) + (sinthetta*Normal.x))) +
+		(MatrixRH.m32*((Normal.z*Normal.z*oneminusc) + costhetta))
+		);
+	Temp.m33 = (
+		(MatrixRH.m13*((Normal.z*Normal.x*oneminusc) - (sinthetta*Normal.y))) +
+		(MatrixRH.m23*((Normal.z*Normal.y*oneminusc) + (sinthetta*Normal.x))) +
+		(MatrixRH.m33*((Normal.z*Normal.z*oneminusc) + costhetta))
+		);
+	Temp.m34 = (
+		(MatrixRH.m14*((Normal.z*Normal.x*oneminusc) - (sinthetta*Normal.y))) +
+		(MatrixRH.m24*((Normal.z*Normal.y*oneminusc) + (sinthetta*Normal.x))) +
+		(MatrixRH.m34*((Normal.z*Normal.z*oneminusc) + costhetta))
+		);
+	MatrixRH = Temp;
+}
+
+void XVecTransformLH(XVECTOR3 & , const XVECTOR3 &, const XMATRIX44 &)
+{
+
+}
+void XVecTransformNormalLH(XVECTOR3 &, const XVECTOR3 &, const XMATRIX44 &)
+{
+
+}
+
+void XVecTransformRH(XVECTOR3 &, const XVECTOR3 &, const XMATRIX44 &)
+{
+
+}
+void XVecTransformNormalRH(XVECTOR3 &, const XVECTOR3 &, const XMATRIX44 &)
+{
+
+}
+
+void XVecDot(float & Dot, const XVECTOR3 & FirstV, const XVECTOR3 & SecondV)
+{
+	Dot = (FirstV.x * SecondV.x) + (FirstV.y * SecondV.y) + (FirstV.z * SecondV.z);
+}
+void XVecLength(float & Lenght, const XVECTOR3 &v)
+{
+	Lenght = sqrt((v.x* v.x)+ (v.y*v.y) + (v.z*v.z));
+}
+void XVecCross(XVECTOR3 & Cross, const XVECTOR3 &FirstV, const XVECTOR3 &SecondV)
+{
+	Cross.x = ((FirstV.y*SecondV.z) - (FirstV.z*SecondV.y)); 
+	Cross.y = ((FirstV.z*SecondV.x) - (FirstV.x*SecondV.z));
+	Cross.z = ((FirstV.x*SecondV.y) - (FirstV.y*SecondV.x));
+}
+
+void XVec3Normalize(XVECTOR3 & Normalized, const XVECTOR3 & ToNormalize)
+{
+	Normalized = ToNormalize;
+	float v = sqrt((ToNormalize.x*ToNormalize.x) + (ToNormalize.y*ToNormalize.y) + (ToNormalize.z*ToNormalize.z));
+	Normalized.x /= v; Normalized.y /= v; Normalized.z /= v;
+}
 
 ////////////////////////////VECTOR2
+XVECTOR2::operator float* ()
+{
+	return &x;
+}
+XVECTOR2::operator const float* () const
+{
+	return &x;
+}
 
 XVECTOR2& XVECTOR2:: operator+=(const XVECTOR2& other)
 {
@@ -301,6 +606,82 @@ float XVECTOR3::Length()
 
 ////////////MATRIX44
 
+XMATRIX44_64::XMATRIX44_64()
+{
+	m11 = (double)0; m12 = (double)0; m13 = (double)0; m14 = (double)0;
+	m21 = (double)0; m22 = (double)0; m23 = (double)0; m24 = (double)0;
+	m31 = (double)0; m32 = (double)0; m33 = (double)0; m34 = (double)0;
+	m41 = (double)0; m42 = (double)0; m43 = (double)0; m44 = (double)0;
+}
+XMATRIX44_64::XMATRIX44_64(XMATRIX44* i)
+{
+	m11 = (double)i->m11; m12 = (double)i->m12; m13 = (double)i->m13; m14 = (double)i->m14;
+	m21 = (double)i->m21; m22 = (double)i->m22; m23 = (double)i->m23; m24 = (double)i->m24;
+	m31 = (double)i->m31; m32 = (double)i->m32; m33 = (double)i->m33; m34 = (double)i->m34;
+	m41 = (double)i->m41; m42 = (double)i->m42; m43 = (double)i->m43; m44 = (double)i->m44;
+
+
+}
+
+void XMATRIX44::Inverse(XMATRIX44 *o)
+{
+#if DOUBLE_FOR_INVERSE
+	XMATRIX44_64 tmp64 = XMATRIX44_64(this);
+	double det =
+#else
+	XMATRIX44 tmp64 = *this;
+	float det =
+#endif
+		tmp64.m11*tmp64.m22*tmp64.m33*tmp64.m44 + tmp64.m11*tmp64.m23*tmp64.m34*tmp64.m42 + tmp64.m11*tmp64.m24*tmp64.m32*tmp64.m43
+		+ tmp64.m12*tmp64.m21*tmp64.m34*tmp64.m43 + tmp64.m12*tmp64.m23*tmp64.m31*tmp64.m44 + tmp64.m12*tmp64.m24*tmp64.m33*tmp64.m41
+		+ tmp64.m13*tmp64.m21*tmp64.m32*tmp64.m44 + tmp64.m13*tmp64.m22*tmp64.m34*tmp64.m41 + tmp64.m13*tmp64.m24*tmp64.m31*tmp64.m42
+		+ tmp64.m14*tmp64.m21*tmp64.m33*tmp64.m42 + tmp64.m14*tmp64.m22*tmp64.m31*tmp64.m43 + tmp64.m14*tmp64.m23*tmp64.m32*tmp64.m41
+		- tmp64.m11*tmp64.m22*tmp64.m34*tmp64.m43 - tmp64.m11*tmp64.m23*tmp64.m32*tmp64.m44 - tmp64.m11*tmp64.m24*tmp64.m33*tmp64.m42
+		- tmp64.m12*tmp64.m21*tmp64.m33*tmp64.m44 - tmp64.m12*tmp64.m23*tmp64.m34*tmp64.m41 - tmp64.m12*tmp64.m24*tmp64.m31*tmp64.m43
+		- tmp64.m13*tmp64.m21*tmp64.m34*tmp64.m42 - tmp64.m13*tmp64.m22*tmp64.m31*tmp64.m44 - tmp64.m13*tmp64.m24*tmp64.m32*tmp64.m41
+		- tmp64.m14*tmp64.m21*tmp64.m32*tmp64.m43 - tmp64.m14*tmp64.m22*tmp64.m33*tmp64.m41 - tmp64.m14*tmp64.m23*tmp64.m31*tmp64.m42;
+#if DOUBLE_FOR_INVERSE
+	if (det == 0.0) {
+#else
+	if (det == 0.0f) {
+#endif
+		printf("\n\nThe Universe stopped, no det for Matrix, all ends here.\n\n");
+		exit(666);
+	}
+#if DOUBLE_FOR_INVERSE
+	det = 1.0 / det;
+	XMATRIX44_64 out;
+#else
+	det = 1.0f / det;
+	XMATRIX44 out;
+#endif
+
+	out.m11 = tmp64.m22*tmp64.m33*tmp64.m44 + tmp64.m23*tmp64.m34*tmp64.m42 + tmp64.m24*tmp64.m32*tmp64.m43 - tmp64.m22*tmp64.m34*tmp64.m43 - tmp64.m23*tmp64.m32*tmp64.m44 - tmp64.m24*tmp64.m33*tmp64.m42;
+	out.m12 = tmp64.m12*tmp64.m34*tmp64.m43 + tmp64.m13*tmp64.m32*tmp64.m44 + tmp64.m14*tmp64.m33*tmp64.m42 - tmp64.m12*tmp64.m33*tmp64.m44 - tmp64.m13*tmp64.m34*tmp64.m42 - tmp64.m14*tmp64.m32*tmp64.m43;
+	out.m13 = tmp64.m12*tmp64.m23*tmp64.m44 + tmp64.m13*tmp64.m24*tmp64.m42 + tmp64.m14*tmp64.m22*tmp64.m43 - tmp64.m12*tmp64.m24*tmp64.m43 - tmp64.m13*tmp64.m22*tmp64.m44 - tmp64.m14*tmp64.m23*tmp64.m42;
+	out.m14 = tmp64.m12*tmp64.m24*tmp64.m33 + tmp64.m13*tmp64.m22*tmp64.m34 + tmp64.m14*tmp64.m23*tmp64.m32 - tmp64.m12*tmp64.m23*tmp64.m34 - tmp64.m13*tmp64.m24*tmp64.m32 - tmp64.m14*tmp64.m22*tmp64.m33;
+	out.m21 = tmp64.m21*tmp64.m34*tmp64.m43 + tmp64.m23*tmp64.m31*tmp64.m44 + tmp64.m24*tmp64.m33*tmp64.m41 - tmp64.m21*tmp64.m33*tmp64.m44 - tmp64.m23*tmp64.m34*tmp64.m41 - tmp64.m24*tmp64.m31*tmp64.m43;
+	out.m22 = tmp64.m11*tmp64.m33*tmp64.m44 + tmp64.m13*tmp64.m34*tmp64.m41 + tmp64.m14*tmp64.m31*tmp64.m43 - tmp64.m11*tmp64.m34*tmp64.m43 - tmp64.m13*tmp64.m31*tmp64.m44 - tmp64.m14*tmp64.m33*tmp64.m41;
+	out.m23 = tmp64.m11*tmp64.m24*tmp64.m43 + tmp64.m13*tmp64.m21*tmp64.m44 + tmp64.m14*tmp64.m23*tmp64.m41 - tmp64.m11*tmp64.m23*tmp64.m44 - tmp64.m13*tmp64.m24*tmp64.m41 - tmp64.m14*tmp64.m21*tmp64.m43;
+	out.m24 = tmp64.m11*tmp64.m23*tmp64.m34 + tmp64.m13*tmp64.m24*tmp64.m31 + tmp64.m14*tmp64.m21*tmp64.m33 - tmp64.m11*tmp64.m24*tmp64.m33 - tmp64.m13*tmp64.m21*tmp64.m34 - tmp64.m14*tmp64.m23*tmp64.m31;
+	out.m31 = tmp64.m21*tmp64.m32*tmp64.m44 + tmp64.m22*tmp64.m34*tmp64.m41 + tmp64.m24*tmp64.m31*tmp64.m42 - tmp64.m21*tmp64.m34*tmp64.m42 - tmp64.m22*tmp64.m31*tmp64.m44 - tmp64.m24*tmp64.m32*tmp64.m41;
+	out.m32 = tmp64.m11*tmp64.m34*tmp64.m42 + tmp64.m12*tmp64.m31*tmp64.m44 + tmp64.m14*tmp64.m32*tmp64.m41 - tmp64.m11*tmp64.m32*tmp64.m44 - tmp64.m12*tmp64.m34*tmp64.m41 - tmp64.m14*tmp64.m31*tmp64.m42;
+	out.m33 = tmp64.m11*tmp64.m22*tmp64.m44 + tmp64.m12*tmp64.m24*tmp64.m41 + tmp64.m14*tmp64.m21*tmp64.m42 - tmp64.m11*tmp64.m24*tmp64.m42 - tmp64.m12*tmp64.m21*tmp64.m44 - tmp64.m14*tmp64.m22*tmp64.m41;
+	out.m34 = tmp64.m11*tmp64.m24*tmp64.m32 + tmp64.m12*tmp64.m21*tmp64.m34 + tmp64.m14*tmp64.m22*tmp64.m31 - tmp64.m11*tmp64.m22*tmp64.m34 - tmp64.m12*tmp64.m24*tmp64.m31 - tmp64.m14*tmp64.m21*tmp64.m32;
+	out.m41 = tmp64.m21*tmp64.m33*tmp64.m42 + tmp64.m22*tmp64.m31*tmp64.m43 + tmp64.m23*tmp64.m32*tmp64.m41 - tmp64.m21*tmp64.m32*tmp64.m43 - tmp64.m22*tmp64.m33*tmp64.m41 - tmp64.m23*tmp64.m31*tmp64.m42;
+	out.m42 = tmp64.m11*tmp64.m32*tmp64.m43 + tmp64.m12*tmp64.m33*tmp64.m41 + tmp64.m13*tmp64.m31*tmp64.m42 - tmp64.m11*tmp64.m33*tmp64.m42 - tmp64.m12*tmp64.m31*tmp64.m43 - tmp64.m13*tmp64.m32*tmp64.m41;
+	out.m43 = tmp64.m11*tmp64.m23*tmp64.m42 + tmp64.m12*tmp64.m21*tmp64.m43 + tmp64.m13*tmp64.m22*tmp64.m41 - tmp64.m11*tmp64.m22*tmp64.m43 - tmp64.m12*tmp64.m23*tmp64.m41 - tmp64.m13*tmp64.m21*tmp64.m42;
+	out.m44 = tmp64.m11*tmp64.m22*tmp64.m33 + tmp64.m12*tmp64.m23*tmp64.m31 + tmp64.m13*tmp64.m21*tmp64.m32 - tmp64.m11*tmp64.m23*tmp64.m32 - tmp64.m12*tmp64.m21*tmp64.m33 - tmp64.m13*tmp64.m22*tmp64.m31;
+
+	for (int i = 0; i < 16; i++) {
+#if DOUBLE_FOR_INVERSE
+		double val = det*out.mat[i];
+		(*o).mat[i] = static_cast<float>(val);
+#else
+		(*o).mat[i] = det*out.mat[i];
+#endif
+	}
+}
 XMATRIX44& XMATRIX44::operator *= (const XMATRIX44& other)
 {
 	XMATRIX44 alfa;
@@ -452,80 +833,21 @@ XMATRIX44 operator * (float times, const XMATRIX44& other)
 bool XMATRIX44::operator == (const XMATRIX44& other) const
 {
 	if (
-	this->m11 == other.m11&& this->m12 == other.m12&& this->m13 == other.m13&& this->m14 == other.m14&
-	this->m21 == other.m21&& this->m22 == other.m22&& this->m23 == other.m23&& this->m24 == other.m24&
-	this->m31 == other.m31&& this->m32 == other.m32&& this->m33 == other.m33&& this->m34 == other.m34&
-	this->m41 == other.m41&& this->m42 == other.m42&& this->m43 == other.m43&& this->m44 == other.m44
+	m11 == other.m11 && m12 == other.m12 && m13 == other.m13 && m14 == other.m14 &&
+	m21 == other.m21 && m22 == other.m22 && m23 == other.m23 && m24 == other.m24 &&
+	m31 == other.m31 && m32 == other.m32 && m33 == other.m33 && m34 == other.m34 &&
+	m41 == other.m41 && m42 == other.m42 && m43 == other.m43 && m44 == other.m44
 	)return true;
 	return false;
 }
 bool XMATRIX44::operator != (const XMATRIX44& other) const
 {
 	if (
-		this->m11 != other.m11&& this->m12 != other.m12&& this->m13 != other.m13&& this->m14 != other.m14&
-		this->m21 != other.m21&& this->m22 != other.m22&& this->m23 != other.m23&& this->m24 != other.m24&
-		this->m31 != other.m31&& this->m32 != other.m32&& this->m33 != other.m33&& this->m34 != other.m34&
-		this->m41 != other.m41&& this->m42 != other.m42&& this->m43 != other.m43&& this->m44 != other.m44
+		m11 != other.m11 && m12 != other.m12 && m13 != other.m13 && m14 != other.m14 &&
+		m21 != other.m21 && m22 != other.m22 && m23 != other.m23 && m24 != other.m24 &&
+		m31 != other.m31 && m32 != other.m32 && m33 != other.m33 && m34 != other.m34 &&
+		m41 != other.m41 && m42 != other.m42 && m43 != other.m43 && m44 != other.m44
 		)return true;
 	return false;
 }
 
-void XMATRIX44::Inverse(XMATRIX44 * o)
-{
-#if DOUBLE_FOR_INVERSE
-	XMATRIX44_64 tmp64 = XMATRIX44_64(this);
-	double det =
-#else
-	XMATRIX44 tmp64 = *this;
-	float det =
-#endif
-		tmp64.m11*tmp64.m22*tmp64.m33*tmp64.m44 + tmp64.m11*tmp64.m23*tmp64.m34*tmp64.m42 + tmp64.m11*tmp64.m24*tmp64.m32*tmp64.m43
-		+ tmp64.m12*tmp64.m21*tmp64.m34*tmp64.m43 + tmp64.m12*tmp64.m23*tmp64.m31*tmp64.m44 + tmp64.m12*tmp64.m24*tmp64.m33*tmp64.m41
-		+ tmp64.m13*tmp64.m21*tmp64.m32*tmp64.m44 + tmp64.m13*tmp64.m22*tmp64.m34*tmp64.m41 + tmp64.m13*tmp64.m24*tmp64.m31*tmp64.m42
-		+ tmp64.m14*tmp64.m21*tmp64.m33*tmp64.m42 + tmp64.m14*tmp64.m22*tmp64.m31*tmp64.m43 + tmp64.m14*tmp64.m23*tmp64.m32*tmp64.m41
-		- tmp64.m11*tmp64.m22*tmp64.m34*tmp64.m43 - tmp64.m11*tmp64.m23*tmp64.m32*tmp64.m44 - tmp64.m11*tmp64.m24*tmp64.m33*tmp64.m42
-		- tmp64.m12*tmp64.m21*tmp64.m33*tmp64.m44 - tmp64.m12*tmp64.m23*tmp64.m34*tmp64.m41 - tmp64.m12*tmp64.m24*tmp64.m31*tmp64.m43
-		- tmp64.m13*tmp64.m21*tmp64.m34*tmp64.m42 - tmp64.m13*tmp64.m22*tmp64.m31*tmp64.m44 - tmp64.m13*tmp64.m24*tmp64.m32*tmp64.m41
-		- tmp64.m14*tmp64.m21*tmp64.m32*tmp64.m43 - tmp64.m14*tmp64.m22*tmp64.m33*tmp64.m41 - tmp64.m14*tmp64.m23*tmp64.m31*tmp64.m42;
-#if DOUBLE_FOR_INVERSE
-	if (det == 0.0) {
-#else
-	if (det == 0.0f) {
-#endif
-		printf("\n\nThe Universe stopped, no det for Matrix, all ends here.\n\n");
-		exit(666);
-	}
-#if DOUBLE_FOR_INVERSE
-	det = 1.0 / det;
-	XMATRIX44_64 out;
-#else
-	det = 1.0f / det;
-	XMATRIX44 out;
-#endif
-
-	out.m11 = tmp64.m22*tmp64.m33*tmp64.m44 + tmp64.m23*tmp64.m34*tmp64.m42 + tmp64.m24*tmp64.m32*tmp64.m43 - tmp64.m22*tmp64.m34*tmp64.m43 - tmp64.m23*tmp64.m32*tmp64.m44 - tmp64.m24*tmp64.m33*tmp64.m42;
-	out.m12 = tmp64.m12*tmp64.m34*tmp64.m43 + tmp64.m13*tmp64.m32*tmp64.m44 + tmp64.m14*tmp64.m33*tmp64.m42 - tmp64.m12*tmp64.m33*tmp64.m44 - tmp64.m13*tmp64.m34*tmp64.m42 - tmp64.m14*tmp64.m32*tmp64.m43;
-	out.m13 = tmp64.m12*tmp64.m23*tmp64.m44 + tmp64.m13*tmp64.m24*tmp64.m42 + tmp64.m14*tmp64.m22*tmp64.m43 - tmp64.m12*tmp64.m24*tmp64.m43 - tmp64.m13*tmp64.m22*tmp64.m44 - tmp64.m14*tmp64.m23*tmp64.m42;
-	out.m14 = tmp64.m12*tmp64.m24*tmp64.m33 + tmp64.m13*tmp64.m22*tmp64.m34 + tmp64.m14*tmp64.m23*tmp64.m32 - tmp64.m12*tmp64.m23*tmp64.m34 - tmp64.m13*tmp64.m24*tmp64.m32 - tmp64.m14*tmp64.m22*tmp64.m33;
-	out.m21 = tmp64.m21*tmp64.m34*tmp64.m43 + tmp64.m23*tmp64.m31*tmp64.m44 + tmp64.m24*tmp64.m33*tmp64.m41 - tmp64.m21*tmp64.m33*tmp64.m44 - tmp64.m23*tmp64.m34*tmp64.m41 - tmp64.m24*tmp64.m31*tmp64.m43;
-	out.m22 = tmp64.m11*tmp64.m33*tmp64.m44 + tmp64.m13*tmp64.m34*tmp64.m41 + tmp64.m14*tmp64.m31*tmp64.m43 - tmp64.m11*tmp64.m34*tmp64.m43 - tmp64.m13*tmp64.m31*tmp64.m44 - tmp64.m14*tmp64.m33*tmp64.m41;
-	out.m23 = tmp64.m11*tmp64.m24*tmp64.m43 + tmp64.m13*tmp64.m21*tmp64.m44 + tmp64.m14*tmp64.m23*tmp64.m41 - tmp64.m11*tmp64.m23*tmp64.m44 - tmp64.m13*tmp64.m24*tmp64.m41 - tmp64.m14*tmp64.m21*tmp64.m43;
-	out.m24 = tmp64.m11*tmp64.m23*tmp64.m34 + tmp64.m13*tmp64.m24*tmp64.m31 + tmp64.m14*tmp64.m21*tmp64.m33 - tmp64.m11*tmp64.m24*tmp64.m33 - tmp64.m13*tmp64.m21*tmp64.m34 - tmp64.m14*tmp64.m23*tmp64.m31;
-	out.m31 = tmp64.m21*tmp64.m32*tmp64.m44 + tmp64.m22*tmp64.m34*tmp64.m41 + tmp64.m24*tmp64.m31*tmp64.m42 - tmp64.m21*tmp64.m34*tmp64.m42 - tmp64.m22*tmp64.m31*tmp64.m44 - tmp64.m24*tmp64.m32*tmp64.m41;
-	out.m32 = tmp64.m11*tmp64.m34*tmp64.m42 + tmp64.m12*tmp64.m31*tmp64.m44 + tmp64.m14*tmp64.m32*tmp64.m41 - tmp64.m11*tmp64.m32*tmp64.m44 - tmp64.m12*tmp64.m34*tmp64.m41 - tmp64.m14*tmp64.m31*tmp64.m42;
-	out.m33 = tmp64.m11*tmp64.m22*tmp64.m44 + tmp64.m12*tmp64.m24*tmp64.m41 + tmp64.m14*tmp64.m21*tmp64.m42 - tmp64.m11*tmp64.m24*tmp64.m42 - tmp64.m12*tmp64.m21*tmp64.m44 - tmp64.m14*tmp64.m22*tmp64.m41;
-	out.m34 = tmp64.m11*tmp64.m24*tmp64.m32 + tmp64.m12*tmp64.m21*tmp64.m34 + tmp64.m14*tmp64.m22*tmp64.m31 - tmp64.m11*tmp64.m22*tmp64.m34 - tmp64.m12*tmp64.m24*tmp64.m31 - tmp64.m14*tmp64.m21*tmp64.m32;
-	out.m41 = tmp64.m21*tmp64.m33*tmp64.m42 + tmp64.m22*tmp64.m31*tmp64.m43 + tmp64.m23*tmp64.m32*tmp64.m41 - tmp64.m21*tmp64.m32*tmp64.m43 - tmp64.m22*tmp64.m33*tmp64.m41 - tmp64.m23*tmp64.m31*tmp64.m42;
-	out.m42 = tmp64.m11*tmp64.m32*tmp64.m43 + tmp64.m12*tmp64.m33*tmp64.m41 + tmp64.m13*tmp64.m31*tmp64.m42 - tmp64.m11*tmp64.m33*tmp64.m42 - tmp64.m12*tmp64.m31*tmp64.m43 - tmp64.m13*tmp64.m32*tmp64.m41;
-	out.m43 = tmp64.m11*tmp64.m23*tmp64.m42 + tmp64.m12*tmp64.m21*tmp64.m43 + tmp64.m13*tmp64.m22*tmp64.m41 - tmp64.m11*tmp64.m22*tmp64.m43 - tmp64.m12*tmp64.m23*tmp64.m41 - tmp64.m13*tmp64.m21*tmp64.m42;
-	out.m44 = tmp64.m11*tmp64.m22*tmp64.m33 + tmp64.m12*tmp64.m23*tmp64.m31 + tmp64.m13*tmp64.m21*tmp64.m32 - tmp64.m11*tmp64.m23*tmp64.m32 - tmp64.m12*tmp64.m21*tmp64.m33 - tmp64.m13*tmp64.m22*tmp64.m31;
-
-	for (int i = 0; i < 16; i++) {
-#if DOUBLE_FOR_INVERSE
-		double val = det*out.mat[i];
-		(*o).mat[i] = static_cast<float>(val);
-#else
-		(*o).mat[i] = det*out.mat[i];
-#endif
-	}
-}
