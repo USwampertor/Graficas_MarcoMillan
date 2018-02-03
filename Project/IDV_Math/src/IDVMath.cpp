@@ -144,8 +144,9 @@ void XMatRotationZRH(XMATRIX44 & RotateZRH, const float & thetta)
 	RotateZRH = Temp;
 }
 
-void XMatTranspose(XMATRIX44 & ToTranspose, XMATRIX44 Transposed)
+void XMatTranspose(XMATRIX44 &Transposed, XMATRIX44 ToTranspose )
 {
+	Transposed = ToTranspose;
 	Transposed.m12 = ToTranspose.m21; Transposed.m13 = ToTranspose.m31; Transposed.m14 = ToTranspose.m41;
 	Transposed.m21 = ToTranspose.m12; Transposed.m23 = ToTranspose.m32; Transposed.m24 = ToTranspose.m42;
 	Transposed.m31 = ToTranspose.m13; Transposed.m32 = ToTranspose.m23; Transposed.m34 = ToTranspose.m43;

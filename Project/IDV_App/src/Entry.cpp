@@ -12,8 +12,14 @@ int main(int arg, char ** args) {
 	
 	XMATRIX44 alfa(3, 3, 4, 1, 2, 1, 3, 1, 4, 3, 2, 1, 1, 1, 1, 1);
 	XMATRIX44 beta(2, 3, 1, 4, 5, 6, 2, 3, 1, 5, 3, 2, 1, 1, 1, 1);
+	XMATRIX44 test;
 	alfa *= beta;
 	PrintMatrix(alfa);
+	std::cout << std::endl;
+	XMatTranspose(test,alfa);
+	PrintMatrix(test);
+
+
 
 	PrintFromLibrary();
 	
