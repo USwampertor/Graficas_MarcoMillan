@@ -156,6 +156,9 @@ struct XMATRIX44;
 struct XVECTOR2;
 struct XVECTOR3;
 
+void PrintVector2(const XVECTOR2&);
+void PrintVector3(const XVECTOR3&);
+void PrintMatrix(const XMATRIX44&);
 void XMatMultiply(XMATRIX44 &, const XMATRIX44 &, const XMATRIX44 &);
 void XMatTranslation(XMATRIX44 &, const float &, const float &, const float &);
 void XMatTranslation(XMATRIX44 &, XVECTOR3&);

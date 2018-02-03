@@ -14,7 +14,7 @@ void IDVWin32Manager::OnCreateApplication() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("Video initialization failed: %s\n", SDL_GetError());
 	}
-
+	
 	SDL_WM_SetCaption("IDV", 0);
 
 	if (SDL_SetVideoMode(1280, 720, 32, SDL_HWSURFACE | SDL_RESIZABLE) == 0) {

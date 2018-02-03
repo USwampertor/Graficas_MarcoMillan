@@ -1,5 +1,24 @@
 #include <IDVMath.h>
+#include <iostream>
 
+void PrintMatrix(const XMATRIX44& Matrix)
+{
+	std::cout << "( " << Matrix.m11 << ", " << Matrix.m12 << ", " << Matrix.m13 << ", " << Matrix.m14 << ")" << std::endl;
+	std::cout << "( " << Matrix.m21 << ", " << Matrix.m22 << ", " << Matrix.m23 << ", " << Matrix.m24 << ")" << std::endl;
+	std::cout << "( " << Matrix.m31 << ", " << Matrix.m32 << ", " << Matrix.m33 << ", " << Matrix.m34 << ")" << std::endl;
+	std::cout << "( " << Matrix.m41 << ", " << Matrix.m42 << ", " << Matrix.m43 << ", " << Matrix.m44 << ")" << std::endl;
+}
+void PrintVector3(const XVECTOR3&Vec3)
+{
+	std::cout << "( " << Vec3.x << " )" << std::endl;
+	std::cout << "( " << Vec3.y << " )" << std::endl;
+	std::cout << "( " << Vec3.z << " )" << std::endl;
+}
+void PrintVector2(const XVECTOR2&Vec2)
+{
+	std::cout << "( " << Vec2.x << " )" << std::endl;
+	std::cout << "( " << Vec2.y << " )" << std::endl;
+}
 void XMatMultiply(XMATRIX44 & result, const XMATRIX44 & A, const XMATRIX44 & B)
 {
 	memset(&result.m[0], 0, sizeof(result));
@@ -52,7 +71,6 @@ void XMatScaling(XMATRIX44 & ToScale, const float & kX, const float &kY, const f
 void XMatRotationXLH(XMATRIX44 & RotateXLH, const float & thetta)
 {
 	XMATRIX44 Temp = RotateXLH;
-	Temp = RotateXLH;
 	Temp.m21 = (RotateXLH.m21*cos(thetta)) + (RotateXLH.m31*sin(thetta)); Temp.m22 = (RotateXLH.m22*cos(thetta)) + (RotateXLH.m32*sin(thetta)); 
 	Temp.m23 = (RotateXLH.m23*cos(thetta)) + (RotateXLH.m33*sin(thetta)); Temp.m24 = (RotateXLH.m24*cos(thetta)) + (RotateXLH.m34*sin(thetta));
 	
@@ -65,7 +83,6 @@ void XMatRotationXLH(XMATRIX44 & RotateXLH, const float & thetta)
 void XMatRotationXRH(XMATRIX44 & RotateXRH, const float & thetta)
 {
 	XMATRIX44 Temp = RotateXRH;
-	Temp = RotateXRH;
 	Temp.m21 = (RotateXRH.m21*cos(thetta)) - (RotateXRH.m31*sin(thetta)); Temp.m22 = (RotateXRH.m22*cos(thetta)) - (RotateXRH.m32*sin(thetta));
 	Temp.m23 = (RotateXRH.m23*cos(thetta)) - (RotateXRH.m33*sin(thetta)); Temp.m24 = (RotateXRH.m24*cos(thetta)) - (RotateXRH.m34*sin(thetta));
 
@@ -405,22 +422,34 @@ void XMatRotationAxisRH(XMATRIX44 & MatrixRH, const XVECTOR3 & RAxisRH, const fl
 	MatrixRH = Temp;
 }
 
-void XVecTransformLH(XVECTOR3 & , const XVECTOR3 &, const XMATRIX44 &)
+void XVecTransformLH(XVECTOR3 & Transformed, const XVECTOR3 & SrcVector, const XMATRIX44 & SrcMatrix)
 {
+	Transformed.x = (SrcMatrix.m11 * SrcVector.x) + (SrcMatrix.m12 * SrcVector.y) + (SrcMatrix.m13 * SrcVector.z) + (SrcMatrix.m14 * SrcVector.w);
+	Transformed.y = (SrcMatrix.m21 * SrcVector.x) + (SrcMatrix.m22 * SrcVector.y) + (SrcMatrix.m23 * SrcVector.z) + (SrcMatrix.m24 * SrcVector.w);
+	Transformed.z = (SrcMatrix.m31 * SrcVector.x) + (SrcMatrix.m32 * SrcVector.y) + (SrcMatrix.m33 * SrcVector.z) + (SrcMatrix.m34 * SrcVector.w);
+	Transformed.w = (SrcMatrix.m41 * SrcVector.x) + (SrcMatrix.m42 * SrcVector.y) + (SrcMatrix.m43 * SrcVector.z) + (SrcMatrix.m44 * SrcVector.w);
 
 }
-void XVecTransformNormalLH(XVECTOR3 &, const XVECTOR3 &, const XMATRIX44 &)
+void XVecTransformNormalLH(XVECTOR3 & Normal, const XVECTOR3 & SrcVector, const XMATRIX44 &SrcMatrix)
 {
-
+	Normal.x = (SrcMatrix.m11 * SrcVector.x) + (SrcMatrix.m12 * SrcVector.y) + (SrcMatrix.m13 * SrcVector.z);
+	Normal.y = (SrcMatrix.m21 * SrcVector.x) + (SrcMatrix.m22 * SrcVector.y) + (SrcMatrix.m23 * SrcVector.z);
+	Normal.z = (SrcMatrix.m31 * SrcVector.x) + (SrcMatrix.m32 * SrcVector.y) + (SrcMatrix.m33 * SrcVector.z);
 }
-
-void XVecTransformRH(XVECTOR3 &, const XVECTOR3 &, const XMATRIX44 &)
+void XVecTransformRH(XVECTOR3 &Transformed, const XVECTOR3 &SrcVector, const XMATRIX44 &SrcMatrix)
 {
-
+	
+	Transformed.x = (SrcMatrix.m11 * SrcVector.x) + (SrcMatrix.m12 * SrcVector.y) + (SrcMatrix.m13 * SrcVector.z) + (SrcMatrix.m14 * SrcVector.w);
+	Transformed.y = (SrcMatrix.m21 * SrcVector.x) + (SrcMatrix.m22 * SrcVector.y) + (SrcMatrix.m23 * SrcVector.z) + (SrcMatrix.m24 * SrcVector.w);
+	Transformed.z = -((SrcMatrix.m31 * SrcVector.x) + (SrcMatrix.m32 * SrcVector.y) + (SrcMatrix.m33 * SrcVector.z) + (SrcMatrix.m34 * SrcVector.w));
+	Transformed.w = (SrcMatrix.m41 * SrcVector.x) + (SrcMatrix.m42 * SrcVector.y) + (SrcMatrix.m43 * SrcVector.z) + (SrcMatrix.m44 * SrcVector.w);
 }
-void XVecTransformNormalRH(XVECTOR3 &, const XVECTOR3 &, const XMATRIX44 &)
+void XVecTransformNormalRH(XVECTOR3 &Normal, const XVECTOR3 &SrcVector, const XMATRIX44 &SrcMatrix)
 {
-
+	
+	Normal.x = (SrcMatrix.m11 * SrcVector.x) + (SrcMatrix.m12 * SrcVector.y) + (SrcMatrix.m13 * SrcVector.z);
+	Normal.y = (SrcMatrix.m21 * SrcVector.x) + (SrcMatrix.m22 * SrcVector.y) + (SrcMatrix.m23 * SrcVector.z);
+	Normal.z = -((SrcMatrix.m31 * SrcVector.x) + (SrcMatrix.m32 * SrcVector.y) + (SrcMatrix.m33 * SrcVector.z));
 }
 
 void XVecDot(float & Dot, const XVECTOR3 & FirstV, const XVECTOR3 & SecondV)
@@ -530,11 +559,11 @@ XVECTOR3::operator const float* () const
 
 XVECTOR3& XVECTOR3::operator += (const XVECTOR3& other)
 {
-	this->x = this->x + other.x; this->y = this->y + other.y; this->z = this->z + other.z; return *this;
+	x = x + other.x; y = y + other.y; z = z + other.z; return *this;
 }
 XVECTOR3& XVECTOR3::operator -= (const XVECTOR3& other)
 {
-	this->x = this->x - other.x; this->y = this->y - other.y; this->z = this->z - other.z; return *this;
+	x = x - other.x; y = y - other.y; z = z - other.z; return *this;
 
 }
 XVECTOR3& XVECTOR3::operator *= (float times)
@@ -580,7 +609,7 @@ XVECTOR3 XVECTOR3::operator * (const XVECTOR3& other)
 }
 
 
-XVECTOR3 operator*(float times, const XVECTOR3 & other)
+XVECTOR3 operator*(float times, const struct XVECTOR3 & other)
 {
 	return XVECTOR3(times*other.x,times*other.y,times*other.z);
 }

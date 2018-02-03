@@ -10,10 +10,10 @@ IDVBaseWindow	   *g_pWindow = 0;
 
 int main(int arg, char ** args) {
 	
-	XMATRIX44 alfa(3,3,4,1,2,1,3,1,4,3,2,1,1,1,1,1);
-	XMATRIX44 beta(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1);
-	XMatTranslation(alfa, 2,2,3);
-	std::cout << alfa.m22;
+	XMATRIX44 alfa(3, 3, 4, 1, 2, 1, 3, 1, 4, 3, 2, 1, 1, 1, 1, 1);
+	XMATRIX44 beta(2, 3, 1, 4, 5, 6, 2, 3, 1, 5, 3, 2, 1, 1, 1, 1);
+	alfa *= beta;
+	PrintMatrix(alfa);
 
 	PrintFromLibrary();
 	
