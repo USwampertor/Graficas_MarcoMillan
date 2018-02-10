@@ -46,9 +46,9 @@ void XMatMultiply(XMATRIX44 & result, const XMATRIX44 & A, const XMATRIX44 & B)
 
 void XMatTranslation(XMATRIX44 & ToTranslate, const float & dX, const float & dY, const float & dZ)
 {
-	ToTranslate.m11 += dX; ToTranslate.m12 += dX; ToTranslate.m13 += dX; ToTranslate.m14 += dX;
-	ToTranslate.m21 += dY; ToTranslate.m22 += dY; ToTranslate.m23 += dY; ToTranslate.m24 += dY;
-	ToTranslate.m31 += dZ; ToTranslate.m32 += dZ; ToTranslate.m33 += dZ; ToTranslate.m34 += dZ;
+	ToTranslate.m41 += dX;
+	ToTranslate.m42 += dY;
+	ToTranslate.m43 += dZ;
 	
 }
 
@@ -125,8 +125,8 @@ void XMatRotationZLH(XMATRIX44 &RotateZLH, const float & thetta)
 	Temp.m11 = (RotateZLH.m11*cos(thetta)) + (RotateZLH.m21*sin(thetta)); Temp.m12 = (RotateZLH.m12*cos(thetta)) + (RotateZLH.m22*sin(thetta));
 	Temp.m13 = (RotateZLH.m13*cos(thetta)) + (RotateZLH.m23*sin(thetta)); Temp.m14 = (RotateZLH.m14*cos(thetta)) + (RotateZLH.m24*sin(thetta));
 
-	Temp.m31 = (-RotateZLH.m11*sin(thetta)) + (RotateZLH.m21*cos(thetta)); Temp.m32 = (-RotateZLH.m12*sin(thetta)) + (RotateZLH.m22*cos(thetta));
-	Temp.m33 = (-RotateZLH.m13*sin(thetta)) + (RotateZLH.m23*cos(thetta)); Temp.m34 = (-RotateZLH.m14*sin(thetta)) + (RotateZLH.m24*cos(thetta));
+	Temp.m21 = (RotateZLH.m11*sin(-thetta)) + (RotateZLH.m21*cos(thetta)); Temp.m22 = (RotateZLH.m12*sin(-thetta)) + (RotateZLH.m22*cos(thetta));
+	Temp.m23 = (RotateZLH.m13*sin(-thetta)) + (RotateZLH.m23*cos(thetta)); Temp.m24 = (RotateZLH.m14*sin(-thetta)) + (RotateZLH.m24*cos(thetta));
 
 	RotateZLH = Temp;
 }
@@ -138,8 +138,8 @@ void XMatRotationZRH(XMATRIX44 & RotateZRH, const float & thetta)
 	Temp.m11 = (RotateZRH.m11*cos(thetta)) - (RotateZRH.m21*sin(thetta)); Temp.m12 = (RotateZRH.m12*cos(thetta)) - (RotateZRH.m22*sin(thetta));
 	Temp.m13 = (RotateZRH.m13*cos(thetta)) - (RotateZRH.m23*sin(thetta)); Temp.m14 = (RotateZRH.m14*cos(thetta)) - (RotateZRH.m24*sin(thetta));
 					   								 										 							   
-	Temp.m31 = (RotateZRH.m11*sin(thetta)) + (RotateZRH.m21*cos(thetta)); Temp.m32 = (RotateZRH.m12*sin(thetta)) + (RotateZRH.m22*cos(thetta));
-	Temp.m33 = (RotateZRH.m13*sin(thetta)) + (RotateZRH.m23*cos(thetta)); Temp.m34 = (RotateZRH.m14*sin(thetta)) + (RotateZRH.m24*cos(thetta));
+	Temp.m21 = (RotateZRH.m11*sin(thetta)) + (RotateZRH.m21*cos(thetta)); Temp.m22 = (RotateZRH.m12*sin(thetta)) + (RotateZRH.m22*cos(thetta));
+	Temp.m23 = (RotateZRH.m13*sin(thetta)) + (RotateZRH.m23*cos(thetta)); Temp.m24 = (RotateZRH.m14*sin(thetta)) + (RotateZRH.m24*cos(thetta));
 
 	RotateZRH = Temp;
 }
