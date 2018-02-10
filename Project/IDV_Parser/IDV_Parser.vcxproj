@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D343EC6C-D9AA-4D6D-83C8-2E3035AC632D}</ProjectGuid>
+    <ProjectGuid>{A1D7AA77-8E12-4518-888A-34F4FEB7798D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>IDV_Parser</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>

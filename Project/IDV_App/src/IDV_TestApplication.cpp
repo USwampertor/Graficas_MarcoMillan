@@ -15,11 +15,14 @@ void IDVTestApplication::DestroyAssets() {
 }
 
 void IDVTestApplication::OnUpdate() {
-	//printf("Alive\n");
+
+	OnDraw();
 }
 
 void IDVTestApplication::OnDraw(){
+	m_pWindow->m_pVideoDriver->Clear();
 
+	m_pWindow->m_pVideoDriver->SwapBuffers();
 }
 
 void IDVTestApplication::OnInput() {
