@@ -19,17 +19,7 @@ void D3DXMesh::Create() {
 
 	int shaderID = g_pBaseDriver->CreateShader(vstr, fstr, SigBase);
 
-	/*vertices[0] = { -1.0f,  1.0f, 0.0f, 1.0f,  0.0f, 0.0f };
-	vertices[1] = { -1.0f, -1.0f, 0.0f, 1.0f,  0.0f, 1.0f };
-	vertices[2] = { 1.0f, -1.0f, 0.0f, 1.0f,  1.0f, 1.0f };
-	vertices[3] = { 1.0f,  1.0f, 0.0f, 1.0f,  1.0f, 0.0f };
-
-	indices[0] = 2;
-	indices[1] = 1;
-	indices[2] = 0;
-	indices[3] = 3;
-	indices[4] = 2;
-	indices[5] = 0;*/	
+	
 	std::string link;
 	link = "Models/CerdoNuevo.X";
 
@@ -102,7 +92,7 @@ void D3DXMesh::Draw(float *t, float *vp) {
 	UINT stride = sizeof(Parser::vertex);
 
 	XMATRIX44 VP;
-	//XMatScaling(VP,0.25f,0.25f,0.25f);
+	XMatScaling(VP,0.25f,0.25f,0.25f);
 	CnstBuffer.WVP = VP;
 	CnstBuffer.World = transform;
 	CnstBuffer.WorldView = transform;

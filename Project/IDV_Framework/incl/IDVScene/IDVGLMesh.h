@@ -10,10 +10,6 @@
 #include <IDVParser.h>
 class GLMesh : public PrimitiveBase {
 public:
-	struct Vert {
-		float x, y, z, w;
-		float u, v;
-	};
 
 	GLMesh() {}
 	void Create();
@@ -24,8 +20,7 @@ public:
 
 	unsigned int	SigBase;
 
-	Vert			vertices[4];
-	unsigned short	indices[6];
+	
 	unsigned int	VB;
 	unsigned int	IB;
 	XMATRIX44		transform;

@@ -16,10 +16,6 @@ using namespace Microsoft::WRL;
 
 class D3DXMesh : public PrimitiveBase {
 public:
-	struct Vert {
-		float x, y, z, w;
-		float u, v;
-	};
 	
 	struct CBuffer {
 		XMATRIX44 WVP;
@@ -45,8 +41,6 @@ public:
 	ComPtr<ID3D11SamplerState>  pSampler;
 
 	CBuffer			CnstBuffer;
-	Vert			vertices[4];
-	unsigned short	indices[6];
 
 	XMATRIX44		transform;
 	Parser			MeshParser;

@@ -4,10 +4,6 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-void PrintFromLibrary()
-{
-	printf("Hello World from static library \n");
-}
 Parser::Parser()
 {
 	vertexchecker = "mesh_";
@@ -24,7 +20,6 @@ bool Parser::Load(std::string filename)
 	std::vector<normals>::iterator itnormals;
 	std::vector<vertex> vertexbuffer;
 	std::vector<uv> uvbuffer;
-	std::vector<normals> normalbuffer;
 	unsigned short ikeeper;
 	std::ifstream mreader;
 	mreader.open(filename);
@@ -116,12 +111,12 @@ bool Parser::Load(std::string filename)
 ///finished getting all information
 	mreader.close();
 	for ( itvert = vertexbuffer.begin(),
-		ituv = uvbuffer.begin()/*,
-		itnormals=normalbuffer.begin()*/;
+		ituv = uvbuffer.begin(),
+		itnormals=ParserNorm.begin();
 		itvert != vertexbuffer.end()&&
-		ituv!=uvbuffer.end()/*&&
-		itnormals!=normalbuffer.end()*/;
-		itvert++, ituv++/*,itnormals++*/
+		ituv!=uvbuffer.end()&&
+		itnormals!=ParserNorm.end();
+		itvert++, ituv++,itnormals++
 		)
 	{
 		vertex vpc;
@@ -129,18 +124,15 @@ bool Parser::Load(std::string filename)
 		vpc.y = (*itvert).y;
 		vpc.z = (*itvert).z;
 		vpc.w = (*itvert).w;
-		/*vpc.nx = (*itnormals).nx;
+		vpc.nx = (*itnormals).nx;
 		vpc.ny = (*itnormals).ny;
 		vpc.nz = (*itnormals).nz;
-		vpc.nw = (*itnormals).nw;*/
+		//vpc.nw = (*itnormals).nw;
 		vpc.u = (*ituv).u;
 		vpc.v = (*ituv).v;
 		ParserVec.push_back(vpc);
 	}
-	/*for (itvert = vertanduvbuffer.begin(); itvert != vertanduvbuffer.end(); itvert++)
-	{
-		std::cout << (*itvert)->x <<" "<< (*itvert)->y << " " << (*itvert)->z << " " << (*itvert)->w << " " << (*itvert)->u << " " << (*itvert)->v << " " << std::endl;
-	}*/
+	
 	return true;
 	
 		
