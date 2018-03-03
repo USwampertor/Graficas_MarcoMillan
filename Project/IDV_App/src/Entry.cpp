@@ -8,11 +8,6 @@ IDVBaseApplication *g_pApplication = 0;
 IDVBaseWindow	   *g_pWindow = 0;
 
 int main(int arg, char ** args) {
-	/*Parser p;
-	std::string link;
-	std::cin >> link;
-	
-	p.Load(link);*/
 	g_pApplication = new IDVTestApplication();
 	g_pWindow = new IDVWin32Manager((IDVBaseApplication*)g_pApplication);
 	g_pWindow->InitGlobalVars();

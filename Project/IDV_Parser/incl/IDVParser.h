@@ -1,8 +1,8 @@
+#pragma once
+//#ifndef IDV_Parser
+//#define IDV_Paser
 #include <string>
 #include <vector>
-#ifndef IDV_Parser
-#define IDV_Paser
-void PrintFromLibrary();
 class Parser 
 {
 public:
@@ -17,7 +17,13 @@ public:
 	unsigned short totalindex;
 	struct vertex
 	{
-		float x, y, z, w=0, u, v;
+		vertex() : x(0.0f) , y(0.0f), z(0.0f) , w(1.0f) , 
+				   nx(0.0f), ny(1.0f), nz(0.0f), nw(1.0f),
+				   u(0.0f) , v(0.0f)
+		{}
+		float x, y, z, w;
+		float nx,ny,nz,nw;
+		float u, v;
 
 	};
 	struct uv
@@ -29,8 +35,8 @@ public:
 		float nx, ny, nz, nw;
 	};
 
-	std::vector<vertex*> ParserVec;
-	std::vector<normals*>ParserNorm;
+	std::vector<vertex> ParserVec;
+	std::vector<normals>ParserNorm;
 	std::vector<unsigned short>ParserIndex;
 };
-#endif
+//#endif

@@ -1,5 +1,5 @@
-#ifndef IDV_MESH_D3D_H
-#define IDV_MESH_D3D_H
+#ifndef IDV_QUAD_D3D_H
+#define IDV_QUAD_D3D_H
 
 //#include <d3dx9math.h>
 

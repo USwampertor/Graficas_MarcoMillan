@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\IDVScene\IDV3DMesh.cpp" />
     <ClCompile Include="src\IDVScene\IDVD3DQuad.cpp" />
+    <ClCompile Include="src\IDVScene\IDVGLMesh.cpp" />
     <ClCompile Include="src\IDVScene\IDVGLQuad.cpp" />
     <ClCompile Include="src\IDVScene\IDVPrimitiveInstance.cpp" />
     <ClCompile Include="src\IDVScene\IDVPrimitiveManager.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="incl\IDVDefs.h" />
     <ClInclude Include="incl\IDVScene\IDV3DMesh.h" />
     <ClInclude Include="incl\IDVScene\IDVD3DQuad.h" />
+    <ClInclude Include="incl\IDVScene\IDVGLMesh.h" />
     <ClInclude Include="incl\IDVScene\IDVGLQuad.h" />
     <ClInclude Include="incl\IDVScene\IDVPrimitive.h" />
     <ClInclude Include="incl\IDVScene\IDVPrimitiveInstance.h" />

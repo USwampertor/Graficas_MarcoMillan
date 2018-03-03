@@ -4,7 +4,6 @@
 #include <d3dx9math.h>
 #include <IDVMath.h>
 #include <vector>
-
 #include <IDVVideo/IDVBaseDriver.h>
 #include <IDVScene/IDVPrimitive.h>
 #include <IDVScene/IDVSceneProp.h>

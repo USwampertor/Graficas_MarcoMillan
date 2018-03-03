@@ -1,17 +1,15 @@
 #include <IDVVideo/IDVD3DXShader.h>
 #include <IDVUtils/IDVUtils.h>
 #include <IDVScene/IDV3DMesh.h>
-#include <IDVParser.h>
 #include <IDVMath.h>
 #include <string>
-#include <iostream>
 extern ComPtr<ID3D11Device>            D3D11Device;
 extern ComPtr<ID3D11DeviceContext>     D3D11DeviceContext;
 
 void D3DXMesh::Create() {
-	SigBase = IDVSig::HAS_TEXCOORDS0;
-	char *vsSourceP = file2string("Shaders/VS_Quad.hlsl");
-	char *fsSourceP = file2string("Shaders/FS_Quad.hlsl");
+	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS;
+	char *vsSourceP = file2string("Shaders/VS_Mesh.hlsl");
+	char *fsSourceP = file2string("Shaders/FS_Mesh.hlsl");
 
 	std::string vstr = std::string(vsSourceP);
 	std::string fstr = std::string(fsSourceP);
@@ -31,10 +29,9 @@ void D3DXMesh::Create() {
 	indices[2] = 0;
 	indices[3] = 3;
 	indices[4] = 2;
-	indices[5] = 0;*/
-	Parser MeshParser;
+	indices[5] = 0;*/	
 	std::string link;
-	link = "C:/Users/PROPIETARIO/Documents/Archivos/Pig.X";
+	link = "Models/CerdoNuevo.X";
 
 	MeshParser.Load(link);
 	
@@ -55,7 +52,7 @@ void D3DXMesh::Create() {
 	bdesc.ByteWidth = MeshParser.totalvert*sizeof(Parser::vertex);
 	bdesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	
-	D3D11_SUBRESOURCE_DATA subData = { &MeshParser.ParserVec , 0, 0 };
+	D3D11_SUBRESOURCE_DATA subData = { &MeshParser.ParserVec[0] , 0, 0 };
 
 	hr = D3D11Device->CreateBuffer(&bdesc, &subData, &VB);
 	if (hr != S_OK) {
@@ -64,10 +61,10 @@ void D3DXMesh::Create() {
 	}
 
 	bdesc = { 0 };
-	bdesc.ByteWidth = 3* MeshParser.totalindex * sizeof(USHORT);
+	bdesc.ByteWidth = MeshParser.ParserIndex.size() * sizeof(USHORT);
 	bdesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
-	subData = { &MeshParser.ParserIndex, 0, 0 };
+	subData = { &MeshParser.ParserIndex[0], 0, 0 };
 
 	hr = D3D11Device->CreateBuffer(&bdesc, &subData, &IB);
 	if (hr != S_OK) {
@@ -102,10 +99,11 @@ void D3DXMesh::Draw(float *t, float *vp) {
 	sig |= gSig;
 	IDVD3DXShader * s = dynamic_cast<IDVD3DXShader*>(g_pBaseDriver->GetShaderSig(sig));
 	UINT offset = 0;
-	UINT stride = sizeof(Vert);
+	UINT stride = sizeof(Parser::vertex);
 
-	XMATRIX44 VP = vp;
-	CnstBuffer.WVP = transform;
+	XMATRIX44 VP;
+	//XMatScaling(VP,0.25f,0.25f,0.25f);
+	CnstBuffer.WVP = VP;
 	CnstBuffer.World = transform;
 	CnstBuffer.WorldView = transform;
 
@@ -122,7 +120,7 @@ void D3DXMesh::Draw(float *t, float *vp) {
 
 	D3D11DeviceContext->PSSetSamplers(0, 1, pSampler.GetAddressOf());
 	D3D11DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	D3D11DeviceContext->DrawIndexed(6, 0, 0);
+	D3D11DeviceContext->DrawIndexed(MeshParser.ParserIndex.size(), 0, 0);
 }
 
 void D3DXMesh::Destroy() {

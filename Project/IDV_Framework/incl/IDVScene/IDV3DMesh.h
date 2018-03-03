@@ -1,7 +1,6 @@
-#ifndef IDV_QUAD_D3D_H
-#define IDV_QUAD_D3D_H
+#ifndef IDV_MESH_D3D_H
+#define IDV_MESH_D3D_H
 
-//#include <d3dx9math.h>
 
 #include <wrl.h>
 #include <wrl/client.h>
@@ -13,6 +12,7 @@ using namespace Microsoft::WRL;
 #include <IDVMath.h>
 #include <IDVVideo\IDVBaseDriver.h>
 #include <IDVScene\IDVPrimitive.h>
+#include <IDVParser.h>
 
 class D3DXMesh : public PrimitiveBase {
 public:
@@ -49,6 +49,7 @@ public:
 	unsigned short	indices[6];
 
 	XMATRIX44		transform;
+	Parser			MeshParser;
 };
 
 #endif

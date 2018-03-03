@@ -19,11 +19,12 @@ Parser::Parser()
 }
 bool Parser::Load(std::string filename)
 {
-	std::vector<vertex*>::iterator itvert;
-	std::vector<uv*>::iterator ituv;
-	std::vector<vertex*> vertexbuffer;
-	std::vector<uv*> uvbuffer;
-	std::vector<normals*> normalbuffer;
+	std::vector<vertex>::iterator itvert;
+	std::vector<uv>::iterator ituv;
+	std::vector<normals>::iterator itnormals;
+	std::vector<vertex> vertexbuffer;
+	std::vector<uv> uvbuffer;
+	std::vector<normals> normalbuffer;
 	unsigned short ikeeper;
 	std::ifstream mreader;
 	mreader.open(filename);
@@ -54,9 +55,9 @@ bool Parser::Load(std::string filename)
 	mreader >> c >> totalvert >> c;
 	for (int i = 0; i < totalvert; i++)
 		{
-			vertex *p = new vertex;
-			mreader >> p->x >> c >> p->y >> c >> p->z >> c >> c;
-			vertexbuffer.push_back(p);
+			vertex vp;
+			mreader >> vp.x >> c >> vp.y >> c >> vp.z >> c >> c;
+			vertexbuffer.push_back(vp);
 		}
 ///index buffer
 	mreader >> totalindex >> c;
@@ -87,9 +88,9 @@ bool Parser::Load(std::string filename)
 	mreader >> c >> totalnormals >> c;
 	for (int i = 0; i < totalnormals; i++)
 	{
-		normals *p = new normals;
-		mreader >> p->nx >> c >> p->ny >> c >> p->nz >> c >> c;
-		ParserNorm.push_back(p);
+		normals np;
+		mreader >> np.nx >> c >> np.ny >> c >> np.nz >> c >> c;
+		ParserNorm.push_back(np);
 	}
 ///UV buffer
 	while (true)
@@ -107,27 +108,34 @@ bool Parser::Load(std::string filename)
 	}
 	mreader >> c >> totaluv >> c;
 	for (int i = 0; i < totaluv; i++)
-	{
-		uv *p = new uv;
-		mreader >> p->u >> c >> p->v >> c >> c;
-		uvbuffer.push_back(p);
+	{	
+		uv uvp;
+		mreader >> uvp.u >> c >> uvp.v >> c >> c;
+		uvbuffer.push_back(uvp);
 	}
 ///finished getting all information
 	mreader.close();
 	for ( itvert = vertexbuffer.begin(),
-		ituv = uvbuffer.begin();
-		itvert != vertexbuffer.end()&& ituv!=uvbuffer.end();
-		itvert++, ituv++
+		ituv = uvbuffer.begin()/*,
+		itnormals=normalbuffer.begin()*/;
+		itvert != vertexbuffer.end()&&
+		ituv!=uvbuffer.end()/*&&
+		itnormals!=normalbuffer.end()*/;
+		itvert++, ituv++/*,itnormals++*/
 		)
 	{
-		vertex* p = new vertex;
-		p->x = (*itvert)->x;
-		p->y = (*itvert)->y;
-		p->z = (*itvert)->z;
-		p->w = (*itvert)->w;
-		p->u = (*ituv)->u;
-		p->v = (*ituv)->v;
-		ParserVec.push_back(p);
+		vertex vpc;
+		vpc.x = (*itvert).x;
+		vpc.y = (*itvert).y;
+		vpc.z = (*itvert).z;
+		vpc.w = (*itvert).w;
+		/*vpc.nx = (*itnormals).nx;
+		vpc.ny = (*itnormals).ny;
+		vpc.nz = (*itnormals).nz;
+		vpc.nw = (*itnormals).nw;*/
+		vpc.u = (*ituv).u;
+		vpc.v = (*ituv).v;
+		ParserVec.push_back(vpc);
 	}
 	/*for (itvert = vertanduvbuffer.begin(); itvert != vertanduvbuffer.end(); itvert++)
 	{
