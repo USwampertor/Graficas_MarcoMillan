@@ -11,7 +11,7 @@ extern ComPtr<ID3D11DeviceContext>     D3D11DeviceContext;
 void D3DXMesh::Create() {
 	SigBase = IDVSig::HAS_TEXCOORDS0;
 	char *vsSourceP = file2string("Shaders/VS_Quad.hlsl");
-	char *fsSourceP = file2string("Shaders/VS_Quad.hlsl");
+	char *fsSourceP = file2string("Shaders/FS_Quad.hlsl");
 
 	std::string vstr = std::string(vsSourceP);
 	std::string fstr = std::string(fsSourceP);
