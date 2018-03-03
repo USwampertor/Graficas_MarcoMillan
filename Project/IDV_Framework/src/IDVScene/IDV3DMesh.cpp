@@ -51,7 +51,7 @@ void D3DXMesh::Create() {
 	}
 
 	bdesc = { 0 };
-	bdesc.ByteWidth = MeshParser.ParserIndex.size() * sizeof(USHORT);
+	bdesc.ByteWidth = MeshParser.ParserIndex.size() * sizeof(unsigned short);
 	bdesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 	subData = { &MeshParser.ParserIndex[0], 0, 0 };
@@ -91,9 +91,13 @@ void D3DXMesh::Draw(float *t, float *vp) {
 	UINT offset = 0;
 	UINT stride = sizeof(Parser::vertex);
 
-	XMATRIX44 VP;
-	XMatScaling(VP,0.25f,0.25f,0.25f);
-	CnstBuffer.WVP = VP;
+	XMATRIX44 Scale;
+	XMATRIX44 View;
+	XMATRIX44 Projection;
+	XMatViewLookAtLH(View, XVECTOR3(0.0f, 0.0f, -10.0f), XVECTOR3(0.0f, 0.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
+	XMatPerspectiveLH(Projection, Deg2Rad(60.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
+	XMatScaling(Scale, 1.0f, 1.0f, 1.0f);
+	CnstBuffer.WVP = Scale*View*Projection;
 	CnstBuffer.World = transform;
 	CnstBuffer.WorldView = transform;
 

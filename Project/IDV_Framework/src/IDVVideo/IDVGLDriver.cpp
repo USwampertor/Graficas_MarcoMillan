@@ -44,6 +44,8 @@ void	IDVGLDriver::InitDriver() {
 	glClearDepthf(1.0f);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
+//	glEnable(GL_DEPTH_CLAMP);
+	
 
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &CurrentFBO);
 

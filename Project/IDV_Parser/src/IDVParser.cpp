@@ -58,13 +58,18 @@ bool Parser::Load(std::string filename)
 	mreader >> totalindex >> c;
 	for (int index=0;index<totalindex;index++)
 	{
-		mreader >> c >> c >> ikeeper;
-		ParserIndex.push_back(ikeeper);
-		mreader >> c >> ikeeper;
-		ParserIndex.push_back(ikeeper);
-		mreader >> c >> ikeeper;
-		ParserIndex.push_back(ikeeper);
+		unsigned short v0,v1,v2;
+		mreader >> c >> c >> v0;
+	//	ParserIndex.push_back(ikeeper);
+		mreader >> c >> v1;
+	//	ParserIndex.push_back(ikeeper);
+		mreader >> c >> v2;
+	//	ParserIndex.push_back(ikeeper);
 		mreader >> c >> c;
+
+		ParserIndex.push_back(v0);
+		ParserIndex.push_back(v1);
+		ParserIndex.push_back(v2);
 	}
 ///normal buffer
 	while (true)

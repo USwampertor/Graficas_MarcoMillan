@@ -52,9 +52,16 @@ void GLMesh::Draw(float *t, float *vp) {
 	sig |= gSig;
 	IDVGLShader * s = dynamic_cast<IDVGLShader*>(g_pBaseDriver->GetShaderSig(sig));
 
+	XMATRIX44 Scale;
+	XMATRIX44 View;
+	XMATRIX44 Projection;
+	XMatViewLookAtLH(View, XVECTOR3(0.0f, 0.0f, -10.0f), XVECTOR3(0.0f, 0.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
+	XMatPerspectiveLH(Projection, Deg2Rad(60.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
+	XMatScaling(Scale, 1.0f, 1.0f, 1.0f);
+
 	XMATRIX44 VP = vp;
 	XMATRIX44 WV = vp;
-	XMATRIX44 WVP = transform*vp;
+	XMATRIX44 WVP = Scale*View*Projection;
 	glUseProgram(s->ShaderProg);
 	
 	glUniformMatrix4fv(s->matWorldUniformLoc, 1, GL_FALSE, &transform.m[0][0]);
