@@ -127,7 +127,7 @@ bool Parser::Load(std::string filename)
 		vpc.nx = (*itnormals).nx;
 		vpc.ny = (*itnormals).ny;
 		vpc.nz = (*itnormals).nz;
-		//vpc.nw = (*itnormals).nw;
+		vpc.nw = (*itnormals).nw;
 		vpc.u = (*ituv).u;
 		vpc.v = (*ituv).v;
 		ParserVec.push_back(vpc);

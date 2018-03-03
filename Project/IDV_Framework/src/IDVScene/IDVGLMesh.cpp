@@ -54,11 +54,11 @@ void GLMesh::Draw(float *t, float *vp) {
 
 	XMATRIX44 VP = vp;
 	XMATRIX44 WV = vp;
-
+	XMATRIX44 WVP = transform*vp;
 	glUseProgram(s->ShaderProg);
-
+	
 	glUniformMatrix4fv(s->matWorldUniformLoc, 1, GL_FALSE, &transform.m[0][0]);
-	glUniformMatrix4fv(s->matWorldViewProjUniformLoc, 1, GL_FALSE, &transform.m[0][0]);
+	glUniformMatrix4fv(s->matWorldViewProjUniformLoc, 1, GL_FALSE, &WVP.m[0][0]);
 	glUniformMatrix4fv(s->matWorldViewUniformLoc, 1, GL_FALSE, &WV.m[0][0]);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -66,12 +66,14 @@ void GLMesh::Draw(float *t, float *vp) {
 
 	glEnableVertexAttribArray(s->vertexAttribLoc);
 	glVertexAttribPointer(s->vertexAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(0));
+	glEnableVertexAttribArray(s->normalAttribLoc);
+	glVertexAttribPointer(s->normalAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(16));
 	glEnableVertexAttribArray(s->uvAttribLoc);
-	glVertexAttribPointer(s->uvAttribLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(16));
+	glVertexAttribPointer(s->uvAttribLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(32));
 
 	glDrawElements(GL_TRIANGLES, MeshParser.ParserIndex.size(), GL_UNSIGNED_SHORT, 0);
 }
 
-void GLMesh::Destroy() {
+void GLMesh::Destroy(){
 
 }

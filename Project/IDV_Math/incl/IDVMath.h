@@ -364,7 +364,7 @@ struct XMATRIX44
 		this->m41 = other.m41; this->m42 = other.m42; this->m43 = other.m43; this->m44 = other.m44;
 		return *this;
 	}
-
+	XMATRIX44 & ProjectionFOV(float FOV, float Aspect, float ZNear, float ZFar);
 	XMATRIX44& operator *= (const XMATRIX44&);
 	XMATRIX44& operator += (const XMATRIX44&);
 	XMATRIX44& operator -= (const XMATRIX44&);

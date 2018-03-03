@@ -19,8 +19,6 @@ public:
 	void Destroy();
 
 	unsigned int	SigBase;
-
-	
 	unsigned int	VB;
 	unsigned int	IB;
 	XMATRIX44		transform;

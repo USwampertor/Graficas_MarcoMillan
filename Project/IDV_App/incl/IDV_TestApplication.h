@@ -1,6 +1,6 @@
 #ifndef IDV_TEST_APPLICATION
 #define IDV_TEST_APPLICATION
-
+#include <IDVMath.h>
 #include <IDVBase/IDVCoreBase.h>
 #include <IDVScene/IDVPrimitiveManager.h>
 #include <IDVScene/IDVPrimitiveInstance.h>
@@ -17,6 +17,9 @@ public:
 
 	PrimitiveManager *PrimitiveMgr;
 	PrimitiveInst	 QuadInst;
+	XMATRIX44 View;
+	XMATRIX44 Projection;
+	XMATRIX44 Camera;
 };
 
 #endif

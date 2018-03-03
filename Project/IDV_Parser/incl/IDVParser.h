@@ -8,13 +8,8 @@ class Parser
 public:
 	
 	Parser();
-	bool Load(std::string filename);
 	void Read();
-	std::string normalchecker, uvchecker, indexchecker, vertexchecker, a, b;
-	float ftest;
-	char c, cont;
-	int size,totalvert,totalnormals,totaluv;
-	unsigned short totalindex;
+	bool Load(std::string filename);
 	struct vertex
 	{
 		vertex() : x(0.0f) , y(0.0f), z(0.0f) , w(1.0f) , 
@@ -38,5 +33,10 @@ public:
 	std::vector<vertex> ParserVec;
 	std::vector<normals>ParserNorm;
 	std::vector<unsigned short>ParserIndex;
+	std::string normalchecker, uvchecker, indexchecker, vertexchecker, a, b;
+	int size,totalvert,totalnormals,totaluv;
+	unsigned short totalindex;
+	float ftest;
+	char c, cont;
 };
 //#endif
