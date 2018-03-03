@@ -35,7 +35,7 @@ public:
 	virtual void UpdateApplication() = 0;
 	virtual void ProcessInput() = 0;
 
-	BaseDriver			*m_pVideoDriver;
+	IDVBaseDriver			*m_pVideoDriver;
 	IDVBaseApplication	*m_pApplication;
 	bool	m_bAlive;
 };

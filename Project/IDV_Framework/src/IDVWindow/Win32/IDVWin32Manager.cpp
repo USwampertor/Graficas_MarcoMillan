@@ -25,13 +25,11 @@ void IDVWin32Manager::OnCreateApplication() {
 		printf("Video mode set failed: %s\n", SDL_GetError());
 	}
 
-	m_pApplication->CreateAssets();
 
+//	m_pVideoDriver = new IDVGLDriver();
 
-	m_pVideoDriver = new GLDriver;
-
-	//m_pVideoDriver = new D3DXDriver;
-	//m_pVideoDriver->SetDimensions(width, height);
+	m_pVideoDriver = new IDVD3DXDriver();
+	m_pVideoDriver->SetDimensions(width, height);
 
 	m_pVideoDriver->SetWindow(0);
 	m_pVideoDriver->InitDriver();
