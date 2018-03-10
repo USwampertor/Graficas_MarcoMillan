@@ -7,28 +7,31 @@ extern ComPtr<ID3D11Device>            D3D11Device;
 extern ComPtr<ID3D11DeviceContext>     D3D11DeviceContext;
 
 void D3DXMesh::Create() {
+	
 	HRESULT hr;
-
 	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS|IDVSig::HAS_TANGENTS|IDVSig::HAS_BINORMALS;
+	
+
 	char *vsSourceP = file2string("Shaders/VS_Mesh.hlsl");
 	char *fsSourceP = file2string("Shaders/FS_Mesh.hlsl");
-
 	std::string vstr = std::string(vsSourceP);
 	std::string fstr = std::string(fsSourceP);
 
 	free(vsSourceP);
 	free(fsSourceP);
 
-	
+	//GatherInfo();
 	
 	std::string link;
 	link = "Models/NuCroc.X";
 	MeshParser.Load(link);
-	//int i = 1;
+	Mesh_Info.reserve(MeshParser.totalmeshes);
 	for (int i = 0; i<MeshParser.totalmeshes;i++)
 	{
+
+		Parser::mesh pactual = MeshParser.meshesTotal[i];
+		MeshInfo tmp;
 		int shaderID = g_pBaseDriver->CreateShader(vstr, fstr, SigBase);
-		Parser::mesh *pactual = &MeshParser.meshesTotal[i];
 		IDVD3DXShader* s = dynamic_cast<IDVD3DXShader*>(g_pBaseDriver->GetShaderIdx(shaderID));
 		D3D11_BUFFER_DESC bdesc = { 0 };
 		bdesc.Usage = D3D11_USAGE_DEFAULT;
@@ -41,29 +44,45 @@ void D3DXMesh::Create() {
 		}
 
 		bdesc = { 0 };
-		bdesc.ByteWidth = pactual->totalvert *sizeof(Parser::vertex);
+		bdesc.ByteWidth = pactual.totalvert *sizeof(Parser::vertex);
 		bdesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		
-		D3D11_SUBRESOURCE_DATA subData = { &pactual->MeshVec[0] , 0, 0 };
+		D3D11_SUBRESOURCE_DATA subData = { &pactual.MeshVec[0] , 0, 0 };
 
-		hr = D3D11Device->CreateBuffer(&bdesc, &subData, &VB);
+		hr = D3D11Device->CreateBuffer(&bdesc, &subData, &tmp.VB);
 		if (hr != S_OK) {
 			printf("Error Creating Vertex Buffer\n");
 			return;
 		}
 
 		bdesc = { 0 };
-		bdesc.ByteWidth = pactual->MeshIndex.size() * sizeof(unsigned short);
+		bdesc.ByteWidth = pactual.MeshIndex.size() * sizeof(unsigned short);
 		bdesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		subData = { &pactual->MeshIndex[0], 0, 0 };
+		subData = { &pactual.MeshIndex[0], 0, 0 };
 
-		hr = D3D11Device->CreateBuffer(&bdesc, &subData, &IB);
+		hr = D3D11Device->CreateBuffer(&bdesc, &subData, &tmp.IB);
 		if (hr != S_OK) {
 			printf("Error Creating Index Buffer\n");
 			return;
 		}
 
+		for (int j = 0; j < pactual.matInMesh ; j++)
+		{
+			SubsetInfo tmp_subset;
+			bdesc = { 0 };
+			bdesc.ByteWidth = pactual.MeshMat[j].mtlBuffer.size() * sizeof(unsigned short);
+			bdesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+			subData = { &pactual.MeshMat[j].mtlBuffer[0], 0, 0 };
 
+			hr = D3D11Device->CreateBuffer(&bdesc, &subData, &tmp_subset.IB);
+			if (hr != S_OK) {
+				printf("Error Creating Index Buffer\n");
+				return;
+			}
+			tmp.SubSets.push_back(tmp_subset);
+		}
+
+		Mesh_Info.push_back(tmp);
 
 	}
 		D3D11_SAMPLER_DESC sdesc;
@@ -88,39 +107,52 @@ void D3DXMesh::Draw(float *t, float *vp) {
 
 	if (t)
 		transform = t;
-	//int i = 1;
+		
+	
 	for (int i =0; i<MeshParser.totalmeshes; i++)
 	{
-		Parser::mesh *pactual = &MeshParser.meshesTotal[i];
-		unsigned int sig = SigBase;
-		sig |= gSig;
-		IDVD3DXShader * s = dynamic_cast<IDVD3DXShader*>(g_pBaseDriver->GetShaderSig(sig));
-		UINT offset = 0;
-		UINT stride = sizeof(Parser::vertex);
-
+		MeshInfo drawinfo = Mesh_Info[i];
+		Parser::mesh pactual = MeshParser.meshesTotal[i];
+		
 		XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
 		XMatViewLookAtLH(View, XVECTOR3(0.0f, -1.0f, -10.0f), XVECTOR3(0.0f, 0.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
 		XMatPerspectiveLH(Projection, Deg2Rad(140.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
 		XMatScaling(Scale, .5f, .5f, .5f);
+		
 		CnstBuffer.WVP = Scale*View*Projection;
 		CnstBuffer.World = transform;
 		CnstBuffer.WorldView = transform;
-		D3D11DeviceContext->VSSetShader(s->pVS.Get(), 0, 0);
-		D3D11DeviceContext->PSSetShader(s->pFS.Get(), 0, 0);
-		D3D11DeviceContext->IASetInputLayout(s->Layout.Get());
+		
+		unsigned int sig = SigBase;
+		sig |= gSig;
+		UINT offset = 0;
+		UINT stride = sizeof(Parser::vertex);
+		IDVD3DXShader *s = 0; 
+		D3D11DeviceContext->IASetVertexBuffers(0, 1, drawinfo.VB.GetAddressOf(), &stride, &offset);
+		
+		for (int j = 0; j  < drawinfo.SubSets.size(); j ++)
+		{
+			SubsetInfo subinfo = drawinfo.SubSets[j];
+			s= dynamic_cast<IDVD3DXShader*>(g_pBaseDriver->GetShaderSig(sig));
 
-		D3D11DeviceContext->UpdateSubresource(pd3dConstantBuffer.Get(), 0, 0, &CnstBuffer, 0, 0);
-		D3D11DeviceContext->VSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
-		D3D11DeviceContext->PSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
+			
 
-		D3D11DeviceContext->IASetIndexBuffer(IB.Get(), DXGI_FORMAT_R16_UINT, 0);
-		D3D11DeviceContext->IASetVertexBuffers(0, 1, VB.GetAddressOf(), &stride, &offset);
+			D3D11DeviceContext->VSSetShader(s->pVS.Get(), 0, 0);
+			D3D11DeviceContext->PSSetShader(s->pFS.Get(), 0, 0);
+			D3D11DeviceContext->IASetInputLayout(s->Layout.Get());
 
-		D3D11DeviceContext->PSSetSamplers(0, 1, pSampler.GetAddressOf());
-		D3D11DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		D3D11DeviceContext->DrawIndexed( pactual->MeshIndex.size(), 0, 0);
+			D3D11DeviceContext->UpdateSubresource(pd3dConstantBuffer.Get(), 0, 0, &CnstBuffer, 0, 0);
+			D3D11DeviceContext->VSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
+			D3D11DeviceContext->PSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
+
+			D3D11DeviceContext->IASetIndexBuffer(subinfo.IB.Get(), DXGI_FORMAT_R16_UINT, 0);
+
+			D3D11DeviceContext->PSSetSamplers(0, 1, pSampler.GetAddressOf());
+			D3D11DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			D3D11DeviceContext->DrawIndexed(pactual.MeshMat[j].mtlBuffer.size(), 0, 0);
+		}
 	}
 	
 }

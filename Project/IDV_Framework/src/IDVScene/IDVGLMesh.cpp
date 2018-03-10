@@ -5,7 +5,7 @@
 #include <string>
 void GLMesh::Create() {
 
-	SigBase = IDVSig::HAS_TEXCOORDS0;
+	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS | IDVSig::HAS_TANGENTS | IDVSig::HAS_BINORMALS;
 	char *vsSourceP = file2string("Shaders/VS_Mesh.glsl");
 	char *fsSourceP = file2string("Shaders/FS_Mesh.glsl");
 
@@ -53,7 +53,8 @@ void GLMesh::Draw(float *t, float *vp) {
 
 	if (t)
 		transform = t;
-	for (int i = 0; i < MeshParser.totalmeshes; i++)
+	int i = 1;
+	//for (int i = 0; i < MeshParser.totalmeshes; i++)
 	{
 		Parser::mesh *pactual = &MeshParser.meshesTotal[i];
 		unsigned int sig = SigBase;
@@ -62,7 +63,7 @@ void GLMesh::Draw(float *t, float *vp) {
 		XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
-		XMatViewLookAtLH(View, XVECTOR3(0.0f, 0.0f, -10.0f), XVECTOR3(0.0f, 0.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
+		XMatViewLookAtLH(View, XVECTOR3(0.0f, -1.0f, -10.0f), XVECTOR3(0.0f, 0.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
 		XMatPerspectiveLH(Projection, Deg2Rad(60.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
 		XMatScaling(Scale, 1.0f, 1.0f, 1.0f);
 

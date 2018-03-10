@@ -6,6 +6,8 @@
 #include <wrl/client.h>
 using namespace Microsoft::WRL;
 
+
+#include<vector>
 #include <d3d11.h>
 #include <dxgi.h>
 #include <D3Dcompiler.h>
@@ -22,11 +24,19 @@ public:
 		XMATRIX44 World;
 		XMATRIX44 WorldView;
 	};
+	struct SubsetInfo {
+		unsigned int				Id;
+		ComPtr<ID3D11Buffer>		IB;
+	};
+	struct MeshInfo {
+		ComPtr<ID3D11Buffer>		VB;
+		ComPtr<ID3D11Buffer>		IB;
+		std::vector <SubsetInfo>    SubSets;
+	};
 
 	D3DXMesh() {
 
 	}
-
 	void Create();
 	void Create(char *) {}
 	void Transform(float *t);
@@ -39,6 +49,8 @@ public:
 	ComPtr<ID3D11Buffer>		VB;
 	ComPtr<ID3D11Buffer>        pd3dConstantBuffer;
 	ComPtr<ID3D11SamplerState>  pSampler;
+
+	std::vector<MeshInfo>		Mesh_Info;
 
 	CBuffer			CnstBuffer;
 
