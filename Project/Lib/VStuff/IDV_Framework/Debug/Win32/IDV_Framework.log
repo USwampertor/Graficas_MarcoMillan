@@ -1,2 +1,6 @@
-﻿  IDVWin32Manager.cpp
-  IDV_Framework.vcxproj -> C:\Users\edenriqu\Documents\Alumnos\Graficas\Proyectos\MarcoMilan\Graficas_MarcoMillan\Project\Lib\Debug\Win32\IDV_Framework.lib
+﻿  IDVPrimitiveManager.cpp
+  IDVGLMesh.cpp
+c:\users\propietario\documents\5to cuatri\graficas_marcomillan\project\idv_framework\src\idvscene\idvglmesh.cpp(22): warning C4018: '<': no coinciden signed/unsigned
+  IDV3DMesh.cpp
+  Generando código...
+  IDV_Framework.vcxproj -> C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\Lib\Debug\Win32\IDV_Framework.lib

@@ -29,13 +29,38 @@ public:
 	{
 		float nx, ny, nz, nw;
 	};
-
-	std::vector<vertex> ParserVec;
-	std::vector<normals>ParserNorm;
-	std::vector<unsigned short>ParserIndex;
-	std::string normalchecker, uvchecker, indexchecker, vertexchecker, a, b;
-	int size,totalvert,totalnormals,totaluv;
-	unsigned short totalindex;
+	struct metaobject
+	{
+		float mx, my, mz;
+	};
+	struct metasubset
+	{
+		std::vector<metaobject> submeta;
+	};
+	struct matsubset
+	{
+		std::vector<unsigned short> mtlBuffer;
+	};
+	struct mesh
+	{
+		mesh() : totalvert(0), totalnormals(0), totalindex(0), totaluv(0),totalmeta(0)
+		{}
+		std::vector<unsigned short> objectTypes;
+		std::vector<matsubset> MeshMat;
+		std::vector<metasubset>MeshMeta;
+		std::vector<vertex> MeshVec;
+		std::vector<normals>MeshNorm;
+		std::vector<unsigned short> MeshIndex;
+		unsigned int 
+			totalvert, totalnormals, totaluv,totalmeta,
+			totalMaterial;
+		unsigned short totalindex, totalObjects,matInMesh;
+	};
+	std::vector<mesh> meshesTotal;
+	std::string 
+		normalchecker, uvchecker, indexchecker, vertexchecker, tanbinchecker, mtrlchecker, a, b;
+	int size, totalmeshes;
+	
 	float ftest;
 	char c, cont;
 };

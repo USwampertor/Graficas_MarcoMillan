@@ -1,4 +1,7 @@
 ﻿  IDVParser.cpp
-c:\users\edenriqu\documents\alumnos\graficas\proyectos\marcomilan\graficas_marcomillan\project\idv_parser\src\idvparser.cpp(33): warning C4244: '=': conversion from 'std::streamoff' to 'int', possible loss of data
-c:\users\edenriqu\documents\alumnos\graficas\proyectos\marcomilan\graficas_marcomillan\project\idv_parser\src\idvparser.cpp(23): warning C4101: 'ikeeper': unreferenced local variable
-  IDV_Parser.vcxproj -> C:\Users\edenriqu\Documents\Alumnos\Graficas\Proyectos\MarcoMilan\Graficas_MarcoMillan\Project\Lib\Debug\Win32\IDV_Parser.lib
+c:\users\propietario\documents\5to cuatri\graficas_marcomillan\project\idv_parser\src\idvparser.cpp(36): warning C4244: '=': conversión de 'std::streamoff' a 'int'; posible pérdida de datos
+c:\users\propietario\documents\5to cuatri\graficas_marcomillan\project\idv_parser\src\idvparser.cpp(80): warning C4018: '<': no coinciden signed/unsigned
+c:\users\propietario\documents\5to cuatri\graficas_marcomillan\project\idv_parser\src\idvparser.cpp(115): warning C4018: '<': no coinciden signed/unsigned
+c:\users\propietario\documents\5to cuatri\graficas_marcomillan\project\idv_parser\src\idvparser.cpp(136): warning C4018: '<': no coinciden signed/unsigned
+c:\users\propietario\documents\5to cuatri\graficas_marcomillan\project\idv_parser\src\idvparser.cpp(160): warning C4018: '<': no coinciden signed/unsigned
+  IDV_Parser.vcxproj -> C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\Lib\Debug\Win32\IDV_Parser.lib

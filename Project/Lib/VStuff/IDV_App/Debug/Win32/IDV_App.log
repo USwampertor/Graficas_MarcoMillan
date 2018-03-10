@@ -1,3 +1,2 @@
-﻿LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  IDV_App.vcxproj -> C:\Users\edenriqu\Documents\Alumnos\Graficas\Proyectos\MarcoMilan\Graficas_MarcoMillan\Project\Bin\IDV_App.exe
-  IDV_App.vcxproj -> C:\Users\edenriqu\Documents\Alumnos\Graficas\Proyectos\MarcoMilan\Graficas_MarcoMillan\Project\Bin\IDV_App.pdb (Partial PDB)
+﻿  IDV_App.vcxproj -> C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\Bin\IDV_App.exe
+  IDV_App.vcxproj -> C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\Bin\IDV_App.pdb (Partial PDB)
