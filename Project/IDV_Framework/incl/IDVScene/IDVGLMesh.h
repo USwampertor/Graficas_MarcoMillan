@@ -11,13 +11,24 @@
 class GLMesh : public PrimitiveBase {
 public:
 
+	struct SubsetInfo {
+		unsigned int				Id;
+	};
+	struct MeshInfo {
+		unsigned int		VB;
+		unsigned int		IB;
+		std::vector <SubsetInfo>    SubSets;
+	};
+
+	
+
 	GLMesh() {}
 	void Create();
 	void Create(char *) {}
 	void Transform(float *t);
 	void Draw(float *t, float *vp);
 	void Destroy();
-
+	std::vector<MeshInfo>		Mesh_Info;
 	unsigned int	SigBase;
 	unsigned int	VB;
 	unsigned int	IB;

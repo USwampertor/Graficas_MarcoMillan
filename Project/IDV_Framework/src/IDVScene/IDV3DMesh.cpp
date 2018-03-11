@@ -117,8 +117,8 @@ void D3DXMesh::Draw(float *t, float *vp) {
 		XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
-		XMatViewLookAtLH(View, XVECTOR3(0.0f, -1.0f, -10.0f), XVECTOR3(0.0f, 0.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
-		XMatPerspectiveLH(Projection, Deg2Rad(140.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
+		XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -10.0f), XVECTOR3(0.0f, 5.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
+		XMatPerspectiveLH(Projection, Deg2Rad(140.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
 		XMatScaling(Scale, .5f, .5f, .5f);
 		
 		CnstBuffer.WVP = Scale*View*Projection;

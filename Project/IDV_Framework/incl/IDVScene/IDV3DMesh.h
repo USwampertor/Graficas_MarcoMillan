@@ -25,7 +25,7 @@ public:
 		XMATRIX44 WorldView;
 	};
 	struct SubsetInfo {
-		unsigned int				Id;
+		
 		ComPtr<ID3D11Buffer>		IB;
 	};
 	struct MeshInfo {
