@@ -26,12 +26,17 @@
     <ClCompile Include="src\IDVScene\IDVPrimitiveInstance.cpp" />
     <ClCompile Include="src\IDVScene\IDVPrimitiveManager.cpp" />
     <ClCompile Include="src\IDVScene\IDVSceneProp.cpp" />
+    <ClCompile Include="src\IDVUtils\Camera.cpp" />
     <ClCompile Include="src\IDVUtils\IDVUtils.cpp" />
+    <ClCompile Include="src\IDVUtils\InputManager.cpp" />
+    <ClCompile Include="src\IDVUtils\Timer.cpp" />
     <ClCompile Include="src\IDVVideo\IDVBaseDriver.cpp" />
+    <ClCompile Include="src\IDVVideo\IDVD3DTexture.cpp" />
     <ClCompile Include="src\IDVVideo\IDVD3DXDriver.cpp" />
     <ClCompile Include="src\IDVVideo\IDVD3DXShader.cpp" />
     <ClCompile Include="src\IDVVideo\IDVGLDriver.cpp" />
     <ClCompile Include="src\IDVVideo\IDVGLShader.cpp" />
+    <ClCompile Include="src\IDVVideo\IDVGLTexture.cpp" />
     <ClCompile Include="src\IDVWindow\Win32\IDVWin32Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -45,12 +50,17 @@
     <ClInclude Include="incl\IDVScene\IDVPrimitiveInstance.h" />
     <ClInclude Include="incl\IDVScene\IDVPrimitiveManager.h" />
     <ClInclude Include="incl\IDVScene\IDVSceneProp.h" />
+    <ClInclude Include="incl\IDVUtils\Camera.h" />
     <ClInclude Include="incl\IDVUtils\IDVUtils.h" />
+    <ClInclude Include="incl\IDVUtils\InputManager.h" />
+    <ClInclude Include="incl\IDVUtils\Timer.h" />
     <ClInclude Include="incl\IDVVideo\IDVBaseDriver.h" />
+    <ClInclude Include="incl\IDVVideo\IDVD3DTexture.h" />
     <ClInclude Include="incl\IDVVideo\IDVD3DXDriver.h" />
     <ClInclude Include="incl\IDVVideo\IDVD3DXShader.h" />
     <ClInclude Include="incl\IDVVideo\IDVGLDriver.h" />
     <ClInclude Include="incl\IDVVideo\IDVGLShader.h" />
+    <ClInclude Include="incl\IDVVideo\IDVGLTexture.h" />
     <ClInclude Include="incl\IDVWindow\IDVWin32Manager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -132,7 +142,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;%(AdditionalIncludeDirectories);$(SolutionDir)IDV_Math\incl;$(ProjectDir)IDVMath\incl;$(ProjectDir)IDV_Math\incl\;$(SolutionDir)IDV_Math\incl;C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\IDV_Math\incl;$(SolutionDir)IDV_Parser\incl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;%(AdditionalIncludeDirectories);$(SolutionDir)IDV_Math\incl;$(ProjectDir)IDVMath\incl;$(ProjectDir)IDV_Math\incl\;$(SolutionDir)IDV_Math\incl;C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\IDV_Math\incl;$(SolutionDir)IDV_Parser\incl;$(SolutionDir)ThirdParty\stb\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,7 +157,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories);$(SolutionDir)IDV_Math\incl;$(ProjectDir)IDVMath\incl;$(ProjectDir)IDV_Math\incl\;$(SolutionDir)IDV_Math\incl;C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\IDV_Math\incl;$(SolutionDir)IDV_Parser\incl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories);$(SolutionDir)IDV_Math\incl;$(ProjectDir)IDVMath\incl;$(ProjectDir)IDV_Math\incl\;$(SolutionDir)IDV_Math\incl;C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\IDV_Math\incl;$(SolutionDir)IDV_Parser\incl;$(SolutionDir)ThirdParty\stb\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,7 +174,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;%(AdditionalIncludeDirectories);$(SolutionDir)IDV_Math\incl;$(ProjectDir)IDVMath\incl;$(ProjectDir)IDV_Math\incl\;$(SolutionDir)IDV_Math\incl;C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\IDV_Math\incl;$(SolutionDir)IDV_Parser\incl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;%(AdditionalIncludeDirectories);$(SolutionDir)IDV_Math\incl;$(ProjectDir)IDVMath\incl;$(ProjectDir)IDV_Math\incl\;$(SolutionDir)IDV_Math\incl;C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\IDV_Math\incl;$(SolutionDir)IDV_Parser\incl;$(SolutionDir)ThirdParty\stb\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -183,7 +193,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories);$(SolutionDir)IDV_Math\incl;$(ProjectDir)IDVMath\incl;$(ProjectDir)IDV_Math\incl\;$(SolutionDir)IDV_Math\incl;C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\IDV_Math\incl;$(SolutionDir)IDV_Parser\incl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)ThirdParty\glew-2.0.0\include;%(AdditionalIncludeDirectories);$(SolutionDir)IDV_Math\incl;$(ProjectDir)IDVMath\incl;$(ProjectDir)IDV_Math\incl\;$(SolutionDir)IDV_Math\incl;C:\Users\PROPIETARIO\Documents\5to Cuatri\Graficas_MarcoMillan\Project\IDV_Math\incl;$(SolutionDir)IDV_Parser\incl;$(SolutionDir)ThirdParty\stb\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

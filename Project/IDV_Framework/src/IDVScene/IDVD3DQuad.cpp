@@ -1,11 +1,21 @@
 #include <IDVVideo/IDVD3DXShader.h>
+#include <IDVVideo/IDVD3DTexture.h>
 #include <IDVScene/IDVD3DQuad.h>
 #include <IDVUtils/IDVUtils.h>
 
 extern ComPtr<ID3D11Device>            D3D11Device;
 extern ComPtr<ID3D11DeviceContext>     D3D11DeviceContext;
 
-void D3DXQuad::Create() {
+void IDVD3DQuad::Create() {
+
+	pTexture = new D3DXTexture;
+
+	TexId = pTexture->LoadTexture("cerdo_D.tga");
+
+	if (TexId == -1) {
+		delete pTexture;
+	}
+
 	SigBase = IDVSig::HAS_TEXCOORDS0;
 
 	char *vsSourceP = file2string("Shaders/VS_Quad.hlsl");
@@ -82,11 +92,11 @@ void D3DXQuad::Create() {
 
 }
 
-void D3DXQuad::Transform(float *t) {
+void IDVD3DQuad::Transform(float *t) {
 	transform = t;
 }
 
-void D3DXQuad::Draw(float *t, float *vp) {
+void IDVD3DQuad::Draw(float *t, float *vp) {
 
 	if (t)
 		transform = t;
@@ -107,6 +117,11 @@ void D3DXQuad::Draw(float *t, float *vp) {
 	D3D11DeviceContext->IASetInputLayout(s->Layout.Get());
 
 	D3D11DeviceContext->UpdateSubresource(pd3dConstantBuffer.Get(), 0, 0, &CnstBuffer, 0, 0);
+
+	D3DXTexture *texd3d = dynamic_cast<D3DXTexture*>(this->pTexture);
+	D3D11DeviceContext->PSSetShaderResources(0, 1, texd3d->pSRVTex.GetAddressOf());
+	D3D11DeviceContext->PSSetSamplers(0, 1, texd3d->pSampler.GetAddressOf());
+
 	D3D11DeviceContext->VSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
 	D3D11DeviceContext->PSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
 
@@ -118,5 +133,5 @@ void D3DXQuad::Draw(float *t, float *vp) {
 	D3D11DeviceContext->DrawIndexed(6, 0, 0);
 }
 
-void D3DXQuad::Destroy(){
+void IDVD3DQuad::Destroy(){
 }

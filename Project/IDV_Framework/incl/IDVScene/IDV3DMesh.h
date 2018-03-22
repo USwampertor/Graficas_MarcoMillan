@@ -16,7 +16,7 @@ using namespace Microsoft::WRL;
 #include <IDVScene\IDVPrimitive.h>
 #include <IDVParser.h>
 
-class D3DXMesh : public PrimitiveBase {
+class D3DXMesh : public IDVPrimitiveBase {
 public:
 	
 	struct CBuffer {
@@ -56,6 +56,8 @@ public:
 
 	XMATRIX44		transform;
 	Parser			MeshParser;
+	int			 TexId;
+	Texture		*pTexture;
 };
 
 #endif

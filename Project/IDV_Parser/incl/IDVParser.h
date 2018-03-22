@@ -3,6 +3,7 @@
 //#define IDV_Paser
 #include <string>
 #include <vector>
+#include <map>
 class Parser 
 {
 public:
@@ -37,8 +38,10 @@ public:
 	{
 		std::vector<metaobject> submeta;
 	};
+	
 	struct matsubset
 	{
+		std::map<std::string,std::string> strBuffer;
 		std::vector<unsigned short> mtlBuffer;
 	};
 	struct mesh
@@ -57,8 +60,10 @@ public:
 		unsigned short totalindex, totalObjects,matInMesh;
 	};
 	std::vector<mesh> meshesTotal;
-	std::string 
-		normalchecker, uvchecker, indexchecker, vertexchecker, tanbinchecker, mtrlchecker, a, b;
+	std::string
+		normalchecker, uvchecker, indexchecker,
+		vertexchecker, tanbinchecker, mtrlchecker,
+		a, b, dfltbreakingpoint, dfltstring;
 	int size, totalmeshes;
 	
 	float ftest;

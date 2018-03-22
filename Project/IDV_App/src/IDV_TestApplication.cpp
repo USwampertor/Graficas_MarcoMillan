@@ -8,15 +8,15 @@ void IDVTestApplication::InitVars() {
 void IDVTestApplication::CreateAssets() {
 	XMATRIX44 VP;
 	
-	PrimitiveMgr = new PrimitiveManager(m_pWindow->m_pVideoDriver->SelectedApi);
+	IDVPrimitiveMgr = new IDVPrimitiveManager(m_pWindow->m_pVideoDriver->SelectedApi);
 
 	//int index = PrimitiveMgr->CreateQuad();
-	int index = PrimitiveMgr->CreateMesh();
-	QuadInst.CreateInstance(PrimitiveMgr->GetPrimitive(index), &VP);
+	int index = IDVPrimitiveMgr->CreateMesh();
+	QuadInst.CreateInstance(IDVPrimitiveMgr->GetPrimitive(index), &VP);
 }
 
 void IDVTestApplication::DestroyAssets() {
-	delete PrimitiveMgr;
+	delete IDVPrimitiveMgr;
 }
 
 void IDVTestApplication::OnUpdate() {

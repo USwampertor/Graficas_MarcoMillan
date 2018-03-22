@@ -1,8 +1,17 @@
 #include <IDVVideo/IDVGLShader.h>
+#include <IDVVideo/IDVGLTexture.h>
 #include <IDVScene/IDVGLQuad.h>
 #include <IDVUtils/IDVUtils.h>
 #include <IDVMath.h>
-void GLQuad::Create(){
+void IDVGLQuad::Create(){
+
+	pTexture = new GLTexture;
+
+	TexId = pTexture->LoadTexture("cerdo_D.tga");
+
+	if (TexId == -1) {
+		delete pTexture;
+	}
 	SigBase = IDVSig::HAS_TEXCOORDS0;
 
 	char *vsSourceP = file2string("Shaders/VS_Quad.glsl");
@@ -40,11 +49,11 @@ void GLQuad::Create(){
 
 }
 
-void GLQuad::Transform(float *t){
+void IDVGLQuad::Transform(float *t){
 	transform = t;
 }
 
-void GLQuad::Draw(float *t, float *vp){
+void IDVGLQuad::Draw(float *t, float *vp){
 
 	if (t)
 		transform = t;
@@ -65,6 +74,11 @@ void GLQuad::Draw(float *t, float *vp){
 	glBindBuffer(GL_ARRAY_BUFFER, VB);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
 
+	GLTexture *texgl = dynamic_cast<GLTexture*>(this->pTexture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texgl->id);
+	glUniform1i(s->DiffuseTex_loc, 0);
+
 	glEnableVertexAttribArray(s->vertexAttribLoc);
 	glVertexAttribPointer(s->vertexAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Vert), BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(s->uvAttribLoc);
@@ -73,6 +87,6 @@ void GLQuad::Draw(float *t, float *vp){
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
 }
 
-void GLQuad::Destroy(){
+void IDVGLQuad::Destroy(){
 
 }

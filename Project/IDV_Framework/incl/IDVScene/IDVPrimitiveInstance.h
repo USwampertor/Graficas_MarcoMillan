@@ -7,9 +7,9 @@
 #include <IDVMath.h>
 #include <d3dx9math.h>
 
-class PrimitiveInst {
+class IDVPrimitiveInst {
 	public:
-		void	CreateInstance(PrimitiveBase *pPrim, XMATRIX44 *pVP) {
+		void	CreateInstance(IDVPrimitiveBase *pPrim, XMATRIX44 *pVP) {
 			pBase = pPrim;
 			pViewProj = pVP;
 			Visible = true;
@@ -45,7 +45,7 @@ class PrimitiveInst {
 		
 		XMATRIX44		*pViewProj;
 
-		PrimitiveBase	*pBase;
+		IDVPrimitiveBase	*pBase;
 };
 
 

@@ -5,8 +5,10 @@ uniform highp mat4 WorldView;
 varying highp vec2 vecUVCoords;
 varying highp vec4 Pos;
 
+uniform mediump sampler2D tex0;
+
 void main(){
-	gl_FragColor = vec4(1.0,1.0,0.0,1.0);
+	gl_FragColor = texture2D(tex0,vecUVCoords);
 }
 
 

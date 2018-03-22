@@ -11,12 +11,12 @@
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 #endif
 
-class PrimitiveBase {
+class IDVPrimitiveBase {
 public:
-	PrimitiveBase() : pScProp(0) , gSig(0) {
+	IDVPrimitiveBase() : pScProp(0) , gSig(0) {
 	
 	}
-	virtual ~PrimitiveBase(){}
+	virtual ~IDVPrimitiveBase(){}
 	virtual void Create() = 0;
 	virtual void Create(char *) = 0;
 	virtual void Transform(float *t) = 0;
@@ -26,8 +26,8 @@ public:
 	void SetGlobalSignature(unsigned int f){ gSig = f; }
 
 
-	void SetSceneProps(SceneProps *p) { pScProp = p; }
-	SceneProps				*pScProp;
+	void SetSceneProps(IDVSceneProps *p) { pScProp = p; }
+	IDVSceneProps				*pScProp;
 	unsigned int gSig;
 };
 

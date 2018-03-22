@@ -84,6 +84,21 @@
     <ClCompile Include="src\IDVScene\IDVGLMesh.cpp">
       <Filter>Source Files\IDVScene</Filter>
     </ClCompile>
+    <ClCompile Include="src\IDVUtils\Camera.cpp">
+      <Filter>Source Files\IDVUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IDVUtils\Timer.cpp">
+      <Filter>Source Files\IDVUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IDVUtils\InputManager.cpp">
+      <Filter>Source Files\IDVUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IDVVideo\IDVD3DTexture.cpp">
+      <Filter>Source Files\IDVVideo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IDVVideo\IDVGLTexture.cpp">
+      <Filter>Source Files\IDVVideo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="incl\IDVBase\IDVCoreBase.h">
@@ -136,6 +151,21 @@
     </ClInclude>
     <ClInclude Include="incl\IDVScene\IDVGLMesh.h">
       <Filter>Header Files\IDVScene</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\IDVUtils\Camera.h">
+      <Filter>Header Files\IDVUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\IDVUtils\Timer.h">
+      <Filter>Header Files\IDVUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\IDVUtils\InputManager.h">
+      <Filter>Header Files\IDVUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\IDVVideo\IDVD3DTexture.h">
+      <Filter>Header Files\IDVVideo</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\IDVVideo\IDVGLTexture.h">
+      <Filter>Header Files\IDVVideo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

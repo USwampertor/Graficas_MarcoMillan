@@ -15,8 +15,9 @@ public:
 	void OnDraw();
 	void OnInput();
 
-	PrimitiveManager *PrimitiveMgr;
-	PrimitiveInst	 QuadInst;
+	IDVPrimitiveManager *IDVPrimitiveMgr;
+	IDVPrimitiveInst	 QuadInst;
+	IDVPrimitiveInst	Mesh[10];
 	XMATRIX44 View;
 	XMATRIX44 Projection;
 	XMATRIX44 Camera;

@@ -1,10 +1,17 @@
 #include <IDVVideo/IDVGLShader.h>
 #include <IDVScene/IDVGLMesh.h>
 #include <IDVUtils/IDVUtils.h>
+#include <IDVVideo/IDVGLTexture.h>
 #include <IDVMath.h>
 #include <string>
 void GLMesh::Create() {
+	pTexture = new GLTexture;
 
+	TexId = pTexture->LoadTexture("cerdo_D.tga");
+
+	if (TexId == -1) {
+		delete pTexture;
+	}
 	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS | IDVSig::HAS_TANGENTS | IDVSig::HAS_BINORMALS;
 	char *vsSourceP = file2string("Shaders/VS_Mesh.glsl");
 	char *fsSourceP = file2string("Shaders/FS_Mesh.glsl");
@@ -16,7 +23,7 @@ void GLMesh::Create() {
 	free(fsSourceP);
 	
 	std::string link;
-	link = "Models/NuCroc.X";
+	link = "Models/Pig.X";
 	MeshParser.Load(link);
 	Mesh_Info.reserve(MeshParser.totalmeshes);
 	for (int i = 0; i < MeshParser.totalmeshes; i++)
@@ -90,7 +97,7 @@ void GLMesh::Draw(float *t, float *vp) {
 		
 		glBindBuffer(GL_ARRAY_BUFFER, drawinfo.VB);
 	
-		for (int j = 0; j < drawinfo.SubSets.size(); j++)
+		for (unsigned int j = 0; j < drawinfo.SubSets.size(); j++)
 		{
 			SubsetInfo subinfo = drawinfo.SubSets[j];
 			s = dynamic_cast<IDVGLShader*>(g_pBaseDriver->GetShaderSig(sig));
@@ -103,6 +110,11 @@ void GLMesh::Draw(float *t, float *vp) {
 			glUniformMatrix4fv(s->matWorldViewUniformLoc, 1, GL_FALSE, &WV.m[0][0]);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, subinfo.Id);
+
+			GLTexture *texgl = dynamic_cast<GLTexture*>(this->pTexture);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texgl->id);
+			glUniform1i(s->DiffuseTex_loc, 0);
 
 			glEnableVertexAttribArray(s->vertexAttribLoc);
 			glVertexAttribPointer(s->vertexAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(0));

@@ -8,20 +8,20 @@
 #include <IDVScene/IDVPrimitive.h>
 #include <IDVScene/IDVSceneProp.h>
 
-class PrimitiveManager {
+class IDVPrimitiveManager {
 public:
-	PrimitiveManager(IDVAPI Selected) { SelectedApi = Selected;  }
+	IDVPrimitiveManager(IDVAPI Selected) { SelectedApi = Selected;  }
 	void SetVP(XMATRIX44 *vp) {
 		pVP = vp;
 	}
 	int  CreateQuad();
-	void SetSceneProps(SceneProps *p);
+	void SetSceneProps(IDVSceneProps *p);
 	int CreateMesh();
 	void DrawPrimitives();
 	void DestroyPrimitives();
-	PrimitiveBase*	GetPrimitive(unsigned int);
+	IDVPrimitiveBase*	GetPrimitive(unsigned int);
 
-	std::vector<PrimitiveBase*> primitives;
+	std::vector<IDVPrimitiveBase*> primitives;
 
 	IDVAPI		SelectedApi;
 	XMATRIX44 *pVP;

@@ -8,7 +8,7 @@
 #include <IDVVideo\IDVBaseDriver.h>
 #include <IDVScene\IDVPrimitive.h>
 #include <IDVParser.h>
-class GLMesh : public PrimitiveBase {
+class GLMesh : public IDVPrimitiveBase {
 public:
 
 	struct SubsetInfo {
@@ -34,6 +34,8 @@ public:
 	unsigned int	IB;
 	XMATRIX44		transform;
 	Parser			MeshParser;
+	int			 TexId;
+	Texture		*pTexture;
 };
 
 #endif

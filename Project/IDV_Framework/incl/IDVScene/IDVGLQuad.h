@@ -8,14 +8,14 @@
 #include <IDVVideo\IDVBaseDriver.h>
 #include <IDVScene\IDVPrimitive.h>
 
-class GLQuad : public PrimitiveBase{
+class IDVGLQuad : public IDVPrimitiveBase{
 public:
 	struct Vert {
 		float x,y,z,w;
 		float u,v;
 	};
 
-	GLQuad(){}
+	IDVGLQuad(){}
 	void Create();
 	void Create(char *){}
 	void Transform(float *t);
@@ -29,6 +29,8 @@ public:
 	unsigned int	VB;
 	unsigned int	IB;
 	XMATRIX44		transform;
+	int			 TexId;
+	Texture		*pTexture;
 };
 
 #endif

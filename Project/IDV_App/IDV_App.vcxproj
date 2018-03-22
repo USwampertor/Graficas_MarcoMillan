@@ -100,7 +100,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)IDV_Framework\incl;$(SolutionDir)IDV_Parser\incl;%(AdditionalIncludeDirectories);$ProjectDir)IDVParser\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVParser\incl;$(SolutionDir)IDV_Math\incl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)IDV_Framework\incl;$(SolutionDir)IDV_Parser\incl;%(AdditionalIncludeDirectories);$ProjectDir)IDVParser\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVParser\incl;$(SolutionDir)IDV_Math\incl;$(SolutionDir)ThirdParty\std\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,7 +116,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)IDV_Framework\incl;$(SolutionDir)IDV_Parser\incl;%(AdditionalIncludeDirectories);$ProjectDir)IDVParser\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVParser\incl;$(SolutionDir)IDV_Math\incl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)IDV_Framework\incl;$(SolutionDir)IDV_Parser\incl;%(AdditionalIncludeDirectories);$ProjectDir)IDVParser\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVParser\incl;$(SolutionDir)IDV_Math\incl;$(SolutionDir)ThirdParty\std\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,7 +134,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;GLEW_STATIC;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)IDV_Framework\incl;$(SolutionDir)IDV_Parser\incl;%(AdditionalIncludeDirectories);$ProjectDir)IDVParser\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVParser\incl;$(SolutionDir)IDV_Math\incl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\DXMath\include;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)IDV_Framework\incl;$(SolutionDir)IDV_Parser\incl;%(AdditionalIncludeDirectories);$ProjectDir)IDVParser\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVParser\incl;$(SolutionDir)IDV_Math\incl;$(SolutionDir)ThirdParty\std\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,7 +154,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)IDV_Framework\incl;$(SolutionDir)IDV_Parser\incl;%(AdditionalIncludeDirectories);$ProjectDir)IDVParser\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVParser\incl;$(SolutionDir)IDV_Math\incl</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)incl\;$(SolutionDir)ThirdParty\glew-2.0.0\include;$(SolutionDir)ThirdParty\SDL-1.2.14\include;$(SolutionDir)IDV_Framework\incl;$(SolutionDir)IDV_Parser\incl;%(AdditionalIncludeDirectories);$ProjectDir)IDVParser\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVMath\incl;$ProjectDir)IDVParser\incl;$(SolutionDir)IDV_Math\incl;$(SolutionDir)ThirdParty\std\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

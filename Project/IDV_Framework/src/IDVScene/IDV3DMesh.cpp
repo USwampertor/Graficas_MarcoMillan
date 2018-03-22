@@ -1,6 +1,7 @@
 #include <IDVVideo/IDVD3DXShader.h>
 #include <IDVUtils/IDVUtils.h>
 #include <IDVScene/IDV3DMesh.h>
+#include <IDVVideo/IDVD3DTexture.h>
 #include <IDVMath.h>
 #include <string>
 extern ComPtr<ID3D11Device>            D3D11Device;
@@ -8,6 +9,13 @@ extern ComPtr<ID3D11DeviceContext>     D3D11DeviceContext;
 
 void D3DXMesh::Create() {
 	
+	pTexture = new D3DXTexture;
+
+	TexId = pTexture->LoadTexture("cerdo_D.tga");
+
+	if (TexId == -1) {
+		delete pTexture;
+	}
 	HRESULT hr;
 	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS|IDVSig::HAS_TANGENTS|IDVSig::HAS_BINORMALS;
 	
@@ -19,11 +27,9 @@ void D3DXMesh::Create() {
 
 	free(vsSourceP);
 	free(fsSourceP);
-
-	//GatherInfo();
 	
 	std::string link;
-	link = "Models/NuCroc.X";
+	link = "Models/Pig.X";
 	MeshParser.Load(link);
 	Mesh_Info.reserve(MeshParser.totalmeshes);
 	for (int i = 0; i<MeshParser.totalmeshes;i++)
@@ -117,7 +123,7 @@ void D3DXMesh::Draw(float *t, float *vp) {
 		XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
-		XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -10.0f), XVECTOR3(0.0f, 5.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
+		XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
 		XMatPerspectiveLH(Projection, Deg2Rad(140.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
 		XMatScaling(Scale, .5f, .5f, .5f);
 		
@@ -132,7 +138,7 @@ void D3DXMesh::Draw(float *t, float *vp) {
 		IDVD3DXShader *s = 0; 
 		D3D11DeviceContext->IASetVertexBuffers(0, 1, drawinfo.VB.GetAddressOf(), &stride, &offset);
 		
-		for (int j = 0; j  < drawinfo.SubSets.size(); j ++)
+		for (unsigned int j = 0; j  < drawinfo.SubSets.size(); j ++)
 		{
 			SubsetInfo subinfo = drawinfo.SubSets[j];
 			s= dynamic_cast<IDVD3DXShader*>(g_pBaseDriver->GetShaderSig(sig));
@@ -144,11 +150,17 @@ void D3DXMesh::Draw(float *t, float *vp) {
 			D3D11DeviceContext->IASetInputLayout(s->Layout.Get());
 
 			D3D11DeviceContext->UpdateSubresource(pd3dConstantBuffer.Get(), 0, 0, &CnstBuffer, 0, 0);
+			
+			D3DXTexture *texd3d = dynamic_cast<D3DXTexture*>(this->pTexture);
+			D3D11DeviceContext->PSSetShaderResources(0, 1, texd3d->pSRVTex.GetAddressOf());
+			D3D11DeviceContext->PSSetSamplers(0, 1, texd3d->pSampler.GetAddressOf());
+
 			D3D11DeviceContext->VSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
 			D3D11DeviceContext->PSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
 
 			D3D11DeviceContext->IASetIndexBuffer(subinfo.IB.Get(), DXGI_FORMAT_R16_UINT, 0);
 
+			
 			D3D11DeviceContext->PSSetSamplers(0, 1, pSampler.GetAddressOf());
 			D3D11DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			D3D11DeviceContext->DrawIndexed(pactual.MeshMat[j].mtlBuffer.size(), 0, 0);

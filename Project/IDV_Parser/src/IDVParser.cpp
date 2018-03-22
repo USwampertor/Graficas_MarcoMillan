@@ -6,6 +6,8 @@
 #include <iostream>
 Parser::Parser()
 {
+	dfltstring = "String";
+	dfltbreakingpoint = "TextureFilename";
 	vertexchecker = "mesh_";
 	uvchecker = "tc0";
 	normalchecker = "normals";
@@ -32,8 +34,8 @@ bool Parser::Load(std::string filename)
 		return false;
 	}
 	
-	mreader.seekg(0, mreader.end);
-	size = mreader.tellg();
+	/*mreader.seekg(0, mreader.end);
+	size = mreader.tellg();*/
 	mreader.seekg(0, mreader.beg);
 ///vertex finder
 	///primero vamos a checar cuantas veces aparece mesh_
@@ -77,7 +79,7 @@ bool Parser::Load(std::string filename)
 			}
 		}
 		mreader >> c >> actual.totalvert >> c;
-		for (int i = 0; i < actual.totalvert; i++)
+		for (unsigned int i = 0; i < actual.totalvert; i++)
 		{
 			vertex vp;
 			mreader >> vp.x >> c >> vp.y >> c >> vp.z >> c >> c;
@@ -112,7 +114,7 @@ bool Parser::Load(std::string filename)
 			}
 		}
 		mreader >> c >> actual.totalnormals >> c;
-		for (int i = 0; i < actual.totalnormals; i++)
+		for (unsigned int i = 0; i < actual.totalnormals; i++)
 		{
 			normals np;
 			mreader >> np.nx >> c >> np.ny >> c >> np.nz >> c >> c;
@@ -133,7 +135,7 @@ bool Parser::Load(std::string filename)
 			}
 		}
 		mreader >> c >> actual.totaluv >> c;
-		for (int i = 0; i < actual.totaluv; i++)
+		for (unsigned int i = 0; i < actual.totaluv; i++)
 		{
 			uv uvp;
 			mreader >> uvp.u >> c >> uvp.v >> c >> c;
@@ -157,7 +159,7 @@ bool Parser::Load(std::string filename)
 		}
 		mreader >> actual.totalmeta >> c;
 		actual.MeshMeta.resize(actual.totalmeta);
-		for (int i = 0; i < actual.totalvert; i++)
+		for (unsigned int i = 0; i < actual.totalvert; i++)
 		{
 			for (int j = 0; j < actual.totalObjects; j++)
 			{
@@ -196,6 +198,9 @@ bool Parser::Load(std::string filename)
 			actual.MeshMat[getMatId].mtlBuffer.push_back(actual.MeshIndex[(i * 3) + 2]);
 
 		}
+		///Mtrls Dflt
+
+
 		///Finished to get all shit from a mesh, now going to put all shits in the mesh
 		for (itvert = vertexbuffer.begin(),
 			ituv = uvbuffer.begin(),
