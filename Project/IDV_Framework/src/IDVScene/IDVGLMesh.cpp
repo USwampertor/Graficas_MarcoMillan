@@ -82,7 +82,7 @@ void GLMesh::Draw(float *t, float *vp) {
 		MeshInfo drawinfo = Mesh_Info[i];
 		Parser::mesh pactual = MeshParser.meshesTotal[i];
 		
-		XMATRIX44 Scale;
+		/*XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
 		XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
@@ -91,7 +91,11 @@ void GLMesh::Draw(float *t, float *vp) {
 
 		XMATRIX44 VP = vp;
 		XMATRIX44 WV = vp;
-		XMATRIX44 WVP = Scale*View*Projection;
+		XMATRIX44 WVP = Scale*View*Projection;*/
+		XMATRIX44 World = static_cast<XMATRIX44>(t);
+		XMATRIX44 VP = static_cast<XMATRIX44>(vp);
+		XMATRIX44 WV = transform;
+		XMATRIX44 WVP = World*VP;
 
 		unsigned int sig = SigBase;
 		sig |= gSig;

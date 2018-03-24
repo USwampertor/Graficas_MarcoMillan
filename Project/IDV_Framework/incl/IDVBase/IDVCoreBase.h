@@ -3,7 +3,7 @@
 
 
 #include <IDVDefs.h>
-
+#include <IDVUtils/InputManager.h>
 #include <IDVVideo/IDVBaseDriver.h>
 
 class IDVBaseWindow;
@@ -23,6 +23,7 @@ public:
 	}
 
 	IDVBaseWindow	*m_pWindow;
+	InputManager	iManager;
 };
 
 class IDVBaseWindow {

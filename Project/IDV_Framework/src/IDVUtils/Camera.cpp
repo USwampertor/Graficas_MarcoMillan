@@ -7,7 +7,7 @@
 Camera::Camera()
 {
 	
-	Right = XVECTOR3(1, 0, 0);
+	Right = XVECTOR3(0, 0, 1);
 	Up = XVECTOR3(0, 1, 0);
 }
 void Camera::Init(XVECTOR3 position, float fov, float ratio, float np, float fp, bool lf)
@@ -44,19 +44,20 @@ void Camera::SetLookAt(XVECTOR3 v)
 }
 void Camera::MoveForward(float dt)
 {
-
+	XMatTranslation(Position,-(dt*Speed),0,0);
+	SetLookAt(XVECTOR3(0, 0, 0));
 }
 void Camera::MoveBackward(float dt)
 {
-
+	XMatTranslation(Position, (dt*Speed), 0, 0);
 }
 void Camera::StrafeLeft(float dt)
 {
-
+	XMatTranslation(Position, 0, 0, (dt*Speed));
 }
 void Camera::StrafeRight(float dt)
 {
-
+	XMatTranslation(Position, 0, 0, -(dt*Speed));
 }
 void Camera::MoveYaw(float f)
 {

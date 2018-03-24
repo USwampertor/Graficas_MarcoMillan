@@ -124,13 +124,13 @@ void D3DXMesh::Draw(float *t, float *vp) {
 		XMATRIX44 VP = static_cast<XMATRIX44>(vp);
 		XMATRIX44 World = static_cast<XMATRIX44>(t);
 		
-		XMATRIX44 Scale;
+		/*XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
 		XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
 		XMatPerspectiveLH(Projection, Deg2Rad(140.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
 		XMatScaling(Scale, .5f, .5f, .5f);
-		XMATRIX44 fakeWVP = Scale*View*Projection;
+		XMATRIX44 fakeWVP = Scale*View*Projection;*/
 
 		CnstBuffer.World = transform;
 		//CnstBuffer.WVP = fakeWVP;

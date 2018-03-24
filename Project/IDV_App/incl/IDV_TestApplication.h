@@ -5,6 +5,7 @@
 #include <IDVScene/IDVPrimitiveManager.h>
 #include <IDVScene/IDVPrimitiveInstance.h>
 #include <IDVUtils/Camera.h>
+#include <IDVUtils/Timer.h>
 class IDVTestApplication : public IDVBaseApplication {
 public:
 	IDVTestApplication() : IDVBaseApplication() {}
@@ -22,6 +23,7 @@ public:
 	XMATRIX44 View;
 	XMATRIX44 Projection;
 	XMATRIX44 Camera;
+	Timer TimeManager;
 };
 
 #endif

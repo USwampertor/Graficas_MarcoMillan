@@ -31,7 +31,7 @@ int IDVPrimitiveManager::CreateMesh()
 		primitive = new GLMesh();
 	else
 		primitive = new D3DXMesh();
-	std::string link = "Models/NuCroc.X ";
+	std::string link = "Models/Scene.X ";
 	primitive->Create(link);
 	primitives.push_back(primitive);
 	return (int)(primitives.size() - 1);
