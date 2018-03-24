@@ -64,6 +64,24 @@ void IDVTestApplication::OnInput() {
 	if (iManager.PressedKey(T800K_d))
 		activeCamera->StrafeRight(deltaTime);
 
+	if (iManager.PressedKey(T800K_q))
+		activeCamera->MoveUp(deltaTime);
+
+	if (iManager.PressedKey(T800K_e))
+		activeCamera->MoveDown(deltaTime);
+
+	if (iManager.PressedKey(T800K_z))
+		activeCamera->TurnRight(deltaTime);
+
+	if (iManager.PressedKey(T800K_c))
+		activeCamera->TurnLeft(deltaTime);
+
+	if (iManager.PressedKey(T800K_r))
+		activeCamera->TurnUp(deltaTime);
+
+	if (iManager.PressedKey(T800K_f))
+		activeCamera->TurnDown(deltaTime);
+
 	float yaw = 0.005f*static_cast<float>(iManager.xDelta);
 	activeCamera->MoveYaw(Deg2Rad(yaw));
 	

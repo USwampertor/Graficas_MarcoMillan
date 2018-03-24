@@ -15,7 +15,12 @@ public:
 	void	MoveBackward(float dt);
 	void	StrafeLeft(float dt);
 	void	StrafeRight(float dt);
-
+	void	MoveUp(float dt);
+	void	MoveDown(float dt);
+	void	TurnLeft(float dt);
+	void	TurnRight(float dt);
+	void	TurnUp(float dt);
+	void	TurnDown(float dt);
 	void	MoveYaw(float f);
 	void	MovePitch(float f);
 	void	MoveRoll(float f);

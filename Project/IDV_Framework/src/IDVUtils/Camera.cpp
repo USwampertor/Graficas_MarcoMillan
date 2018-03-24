@@ -38,7 +38,6 @@ void Camera::CreatePojection()
 }
 void Camera::SetLookAt(XVECTOR3 v)
 {
-	
 	Look = v;
 	XMatViewLookAtLH(View, Eye, Look, Up);
 }
@@ -48,6 +47,7 @@ void Camera::MoveForward(float dt)
 	moveDir.Normalize();
 	Look += moveDir;
 	Eye += moveDir;
+	//Velocity.x += Speed*dt;
 }
 void Camera::MoveBackward(float dt)
 {
@@ -58,17 +58,47 @@ void Camera::MoveBackward(float dt)
 }
 void Camera::StrafeLeft(float dt)
 {
-	XVECTOR3 moveDir = XVECTOR3(1, 0, 0);
+	XVECTOR3 moveDir = Right;
 	moveDir.Normalize();
 	Look -= moveDir;
 	Eye -= moveDir;
 }
 void Camera::StrafeRight(float dt)
 {
-	XVECTOR3 moveDir = XVECTOR3(1, 0, 0);
+	XVECTOR3 moveDir = Right;
 	moveDir.Normalize();
 	Look += moveDir;
 	Eye += moveDir;
+}
+void	Camera::MoveUp(float dt)
+{
+	XVECTOR3 moveDir = XVECTOR3(0, 1, 0);
+	moveDir.Normalize();
+	Look -= moveDir;
+	Eye -= moveDir;
+}
+void	Camera::MoveDown(float dt)
+{
+	XVECTOR3 moveDir = XVECTOR3(0, 1, 0);
+	moveDir.Normalize();
+	Look += moveDir;
+	Eye += moveDir;
+}
+void	Camera::TurnLeft(float dt)
+{
+	Velocity -= Right*dt*2;
+}
+void	Camera::TurnRight(float dt)
+{
+	Velocity += Right*dt*2;
+}
+void	Camera::TurnUp(float dt)
+{
+	Velocity -= Up*dt * 2;
+}
+void	Camera::TurnDown(float dt)
+{
+	Velocity += Up*dt * 2;
 }
 void Camera::MoveYaw(float f)
 {
