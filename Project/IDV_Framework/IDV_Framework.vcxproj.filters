@@ -167,5 +167,8 @@
     <ClInclude Include="incl\IDVVideo\IDVGLTexture.h">
       <Filter>Header Files\IDVVideo</Filter>
     </ClInclude>
+    <ClInclude Include="incl\IDVUtils\IDVChecker.h">
+      <Filter>Header Files\IDVUtils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

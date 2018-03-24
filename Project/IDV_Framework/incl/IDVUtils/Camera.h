@@ -1,6 +1,7 @@
 #ifndef IDV_CAMERA_H
 #define IDV_CAMERA_H
 #include <IDVMath.h>
+#include <IDVUtils/Timer.h>
 class Camera {
 public:
 	Camera();

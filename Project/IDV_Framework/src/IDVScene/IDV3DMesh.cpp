@@ -4,22 +4,16 @@
 #include <IDVVideo/IDVD3DTexture.h>
 #include <IDVMath.h>
 #include <string>
+
 extern ComPtr<ID3D11Device>            D3D11Device;
 extern ComPtr<ID3D11DeviceContext>     D3D11DeviceContext;
 
-void D3DXMesh::Create() {
+void D3DXMesh::Create(std::string link) {
 	
-	pTexture = new D3DXTexture;
-
-	TexId = pTexture->LoadTexture("cerdo_D.tga");
-
-	if (TexId == -1) {
-		delete pTexture;
-	}
 	HRESULT hr;
-	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS|IDVSig::HAS_TANGENTS|IDVSig::HAS_BINORMALS;
+	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS;
 	
-
+	std::cout << "Creating Mesh..." << std::endl;
 	char *vsSourceP = file2string("Shaders/VS_Mesh.hlsl");
 	char *fsSourceP = file2string("Shaders/FS_Mesh.hlsl");
 	std::string vstr = std::string(vsSourceP);
@@ -28,9 +22,9 @@ void D3DXMesh::Create() {
 	free(vsSourceP);
 	free(fsSourceP);
 	
-	std::string link;
-	link = "Models/Pig.X";
+	std::cout << "Loading file..." << std::endl;
 	MeshParser.Load(link);
+	std::cout <<std::endl<< "Finished loading file..." << std::endl;
 	Mesh_Info.reserve(MeshParser.totalmeshes);
 	for (int i = 0; i<MeshParser.totalmeshes;i++)
 	{
@@ -79,6 +73,13 @@ void D3DXMesh::Create() {
 			bdesc.ByteWidth = pactual.MeshMat[j].mtlBuffer.size() * sizeof(unsigned short);
 			bdesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 			subData = { &pactual.MeshMat[j].mtlBuffer[0], 0, 0 };
+			
+			pTexture = new D3DXTexture;
+			TexId = pTexture->LoadTexture(pactual.txtbuffer[j].c_str());
+
+			if (TexId == -1) {
+				delete pTexture;
+			}
 
 			hr = D3D11Device->CreateBuffer(&bdesc, &subData, &tmp_subset.IB);
 			if (hr != S_OK) {
@@ -86,6 +87,7 @@ void D3DXMesh::Create() {
 				return;
 			}
 			tmp.SubSets.push_back(tmp_subset);
+			textureBuffer.insert(std::make_pair(pactual.txtbuffer[j], (pTexture)));
 		}
 
 		Mesh_Info.push_back(tmp);
@@ -102,7 +104,7 @@ void D3DXMesh::Create() {
 		sdesc.MaxAnisotropy = 1;
 		sdesc.BorderColor[0] = sdesc.BorderColor[1] = sdesc.BorderColor[2] = sdesc.BorderColor[3] = 0;
 		D3D11Device->CreateSamplerState(&sdesc, pSampler.GetAddressOf());
-
+		std::cout << "Finished creating mesh..." << std::endl;
 }
 
 void D3DXMesh::Transform(float *t) {
@@ -119,16 +121,20 @@ void D3DXMesh::Draw(float *t, float *vp) {
 	{
 		MeshInfo drawinfo = Mesh_Info[i];
 		Parser::mesh pactual = MeshParser.meshesTotal[i];
+		XMATRIX44 VP = static_cast<XMATRIX44>(vp);
+		XMATRIX44 World = static_cast<XMATRIX44>(t);
 		
 		XMATRIX44 Scale;
 		XMATRIX44 View;
 		XMATRIX44 Projection;
-		XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
+		XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
 		XMatPerspectiveLH(Projection, Deg2Rad(140.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
 		XMatScaling(Scale, .5f, .5f, .5f);
-		
-		CnstBuffer.WVP = Scale*View*Projection;
+		XMATRIX44 fakeWVP = Scale*View*Projection;
+
 		CnstBuffer.World = transform;
+		//CnstBuffer.WVP = fakeWVP;
+		CnstBuffer.WVP = World*VP;
 		CnstBuffer.WorldView = transform;
 		
 		unsigned int sig = SigBase;
@@ -151,7 +157,8 @@ void D3DXMesh::Draw(float *t, float *vp) {
 
 			D3D11DeviceContext->UpdateSubresource(pd3dConstantBuffer.Get(), 0, 0, &CnstBuffer, 0, 0);
 			
-			D3DXTexture *texd3d = dynamic_cast<D3DXTexture*>(this->pTexture);
+			auto it = this->textureBuffer.find(pactual.txtbuffer[j]);
+			D3DXTexture *texd3d = dynamic_cast<D3DXTexture*>(it->second);
 			D3D11DeviceContext->PSSetShaderResources(0, 1, texd3d->pSRVTex.GetAddressOf());
 			D3D11DeviceContext->PSSetSamplers(0, 1, texd3d->pSampler.GetAddressOf());
 

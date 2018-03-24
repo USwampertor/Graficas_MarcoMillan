@@ -23,7 +23,8 @@ public:
 	
 
 	GLMesh() {}
-	void Create();
+	inline void Create() {};
+	void Create(std::string link);
 	void Create(char *) {}
 	void Transform(float *t);
 	void Draw(float *t, float *vp);
@@ -36,6 +37,7 @@ public:
 	Parser			MeshParser;
 	int			 TexId;
 	Texture		*pTexture;
+	std::map<std::string, Texture*> textureBuffer;
 };
 
 #endif

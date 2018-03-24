@@ -6,7 +6,7 @@
 #include <IDVVideo/IDVBaseDriver.h>
 
 #include <vector>
-
+#include <string>
 #ifndef BUFFER_OFFSET
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 #endif
@@ -18,6 +18,7 @@ public:
 	}
 	virtual ~IDVPrimitiveBase(){}
 	virtual void Create() = 0;
+	virtual void Create(std::string) = 0;
 	virtual void Create(char *) = 0;
 	virtual void Transform(float *t) = 0;
 	virtual void Draw(float *t,float *vp) = 0;

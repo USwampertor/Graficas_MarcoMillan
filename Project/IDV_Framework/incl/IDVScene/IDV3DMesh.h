@@ -15,7 +15,7 @@ using namespace Microsoft::WRL;
 #include <IDVVideo\IDVBaseDriver.h>
 #include <IDVScene\IDVPrimitive.h>
 #include <IDVParser.h>
-
+#include <map>
 class D3DXMesh : public IDVPrimitiveBase {
 public:
 	
@@ -37,7 +37,8 @@ public:
 	D3DXMesh() {
 
 	}
-	void Create();
+	inline void Create() {};
+	void Create(std::string link);
 	void Create(char *) {}
 	void Transform(float *t);
 	void Draw(float *t, float *vp);
@@ -58,6 +59,7 @@ public:
 	Parser			MeshParser;
 	int			 TexId;
 	Texture		*pTexture;
+	std::map<std::string, Texture*> textureBuffer;
 };
 
 #endif

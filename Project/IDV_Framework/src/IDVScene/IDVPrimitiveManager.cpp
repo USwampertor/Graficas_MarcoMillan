@@ -3,6 +3,7 @@
 #include <IDVScene/IDVD3DQuad.h>
 #include <IDVScene/IDV3DMesh.h>
 #include <IDVScene/IDVGLMesh.h>
+#include <string>
 IDVPrimitiveBase*	IDVPrimitiveManager::GetPrimitive(unsigned int index) {
 	if (index >= primitives.size())
 		return 0;
@@ -30,8 +31,8 @@ int IDVPrimitiveManager::CreateMesh()
 		primitive = new GLMesh();
 	else
 		primitive = new D3DXMesh();
-
-	primitive->Create();
+	std::string link = "Models/NuCroc.X ";
+	primitive->Create(link);
 	primitives.push_back(primitive);
 	return (int)(primitives.size() - 1);
 }

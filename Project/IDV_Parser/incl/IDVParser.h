@@ -1,6 +1,6 @@
 #pragma once
-//#ifndef IDV_Parser
-//#define IDV_Paser
+#ifndef IDV_Parser
+#define IDV_Paser
 #include <string>
 #include <vector>
 #include <map>
@@ -36,18 +36,20 @@ public:
 	};
 	struct metasubset
 	{
+		
 		std::vector<metaobject> submeta;
 	};
 	
 	struct matsubset
 	{
-		std::map<std::string,std::string> strBuffer;
+		//std::map<int, std::string> strBuffer;
 		std::vector<unsigned short> mtlBuffer;
 	};
 	struct mesh
 	{
 		mesh() : totalvert(0), totalnormals(0), totalindex(0), totaluv(0),totalmeta(0)
 		{}
+		std::vector<std::string> txtbuffer;
 		std::vector<unsigned short> objectTypes;
 		std::vector<matsubset> MeshMat;
 		std::vector<metasubset>MeshMeta;
@@ -63,10 +65,11 @@ public:
 	std::string
 		normalchecker, uvchecker, indexchecker,
 		vertexchecker, tanbinchecker, mtrlchecker,
-		a, b, dfltbreakingpoint, dfltstring;
+		a, b, dfltbreakingpoint, dfltstring,
+		txtfile, diffuse;
 	int size, totalmeshes;
 	
 	float ftest;
 	char c, cont;
 };
-//#endif
+#endif

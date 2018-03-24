@@ -4,7 +4,7 @@
 #include <IDVBase/IDVCoreBase.h>
 #include <IDVScene/IDVPrimitiveManager.h>
 #include <IDVScene/IDVPrimitiveInstance.h>
-
+#include <IDVUtils/Camera.h>
 class IDVTestApplication : public IDVBaseApplication {
 public:
 	IDVTestApplication() : IDVBaseApplication() {}
@@ -18,6 +18,7 @@ public:
 	IDVPrimitiveManager *IDVPrimitiveMgr;
 	IDVPrimitiveInst	 QuadInst;
 	IDVPrimitiveInst	Mesh[10];
+	Camera mainCamera;
 	XMATRIX44 View;
 	XMATRIX44 Projection;
 	XMATRIX44 Camera;

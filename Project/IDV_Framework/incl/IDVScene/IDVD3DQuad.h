@@ -32,6 +32,7 @@ public:
 	}
 
 	void Create();
+	inline void Create(std::string) {};
 	void Create(char *) {}
 	void Transform(float *t);
 	void Draw(float *t, float *vp);

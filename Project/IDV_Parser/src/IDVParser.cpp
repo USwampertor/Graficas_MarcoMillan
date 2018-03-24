@@ -4,8 +4,11 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 Parser::Parser()
 {
+	txtfile = "TextureFilename";
+	diffuse = "Diffuse";
 	dfltstring = "String";
 	dfltbreakingpoint = "TextureFilename";
 	vertexchecker = "mesh_";
@@ -25,7 +28,7 @@ bool Parser::Load(std::string filename)
 	std::vector<normals>::iterator itnormals;
 	
 	
-	
+	std::cout << ".";
 	std::ifstream mreader;
 	mreader.open(filename);
 	if (!mreader.is_open())
@@ -33,7 +36,7 @@ bool Parser::Load(std::string filename)
 		std::cout << "couldnt find " << filename << "in specified directory" << std::endl;
 		return false;
 	}
-	
+	std::cout << ".";
 	/*mreader.seekg(0, mreader.end);
 	size = mreader.tellg();*/
 	mreader.seekg(0, mreader.beg);
@@ -56,6 +59,7 @@ bool Parser::Load(std::string filename)
 
 		}
 	}
+	std::cout << ".";
 ///se supone que aqui como ya checo cuantos mesh_ hay, sabemos cuantos meshes hay y se va a poner a ciclar
 	mreader.seekg(0, mreader.beg);
 ///me posiciono al principio de nuevo
@@ -78,6 +82,7 @@ bool Parser::Load(std::string filename)
 
 			}
 		}
+		std::cout << ".";
 		mreader >> c >> actual.totalvert >> c;
 		for (unsigned int i = 0; i < actual.totalvert; i++)
 		{
@@ -85,6 +90,7 @@ bool Parser::Load(std::string filename)
 			mreader >> vp.x >> c >> vp.y >> c >> vp.z >> c >> c;
 			vertexbuffer.push_back(vp);
 		}
+		std::cout << ".";
 		///index buffer
 		mreader >> actual.totalindex >> c;
 		for (int index = 0; index<actual.totalindex; index++)
@@ -99,6 +105,7 @@ bool Parser::Load(std::string filename)
 			actual.MeshIndex.push_back(v1);
 			actual.MeshIndex.push_back(v2);
 		}
+		std::cout << ".";
 		///normal buffer
 		while (true)
 		{
@@ -113,6 +120,7 @@ bool Parser::Load(std::string filename)
 
 			}
 		}
+		std::cout << ".";
 		mreader >> c >> actual.totalnormals >> c;
 		for (unsigned int i = 0; i < actual.totalnormals; i++)
 		{
@@ -120,6 +128,7 @@ bool Parser::Load(std::string filename)
 			mreader >> np.nx >> c >> np.ny >> c >> np.nz >> c >> c;
 			actual.MeshNorm.push_back(np);
 		}
+		std::cout << ".";
 		///UV buffer
 		while (true)
 		{
@@ -141,6 +150,7 @@ bool Parser::Load(std::string filename)
 			mreader >> uvp.u >> c >> uvp.v >> c >> c;
 			uvbuffer.push_back(uvp);
 		}
+		std::cout << ".";
 		///TanBin buffer
 		while (true)
 		{
@@ -150,6 +160,7 @@ bool Parser::Load(std::string filename)
 				break;
 			}
 		}
+		std::cout << ".";
 		mreader >> c >> actual.totalObjects >> c;
 		for (int i = 0; i < actual.totalObjects; i++)
 		{
@@ -173,6 +184,7 @@ bool Parser::Load(std::string filename)
 				actual.MeshMeta[j].submeta.push_back(meta);
 			}
 		}
+		std::cout << ".";
 		///materials
 		while (true)
 		{
@@ -198,9 +210,36 @@ bool Parser::Load(std::string filename)
 			actual.MeshMat[getMatId].mtlBuffer.push_back(actual.MeshIndex[(i * 3) + 2]);
 
 		}
+		std::cout << ".";
 		///Mtrls Dflt
-
-
+		bool cycle = true;
+		for (unsigned int i = 0; i < actual.matInMesh; i++)
+		{
+			std::string texture;
+			while (cycle)
+			{
+				mreader >> a;
+				if (a==txtfile)
+				{
+					mreader >> a;
+					if (a==diffuse)
+					{
+						cycle = false;
+					}
+				}
+			}
+			cycle = true;
+			char brake = 92;
+			mreader >> c >> std::quoted(a);
+			if (a.find_last_of(brake)!= std::string::npos)
+			{
+				int last = a.find_last_of(brake);
+				texture = a.substr(last, a.size()-last);
+			}
+			else
+				texture = a;
+			actual.txtbuffer.push_back(texture);
+		}
 		///Finished to get all shit from a mesh, now going to put all shits in the mesh
 		for (itvert = vertexbuffer.begin(),
 			ituv = uvbuffer.begin(),

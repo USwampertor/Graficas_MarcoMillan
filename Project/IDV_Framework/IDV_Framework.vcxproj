@@ -51,6 +51,7 @@
     <ClInclude Include="incl\IDVScene\IDVPrimitiveManager.h" />
     <ClInclude Include="incl\IDVScene\IDVSceneProp.h" />
     <ClInclude Include="incl\IDVUtils\Camera.h" />
+    <ClInclude Include="incl\IDVUtils\IDVChecker.h" />
     <ClInclude Include="incl\IDVUtils\IDVUtils.h" />
     <ClInclude Include="incl\IDVUtils\InputManager.h" />
     <ClInclude Include="incl\IDVUtils\Timer.h" />

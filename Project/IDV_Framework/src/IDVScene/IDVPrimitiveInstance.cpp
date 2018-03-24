@@ -67,7 +67,7 @@ void IDVPrimitiveInst::Update() {
 void IDVPrimitiveInst::Draw(){
 	if (!Visible)
 		return;
-	pBase->Draw(&Final.m[0][0],&Final.m[0][0]);
+	pBase->Draw(&Final.m[0][0],&pViewProj->m[0][0]);
 }
 
 void IDVPrimitiveInst::SetSignature(unsigned int f){
