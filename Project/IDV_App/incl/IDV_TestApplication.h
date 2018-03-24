@@ -20,10 +20,14 @@ public:
 	IDVPrimitiveInst	 QuadInst;
 	IDVPrimitiveInst	Mesh[10];
 	Camera mainCamera;
+	Camera* activeCamera;
+	IDVSceneProps sceneProp;
 	XMATRIX44 View;
 	XMATRIX44 Projection;
 	XMATRIX44 Camera;
 	Timer TimeManager;
+	float deltaTime;
+	bool firstFrame;
 };
 
 #endif

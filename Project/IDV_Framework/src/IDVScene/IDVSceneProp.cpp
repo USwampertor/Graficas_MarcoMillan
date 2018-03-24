@@ -7,7 +7,10 @@ void	IDVSceneProps::AddLight(XVECTOR3 Pos, XVECTOR3 Color, bool enabled){
 	l.Enabled=(int)enabled;
 	Lights.push_back(l);
 }
-
+void	IDVSceneProps::AddCamera(Camera* cam)
+{
+	pCameras.push_back(cam);
+}
 void	IDVSceneProps::RemoveLight(unsigned int index){
 	if(index < 0 || index >= Lights.size())
 		return;

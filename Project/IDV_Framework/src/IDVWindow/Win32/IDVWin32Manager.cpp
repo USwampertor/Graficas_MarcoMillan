@@ -60,60 +60,20 @@ void IDVWin32Manager::ProcessInput() {
 		switch (evento.type) {
 		case SDL_KEYDOWN: 
 		{
-			if (evento.key.keysym.sym == SDLK_q) 
+			if (evento.key.keysym.sym == SDLK_ESCAPE) 
 			{
 				m_bAlive = false;
 			}
-			if (evento.key.keysym.sym == SDLK_w)
-			{
-				m_pApplication->iManager.KeyStates[0][119] = true;
-				printf("going front");
-			}
-			if (evento.key.keysym.sym == SDLK_a)
-			{
-				m_pApplication->iManager.KeyStates[0][97] = true;
-				printf("going left");
-			}
-			if (evento.key.keysym.sym == SDLK_s)
-			{
-				m_pApplication->iManager.KeyStates[0][115] = true;
-				printf("going back");
-			}
-			if (evento.key.keysym.sym == SDLK_d)
-			{
-				m_pApplication->iManager.KeyStates[0][100] = true;
-				printf("going right");
-			}
-			
+			m_pApplication->iManager.KeyStates[0][evento.key.keysym.sym] = true;
 		}
 		break;
-
 		case SDL_QUIT: {
 			m_bAlive = false;
 		}break;
-
 		case SDL_KEYUP: 
 		{
-			if (evento.key.keysym.sym == SDLK_w)
-			{
-				m_pApplication->iManager.KeyStates[0][119] = false;
-				printf("stopping front");
-			}
-			if (evento.key.keysym.sym == SDLK_a)
-			{
-				m_pApplication->iManager.KeyStates[0][97] = false;
-				printf("stopping left");
-			}
-			if (evento.key.keysym.sym == SDLK_s)
-			{
-				m_pApplication->iManager.KeyStates[0][115] = false;
-				printf("stopping back");
-			}
-			if (evento.key.keysym.sym == SDLK_d)
-			{
-				m_pApplication->iManager.KeyStates[0][100] = false;
-				printf("stopping right");
-			}
+			m_pApplication->iManager.KeyStates[0][evento.key.keysym.sym] = false;
+			m_pApplication->iManager.KeyStates[1][evento.key.keysym.sym] = false;
 		}
 		break;
 
@@ -124,4 +84,17 @@ void IDVWin32Manager::ProcessInput() {
 
 		}
 	}
+	static int xDelta = 0;
+	static int yDelta = 0;
+	int x = 0, y = 0;
+
+	SDL_GetMouseState(&x, &y);
+	xDelta = x - xDelta;
+	yDelta = y - yDelta;
+
+	m_pApplication->iManager.xDelta = xDelta;
+	m_pApplication->iManager.yDelta = yDelta;
+
+	xDelta = x;
+	yDelta = y;
 }

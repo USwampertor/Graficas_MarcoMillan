@@ -24,7 +24,7 @@ void Camera::Init(XVECTOR3 position, float fov, float ratio, float np, float fp,
 	MaxPitch = Deg2Rad(90.0f);
 	MaxYaw = Deg2Rad(360.0f);
 	Speed = 10;
-	Friction = 1;
+	Friction = .1f;
 	LeftHanded = lf;
 	CreatePojection();
 	Eye = position;
@@ -40,28 +40,46 @@ void Camera::SetLookAt(XVECTOR3 v)
 {
 	
 	Look = v;
-	XMatViewLookAtLH(View,Eye,Look, Up);
+	XMatViewLookAtLH(View, Eye, Look, Up);
 }
 void Camera::MoveForward(float dt)
 {
-	XMatTranslation(Position,-(dt*Speed),0,0);
-	SetLookAt(XVECTOR3(0, 0, 0));
+	XVECTOR3 moveDir = Look - Eye;
+	moveDir.Normalize();
+	Look += moveDir;
+	Eye += moveDir;
 }
 void Camera::MoveBackward(float dt)
 {
-	XMatTranslation(Position, (dt*Speed), 0, 0);
+	XVECTOR3 moveDir = Look - Eye;
+	moveDir.Normalize();
+	Look -= moveDir;
+	Eye -= moveDir;
 }
 void Camera::StrafeLeft(float dt)
 {
-	XMatTranslation(Position, 0, 0, (dt*Speed));
+	XVECTOR3 moveDir = XVECTOR3(1, 0, 0);
+	moveDir.Normalize();
+	Look -= moveDir;
+	Eye -= moveDir;
 }
 void Camera::StrafeRight(float dt)
 {
-	XMatTranslation(Position, 0, 0, -(dt*Speed));
+	XVECTOR3 moveDir = XVECTOR3(1, 0, 0);
+	moveDir.Normalize();
+	Look += moveDir;
+	Eye += moveDir;
 }
 void Camera::MoveYaw(float f)
 {
-
+	if (f = 0.0f)
+	{
+		return;
+	}
+	XMATRIX44 rotation;
+	XMatRotationAxisLH(rotation, Up, f);
+	XVecTransformNormalLH(Right,Right,rotation);
+	XVecTransformNormalLH(Look, Look, rotation);
 }
 void Camera::MovePitch(float f)
 {
@@ -74,6 +92,18 @@ void Camera::MoveRoll(float f)
 void Camera::Update(float dt)
 {
 	VP = View*Projection;
+	XMatTranslation(Position, Velocity);
+	Eye += Velocity;
+	Velocity = XVECTOR3(0, 0, 0);
+	Up = XVECTOR3(0, 1, 0);
+	XMatTranslation(Position, Look);
+	XMatViewLookAtLH(View, Eye, Look, Up);
+	Right.x = View.m11;
+	Right.y = View.m21;
+	Right.z = View.m31;
+	float lookLengthOnXZ = sqrtf(Look.z * Look.z + Look.x * Look.x);
+	Pitch = atan2f(Look.y, lookLengthOnXZ);
+	Yaw = atan2f(Look.x, Look.z);
 }
 void Camera::Reset()
 {
@@ -81,11 +111,11 @@ void Camera::Reset()
 }
 void Camera::SetFov(float f)
 {
-
+	
 }
 void Camera::SetRatio(float r)
 {
-
+	AspectRatio = r;
 }
 void Camera::SetPlanes(float n, float f)
 {

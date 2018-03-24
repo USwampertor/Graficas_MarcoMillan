@@ -49,7 +49,7 @@ public:
 	XVECTOR3	Look;
 	XVECTOR3	Right;
 	XVECTOR3	Up;
-
+	XVECTOR3	LookAt;
 	XVECTOR3	Velocity;
 
 	XMATRIX44	Position;

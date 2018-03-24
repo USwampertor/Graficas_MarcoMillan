@@ -1,22 +1,49 @@
 #include <IDVUtils/InputManager.h>
 InputManager::InputManager()
 {
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < MAXKEYS; j++) {
+			KeyStates[i][j] = false;
+		}
 
+		for (int j = 0; j < MAXMOUSEBUTTONS; j++) {
+			MouseButtonStates[i][j] = false;
+		}
+	}
+	xDelta = 0;
+	yDelta = 0;
 }
 bool InputManager::PressedOnceKey(int key)
 {
-	return true;
+	bool ret = KeyStates[0][key];
+
+	if (!KeyStates[1][key] && KeyStates[0][key]) {
+		KeyStates[1][key] = true;
+	}
+	else {
+		ret = false;
+	}
+
+	return ret;
 }
 bool InputManager::PressedOnceMouseButton(int mb)
 {
-	return true;
+	bool ret = MouseButtonStates[0][mb];
+
+	if (!MouseButtonStates[1][mb] && MouseButtonStates[0][mb]) {
+		MouseButtonStates[1][mb] = true;
+	}
+	else {
+		ret = false;
+	}
+
+	return ret;
 }
 bool InputManager::PressedKey(int key)
 {
-	return true;
+	return KeyStates[0][key];
 }
 bool InputManager::PressedMouseButton(int mb)
 {
-	return true;
-
+	return MouseButtonStates[0][mb];
 }
