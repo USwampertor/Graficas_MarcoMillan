@@ -36,6 +36,18 @@ int IDVPrimitiveManager::CreateMesh()
 	primitives.push_back(primitive);
 	return (int)(primitives.size() - 1);
 }
+int IDVPrimitiveManager::CreateMesh(std::string link)
+{
+	IDVPrimitiveBase *primitive = 0;
+
+	if (this->SelectedApi == IDVAPI::OPENGL)
+		primitive = new GLMesh();
+	else
+		primitive = new D3DXMesh();
+	primitive->Create(link);
+	primitives.push_back(primitive);
+	return (int)(primitives.size() - 1);
+}
 void IDVPrimitiveManager::SetSceneProps(IDVSceneProps *p) {
 	for (unsigned int i = 0; i < primitives.size(); i++) {
 		primitives[i]->SetSceneProps(p);

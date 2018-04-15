@@ -28,6 +28,7 @@ public:
 	Timer TimeManager;
 	float deltaTime;
 	bool firstFrame;
+	int instancesInScene;
 };
 
 #endif
