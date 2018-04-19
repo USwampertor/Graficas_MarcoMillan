@@ -243,7 +243,7 @@ void XMatPerspectiveLH(XMATRIX44 &mpout, const float &FOV, const float &Aspect, 
 	mpout.m[2][2] = FarPlane / (FarPlane - NearPlane);
 	mpout.m[2][3] = 1.0;
 	mpout.m[3][2] = -(NearPlane*FarPlane) / (FarPlane - NearPlane);
-	mpout.m[3][3] = 0.0f;
+	//mpout.m[3][3] = 0.0f;
 
 }
 

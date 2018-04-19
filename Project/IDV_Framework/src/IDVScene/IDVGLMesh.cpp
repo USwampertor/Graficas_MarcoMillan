@@ -112,6 +112,7 @@ void GLMesh::Draw(float *t, float *vp) {
 			glUniformMatrix4fv(s->matWorldViewUniformLoc, 1, GL_FALSE, &WV.m[0][0]);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, subinfo.Id);
+
 			auto it = this->textureBuffer.find(pactual.txtbuffer[j]);
 			GLTexture *texgl = dynamic_cast<GLTexture*>(it->second);
 			glActiveTexture(GL_TEXTURE0);
@@ -121,8 +122,9 @@ void GLMesh::Draw(float *t, float *vp) {
 			auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
 			GLTexture *nrmgl = dynamic_cast<GLTexture*>(nm->second);
 			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, nrmgl->id);
+			glBindTexture(GL_NORMAL_MAP, nrmgl->id);
 			glUniform1i(s->normalAttribLoc, 1);
+
 			glEnableVertexAttribArray(s->vertexAttribLoc);
 			glVertexAttribPointer(s->vertexAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(0));
 			glEnableVertexAttribArray(s->normalAttribLoc);

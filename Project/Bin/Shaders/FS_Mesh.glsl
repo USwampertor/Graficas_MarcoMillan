@@ -11,9 +11,9 @@ uniform mediump sampler2D tex0;
 uniform mediump sampler2D tex1;
 
 void main(){
-	highp vec3 TexNormal = normalize(2.0f * texture2D(tex1, vecUVCoords).xyz - 1.0f).xyz;
-	highp vec3 TexColor = texture2D(tex0, vecUVCoords).xyz;
+	highp vec3 TexColor  = texture2D(tex0, vecUVCoords).xyz;
+	highp vec3 TexNormal = normalize(2.0f * texture2D(tex1, vecUVCoords).xyz - 1.0f);
 	highp vec3 Normal = normalize(TBN*TexNormal);
-	gl_FragColor = highp vec4(TexNormal,1.0f);
+	gl_FragColor = highp vec4(Normal, 1.0f);
 }
 

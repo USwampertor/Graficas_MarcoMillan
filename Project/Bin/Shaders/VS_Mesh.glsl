@@ -16,7 +16,7 @@ uniform highp mat4 WorldView;
 
 
 void main(){
-	vecUVCoords = UV;	
+	vecUVCoords = UV;
 	Norm = Normal.xyzw;
 	Pos = WVP*Vertex;
 	TBN[0] = normalize(World*Tangent).xyz;
