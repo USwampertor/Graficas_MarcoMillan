@@ -8,6 +8,8 @@
 Parser::Parser()
 {
 	txtfile = "TextureFilename";
+	nrmfile = "\"normalMap\";";
+	effect = "EffectParamString";
 	diffuse = "Diffuse";
 	dfltstring = "String";
 	dfltbreakingpoint = "TextureFilename";
@@ -26,7 +28,8 @@ bool Parser::Load(std::string filename)
 	std::vector<vertex>::iterator itvert;
 	std::vector<uv>::iterator ituv;
 	std::vector<normals>::iterator itnormals;
-	
+	std::vector<metaobject>::iterator ittan;
+	std::vector<metaobject>::iterator itbin;
 	
 	std::cout << ".";
 	std::ifstream mreader;
@@ -215,10 +218,29 @@ bool Parser::Load(std::string filename)
 		bool cycle = true;
 		for (unsigned int i = 0; i < actual.matInMesh; i++)
 		{
+			std::string normal;
 			std::string texture;
 			while (cycle)
 			{
 				mreader >> a;
+				if (a == effect)
+				{
+					mreader >> c >> a;
+					if (a == nrmfile)
+					{
+						char brake = 92;
+						mreader >> std::quoted(a);
+						if (a.find_last_of(brake) != std::string::npos)
+						{
+							int last = a.find_last_of(brake);
+							normal = a.substr(last, a.size() - last);
+						}
+						else
+							normal = a;
+					}
+				}
+
+
 				if (a==txtfile)
 				{
 					mreader >> a;
@@ -239,15 +261,20 @@ bool Parser::Load(std::string filename)
 			else
 				texture = a;
 			actual.txtbuffer.push_back(texture);
+			actual.nrmFileBuffer.push_back(normal);
 		}
 		///Finished to get all shit from a mesh, now going to put all shits in the mesh
 		for (itvert = vertexbuffer.begin(),
 			ituv = uvbuffer.begin(),
+			ittan = actual.MeshMeta[0].submeta.begin(),
+			itbin = actual.MeshMeta[1].submeta.begin(),
 			itnormals = actual.MeshNorm.begin();
 			itvert != vertexbuffer.end() &&
 			ituv != uvbuffer.end() &&
-			itnormals != actual.MeshNorm.end() ;
-			itvert++, ituv++, itnormals++
+			ittan != actual.MeshMeta[0].submeta.end() &&
+			itbin != actual.MeshMeta[1].submeta.end() &&
+			itnormals != actual.MeshNorm.end();
+			itvert++, ituv++, ittan++, itbin++, itnormals++
 			)
 		{
 			vertex vpc;
@@ -259,10 +286,19 @@ bool Parser::Load(std::string filename)
 			vpc.ny = (*itnormals).ny;
 			vpc.nz = (*itnormals).nz;
 			vpc.nw = (*itnormals).nw;
+			vpc.tx = (*ittan).mx;
+			vpc.ty = (*ittan).my;
+			vpc.tz = (*ittan).mz;
+			vpc.bx = (*itbin).mx;
+			vpc.by = (*itbin).my;
+			vpc.bz = (*itbin).mz;
 			vpc.u = (*ituv).u;
 			vpc.v = (*ituv).v;
 			actual.MeshVec.push_back(vpc);
 		}
+		
+
+
 		meshesTotal.push_back(actual);
 	}
 	

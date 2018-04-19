@@ -37,7 +37,9 @@ public:
 	Parser			MeshParser;
 	int			 TexId;
 	Texture		*pTexture;
+	Texture		*pNormal;
 	std::map<std::string, Texture*> textureBuffer;
+	std::map<std::string, Texture*> normalBuffer;
 };
 
 #endif

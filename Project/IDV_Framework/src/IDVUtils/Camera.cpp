@@ -86,11 +86,11 @@ void	Camera::MoveDown(float dt)
 }
 void	Camera::TurnLeft(float dt)
 {
-	Velocity -= Right*dt*2;
+	Velocity -= Right*dt*20;
 }
 void	Camera::TurnRight(float dt)
 {
-	Velocity += Right*dt*2;
+	Velocity += Right*dt*20;
 }
 void	Camera::TurnUp(float dt)
 {
@@ -144,7 +144,6 @@ void Camera::Update(float dt)
 	XMatTranslation(Position, Velocity);
 	Eye += Velocity;
 	Velocity = XVECTOR3(0, 0, 0);
-	//LookAt = Eye + Look;
 	Up = XVECTOR3(0, 1, 0);
 	XMatTranslation(Position, Look);
 	XMatViewLookAtLH(View, Eye, Look, Up);

@@ -17,7 +17,7 @@ void IDVTestApplication::InitVars()
 void IDVTestApplication::CreateAssets() {
 	IDVPrimitiveMgr = new IDVPrimitiveManager(m_pWindow->m_pVideoDriver->SelectedApi);
 	
-	std::string alfa = "Models/Scene.X ";
+	std::string alfa = "Models/Pig.X ";
 	int index = IDVPrimitiveMgr->CreateMesh(alfa);
 	Mesh[0].CreateInstance(IDVPrimitiveMgr->GetPrimitive(index), &activeCamera->VP);
 	instancesInScene++;

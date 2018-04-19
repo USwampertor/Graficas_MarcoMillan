@@ -44,13 +44,18 @@ void GLMesh::Create(std::string link) {
 		for (int j = 0; j < pactual.matInMesh; j++)
 		{
 			SubsetInfo tmp_subset;
+			//texture
 			pTexture = new GLTexture;
-
 			TexId = pTexture->LoadTexture(pactual.txtbuffer[j].c_str());
-
 			if (TexId == -1) {
 				delete pTexture;
-			}
+			}//
+			//normal
+			pNormal = new GLTexture;
+			TexId = pNormal->LoadTexture(pactual.nrmFileBuffer[j].c_str());
+			if (TexId == -1) {
+				delete pNormal;
+			}//
 			glGenBuffers(1, &tmp_subset.Id);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tmp_subset.Id);
 			glBufferData(
@@ -59,9 +64,10 @@ void GLMesh::Create(std::string link) {
 				&pactual.MeshMat[j].mtlBuffer[0],
 				GL_STATIC_DRAW);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 			tmp.SubSets.push_back(tmp_subset);
 			textureBuffer.insert(std::make_pair(pactual.txtbuffer[j], (pTexture)));
-
+			normalBuffer.insert(std::make_pair(pactual.nrmFileBuffer[j], (pNormal)));
 		}
 		Mesh_Info.push_back(tmp);
 	}
@@ -82,16 +88,6 @@ void GLMesh::Draw(float *t, float *vp) {
 		MeshInfo drawinfo = Mesh_Info[i];
 		Parser::mesh pactual = MeshParser.meshesTotal[i];
 		
-		/*XMATRIX44 Scale;
-		XMATRIX44 View;
-		XMATRIX44 Projection;
-		XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 100.0f, 0.0f));
-		XMatPerspectiveLH(Projection, Deg2Rad(100.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
-		XMatScaling(Scale, 0.5f, 0.5f, 0.5f);
-
-		XMATRIX44 VP = vp;
-		XMATRIX44 WV = vp;
-		XMATRIX44 WVP = Scale*View*Projection;*/
 		XMATRIX44 World = static_cast<XMATRIX44>(t);
 		XMATRIX44 VP = static_cast<XMATRIX44>(vp);
 		XMATRIX44 WV = transform;
@@ -121,14 +117,23 @@ void GLMesh::Draw(float *t, float *vp) {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texgl->id);
 			glUniform1i(s->DiffuseTex_loc, 0);
-
+			
+			auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
+			GLTexture *nrmgl = dynamic_cast<GLTexture*>(nm->second);
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, nrmgl->id);
+			glUniform1i(s->normalAttribLoc, 1);
 			glEnableVertexAttribArray(s->vertexAttribLoc);
 			glVertexAttribPointer(s->vertexAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(0));
 			glEnableVertexAttribArray(s->normalAttribLoc);
 			glVertexAttribPointer(s->normalAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(16));
+			glEnableVertexAttribArray(s->tangentAttribLoc);
+			glVertexAttribPointer(s->tangentAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(32));
+			glEnableVertexAttribArray(s->binormalAttribLoc);
+			glVertexAttribPointer(s->binormalAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(48));
 			glEnableVertexAttribArray(s->uvAttribLoc);
-			glVertexAttribPointer(s->uvAttribLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(32));
-
+			glVertexAttribPointer(s->uvAttribLoc, 2, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(64));
+			
 			glDrawElements(GL_TRIANGLES, pactual.MeshMat[j].mtlBuffer.size(), GL_UNSIGNED_SHORT, 0);
 		}
 		
