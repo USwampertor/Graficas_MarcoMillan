@@ -6,21 +6,25 @@ void IDVPrimitiveInst::TranslateAbsolute(float x, float y, float z){
 }
 
 void IDVPrimitiveInst::RotateXAbsolute(float ang) {
+	RotationX.Identity();
 	XMatRotationXLH(RotationX, Deg2Rad(ang));
 	//D3DXMatrixRotationX(&RotationX, D3DXToRadian(ang));
 }
 
 void IDVPrimitiveInst::RotateYAbsolute(float ang) {
+	RotationY.Identity();
 	XMatRotationYLH(RotationY, Deg2Rad(ang));
 	//D3DXMatrixRotationY(&RotationY, D3DXToRadian(ang));
 }
 
 void IDVPrimitiveInst::RotateZAbsolute(float ang) {
+	RotationZ.Identity();
 	XMatRotationZLH(RotationZ, Deg2Rad(ang));
 	//D3DXMatrixRotationZ(&RotationZ, D3DXToRadian(ang));
 }
 
 void IDVPrimitiveInst::ScaleAbsolute(float sc) {
+	Scale.Identity();
 	XMatScaling(Scale, sc, sc, sc);
 	//D3DXMatrixScaling(&Scale,sc,sc,sc);
 }

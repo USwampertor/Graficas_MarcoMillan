@@ -17,7 +17,7 @@ void IDVTestApplication::InitVars()
 void IDVTestApplication::CreateAssets() {
 	IDVPrimitiveMgr = new IDVPrimitiveManager(m_pWindow->m_pVideoDriver->SelectedApi);
 	
-	std::string alfa = "Models/Pig.X ";
+	std::string alfa = "Models/CerdoNuevo.X ";
 	int index = IDVPrimitiveMgr->CreateMesh(alfa);
 	Mesh[0].CreateInstance(IDVPrimitiveMgr->GetPrimitive(index), &activeCamera->VP);
 	instancesInScene++;
@@ -39,6 +39,13 @@ void IDVTestApplication::OnUpdate() {
 	TimeManager.Update();
 	deltaTime = TimeManager.GetDTSecs();
 	OnInput();
+
+	Mesh[0].ScaleAbsolute(4.0f);
+	Mesh[0].RotateXAbsolute(0.0f);
+	Mesh[0].RotateZAbsolute(90.0f);
+	Mesh[0].RotateYAbsolute(90.0f);
+	Mesh[0].Update();
+
 	activeCamera->Update(deltaTime);
 	
 	
