@@ -93,6 +93,7 @@ void GLMesh::Draw(float *t, float *vp) {
 		XMATRIX44 WV = transform;
 		XMATRIX44 WVP = World*VP;
 
+
 		unsigned int sig = SigBase;
 		sig |= gSig;
 		IDVGLShader * s = 0;
@@ -103,8 +104,7 @@ void GLMesh::Draw(float *t, float *vp) {
 		{
 			SubsetInfo subinfo = drawinfo.SubSets[j];
 			s = dynamic_cast<IDVGLShader*>(g_pBaseDriver->GetShaderSig(sig));
-			
-			
+						
 			glUseProgram(s->ShaderProg);
 			
 			glUniformMatrix4fv(s->matWorldUniformLoc, 1, GL_FALSE, &transform.m[0][0]);
@@ -117,13 +117,13 @@ void GLMesh::Draw(float *t, float *vp) {
 			GLTexture *texgl = dynamic_cast<GLTexture*>(it->second);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texgl->id);
-			glUniform1i(s->DiffuseTex_loc, 0);
+			glUniform1i(s->tex0_loc, 0);
 			
 			auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
 			GLTexture *nrmgl = dynamic_cast<GLTexture*>(nm->second);
 			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_NORMAL_MAP, nrmgl->id);
-			glUniform1i(s->normalAttribLoc, 1);
+			glBindTexture(GL_TEXTURE_2D, nrmgl->id);
+			glUniform1i(s->tex1_loc, 1);
 
 			glEnableVertexAttribArray(s->vertexAttribLoc);
 			glVertexAttribPointer(s->vertexAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(0));

@@ -5,9 +5,10 @@ attribute highp vec4 Tangent;
 attribute highp vec4 Binormal;
 
 varying highp vec2 vecUVCoords;
-varying highp vec4 Norm;
+varying highp vec4 hNormal;
 varying highp vec4 Pos;
-varying highp mat3 TBN;
+varying highp vec4 hTangent;
+varying highp vec4 hBinormal;
 
 uniform highp mat4 WVP;
 uniform highp mat4 World;
@@ -17,11 +18,11 @@ uniform highp mat4 WorldView;
 
 void main(){
 	vecUVCoords = UV;
-	Norm = Normal.xyzw;
-	Pos = WVP*Vertex;
-	TBN[0] = normalize(World*Tangent).xyz;
-	TBN[1] = normalize(World*Binormal).xyz;
-	TBN[2] = normalize(World*Norm).xyz;
-	gl_Position = Pos;
+	Pos = World*Vertex;
+	highp mat3 WorldRot = mat3(World);
+	hTangent  =  vec4(WorldRot*Tangent.xyz,1.0);
+	hBinormal =  vec4(WorldRot*Binormal.xyz,1.0);
+	hNormal   =  vec4(WorldRot*Normal.xyz,1.0);
+	gl_Position = WVP*Vertex; 
 	//vec3 VectorLight = normalize(PointLight-Pos);
 }
