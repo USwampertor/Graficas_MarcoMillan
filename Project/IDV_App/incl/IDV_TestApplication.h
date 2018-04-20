@@ -3,6 +3,7 @@
 #include <IDVMath.h>
 #include <IDVBase/IDVCoreBase.h>
 #include <IDVScene/IDVPrimitiveManager.h>
+#include <IDVScene/IDVSceneProp.h>
 #include <IDVScene/IDVPrimitiveInstance.h>
 #include <IDVUtils/Camera.h>
 #include <IDVUtils/Timer.h>
@@ -21,6 +22,7 @@ public:
 	IDVPrimitiveInst	Mesh[10];
 	Camera mainCamera;
 	Camera* activeCamera;
+	IDVLight *Light;
 	IDVSceneProps sceneProp;
 	XMATRIX44 View;
 	XMATRIX44 Projection;

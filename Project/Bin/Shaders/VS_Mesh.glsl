@@ -13,8 +13,8 @@ varying highp vec4 hBinormal;
 uniform highp mat4 WVP;
 uniform highp mat4 World;
 uniform highp mat4 WorldView;
-//uniform highp vec3 PointLight;
 
+uniform highp vec4 LightPositions;
 
 void main(){
 	vecUVCoords = UV;

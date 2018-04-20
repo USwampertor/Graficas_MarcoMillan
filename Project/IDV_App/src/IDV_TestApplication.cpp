@@ -11,6 +11,8 @@ void IDVTestApplication::InitVars()
 	mainCamera.Update(0.0f);
 	activeCamera = &mainCamera;
 	sceneProp.AddCamera(activeCamera);
+	sceneProp.AddLight(XVECTOR3(0.0f, 0.0f, 0.0f), XVECTOR3(1.0f, 1.0f, 1.0f), true);
+	Light = &sceneProp.Lights[0];
 	firstFrame = true;
 }
 
@@ -45,6 +47,9 @@ void IDVTestApplication::OnUpdate() {
 	Mesh[0].RotateZAbsolute(90.0f);
 	Mesh[0].RotateYAbsolute(90.0f);
 	Mesh[0].Update();
+
+	
+
 
 	activeCamera->Update(deltaTime);
 	
@@ -94,6 +99,25 @@ void IDVTestApplication::OnInput() {
 
 	if (iManager.PressedKey(T800K_f))
 		activeCamera->TurnDown(deltaTime);
+
+
+	if (iManager.PressedKey(T800K_UP))
+		Light->Position.y += 1.0 * deltaTime;
+
+	if (iManager.PressedKey(T800K_DOWN))
+		Light->Position.y -= 1.0 * deltaTime;
+
+	if (iManager.PressedKey(T800K_LEFT))
+		Light->Position.x -= 1.0 * deltaTime;
+
+	if (iManager.PressedKey(T800K_RIGHT))
+		Light->Position.x += 1.0 * deltaTime;
+
+	if (iManager.PressedKey(T800K_KP1))
+		Light->Position.z -= 1.0 * deltaTime;
+
+	if (iManager.PressedKey(T800K_KP2))
+		Light->Position.z += 1.0 * deltaTime;
 
 	float yaw = 0.01f*static_cast<float>(iManager.xDelta);
 	float pitch = 0.01f*static_cast<float>(iManager.yDelta);

@@ -106,6 +106,10 @@ void GLMesh::Draw(float *t, float *vp) {
 			s = dynamic_cast<IDVGLShader*>(g_pBaseDriver->GetShaderSig(sig));
 						
 			glUseProgram(s->ShaderProg);
+
+			if (s->LightPositions_Loc != -1) {
+				glUniform4fv(s->LightPositions_Loc, 1, &pScProp->Lights[0].Position.v[0]);
+			}
 			
 			glUniformMatrix4fv(s->matWorldUniformLoc, 1, GL_FALSE, &transform.m[0][0]);
 			glUniformMatrix4fv(s->matWorldViewProjUniformLoc, 1, GL_FALSE, &WVP.m[0][0]);

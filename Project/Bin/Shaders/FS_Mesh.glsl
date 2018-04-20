@@ -11,6 +11,8 @@ varying highp vec4 hBinormal;
 uniform mediump sampler2D tex0;
 uniform mediump sampler2D tex1;
 
+uniform highp vec4 LightPositions;
+
 void main(){
 	highp vec3 TexColor  = texture2D(tex0, vecUVCoords).xyz;
 	highp vec3 TexNormal = texture2D(tex1, vecUVCoords).xyz;
