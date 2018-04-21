@@ -122,7 +122,7 @@ void GLMesh::Draw(float *t, float *vp) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, subinfo.Id);
 
 			auto it = this->textureBuffer.find(pactual.txtbuffer[j]);
-			if (it != textureBuffer.end()||it->first.size()>3)
+			if (it != textureBuffer.end())
 			{
 				GLTexture *texgl = dynamic_cast<GLTexture*>(it->second);
 				glActiveTexture(GL_TEXTURE0);
@@ -131,7 +131,7 @@ void GLMesh::Draw(float *t, float *vp) {
 			}
 			
 			auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
-			if (it != textureBuffer.end() || it->first.size()>3)
+			if (it != textureBuffer.end())
 			{
 				GLTexture *nrmgl = dynamic_cast<GLTexture*>(nm->second);
 				glActiveTexture(GL_TEXTURE1);

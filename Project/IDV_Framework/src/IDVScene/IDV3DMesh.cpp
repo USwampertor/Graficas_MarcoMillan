@@ -11,7 +11,9 @@ extern ComPtr<ID3D11DeviceContext>     D3D11DeviceContext;
 void D3DXMesh::Create(std::string link) {
 	
 	HRESULT hr;
-	SigBase = IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS;
+	SigBase = 
+		IDVSig::HAS_TEXCOORDS0 | IDVSig::HAS_NORMALS | 
+		IDVSig::HAS_TANGENTS | IDVSig::HAS_BINORMALS;
 	
 	std::cout << "Creating Mesh..." << std::endl;
 	char *vsSourceP = file2string("Shaders/VS_Mesh.hlsl");
@@ -93,18 +95,19 @@ void D3DXMesh::Create(std::string link) {
 		Mesh_Info.push_back(tmp);
 
 	}
-		D3D11_SAMPLER_DESC sdesc;
-		sdesc.Filter = D3D11_FILTER_ANISOTROPIC;
-		sdesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-		sdesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-		sdesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-		sdesc.MinLOD = 0;
-		sdesc.MaxLOD = D3D11_FLOAT32_MAX;
-		sdesc.MipLODBias = 0.0f;
-		sdesc.MaxAnisotropy = 1;
-		sdesc.BorderColor[0] = sdesc.BorderColor[1] = sdesc.BorderColor[2] = sdesc.BorderColor[3] = 0;
-		D3D11Device->CreateSamplerState(&sdesc, pSampler.GetAddressOf());
-		std::cout << "Finished creating mesh..." << std::endl;
+	std::cout << "finished mesh" << std::endl;
+	D3D11_SAMPLER_DESC sdesc;
+	sdesc.Filter = D3D11_FILTER_ANISOTROPIC;
+	sdesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sdesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sdesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sdesc.MinLOD = 0;
+	sdesc.MaxLOD = D3D11_FLOAT32_MAX;
+	sdesc.MipLODBias = 0.0f;
+	sdesc.MaxAnisotropy = 1;
+	sdesc.BorderColor[0] = sdesc.BorderColor[1] = sdesc.BorderColor[2] = sdesc.BorderColor[3] = 0;
+	D3D11Device->CreateSamplerState(&sdesc, pSampler.GetAddressOf());
+	std::cout << "Finished creating mesh..." << std::endl;
 }
 
 void D3DXMesh::Transform(float *t) {
@@ -148,7 +151,7 @@ void D3DXMesh::Draw(float *t, float *vp) {
 			D3D11DeviceContext->UpdateSubresource(pd3dConstantBuffer.Get(), 0, 0, &CnstBuffer, 0, 0);
 			
 			auto it = this->textureBuffer.find(pactual.txtbuffer[j]);
-			if (it != textureBuffer.end() || it->first.size() > 3)
+			if (it != textureBuffer.end())
 			{
 				D3DXTexture *texd3d = dynamic_cast<D3DXTexture*>(it->second);
 				D3D11DeviceContext->PSSetShaderResources(0, 1, texd3d->pSRVTex.GetAddressOf());
@@ -156,14 +159,14 @@ void D3DXMesh::Draw(float *t, float *vp) {
 
 			}
 
-			/*auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
-			if (nm != textureBuffer.end() || nm->first.size() > 3)
+			auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
+			if (nm != normalBuffer.end())
 			{
 				D3DXTexture *nrm3d = dynamic_cast<D3DXTexture*>(nm->second);
-				D3D11DeviceContext->PSSetShaderResources(0, 1, nrm3d->pSRVTex.GetAddressOf());
-				D3D11DeviceContext->PSSetSamplers(0, 1, nrm3d->pSampler.GetAddressOf());
+				D3D11DeviceContext->PSSetShaderResources(1, 1, nrm3d->pSRVTex.GetAddressOf());
+				D3D11DeviceContext->PSSetSamplers(1, 1, nrm3d->pSampler.GetAddressOf());
 
-			}*/
+			}
 
 			D3D11DeviceContext->VSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
 			D3D11DeviceContext->PSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());

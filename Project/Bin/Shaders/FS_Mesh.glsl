@@ -23,10 +23,11 @@ void main(){
 	highp vec3 _Normal = normalize(hNormal);
 	
 	highp vec4 LightVec = normalize(LightPositions-Pos);
-	highp float Att = clamp(dot(LightVec,_Normal),0.0,1.0);
-	highp vec3 color = Att*TexColor;
 	highp mat3 TBN = mat3(Tangent,Binormal,_Normal);
 	highp vec3 Normal = normalize(TBN*TexNormal);
+	highp float Att = clamp(dot(LightVec,Normal),0.0,1.0);
+	highp vec3 color = Att*TexColor;
+	
 	gl_FragColor = vec4(color, 1.0);
 }
 

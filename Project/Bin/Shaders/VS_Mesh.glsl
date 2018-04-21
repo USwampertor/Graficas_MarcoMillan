@@ -4,11 +4,12 @@ attribute highp vec2 UV;
 attribute highp vec4 Tangent;
 attribute highp vec4 Binormal;
 
+varying highp vec4 hTangent;
+varying highp vec4 hBinormal;
 varying highp vec2 vecUVCoords;
 varying highp vec4 hNormal;
 varying highp vec4 Pos;
-varying highp vec4 hTangent;
-varying highp vec4 hBinormal;
+
 
 uniform highp mat4 WVP;
 uniform highp mat4 World;
