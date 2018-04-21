@@ -138,7 +138,7 @@ void D3DXMesh::Draw(float *t, float *vp) {
 		CnstBuffer.World = transform;
 		CnstBuffer.WVP = World*VP;
 		CnstBuffer.WorldView = transform;
-		
+		CnstBuffer.LightPositions = pScProp->Lights[0].Position;
 		unsigned int sig = SigBase;
 		sig |= gSig;
 		UINT offset = 0;

@@ -1,6 +1,7 @@
 uniform highp mat4 WVP;
 uniform highp mat4 World;
 uniform highp mat4 WorldView;
+uniform highp vec4 LightPositions;
 
 varying highp vec2 vecUVCoords;
 varying highp vec4 hNormal;
@@ -10,7 +11,7 @@ varying highp vec4 hBinormal;
 
 uniform mediump sampler2D tex0;
 uniform mediump sampler2D tex1;
-uniform highp vec4 LightPositions;
+
 
 void main(){
 	highp vec3 TexColor  = texture2D(tex0, vecUVCoords).xyz;
