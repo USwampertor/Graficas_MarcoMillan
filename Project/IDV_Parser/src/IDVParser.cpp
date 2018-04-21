@@ -233,7 +233,7 @@ bool Parser::Load(std::string filename)
 						if (a.find_last_of(brake) != std::string::npos)
 						{
 							int last = a.find_last_of(brake);
-							normal = a.substr(last, a.size() - last);
+							normal = a.substr(last+1, a.size() - last);
 						}
 						else
 							normal = a;
@@ -256,7 +256,7 @@ bool Parser::Load(std::string filename)
 			if (a.find_last_of(brake)!= std::string::npos)
 			{
 				int last = a.find_last_of(brake);
-				texture = a.substr(last, a.size()-last);
+				texture = a.substr(last+1, a.size()-last);
 			}
 			else
 				texture = a;

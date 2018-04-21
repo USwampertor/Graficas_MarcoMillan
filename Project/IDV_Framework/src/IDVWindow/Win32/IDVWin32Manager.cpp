@@ -23,8 +23,8 @@ void IDVWin32Manager::OnCreateApplication() {
 	if (SDL_SetVideoMode(1280, height, 32, SDL_HWSURFACE | SDL_OPENGL | SDL_RESIZABLE) == 0) {
 		printf("Video mode set failed: %s\n", SDL_GetError());
 	}
-	m_pVideoDriver = new IDVGLDriver();
-//	m_pVideoDriver = new IDVD3DXDriver();
+//	m_pVideoDriver = new IDVGLDriver();
+	m_pVideoDriver = new IDVD3DXDriver();
 
 	m_pVideoDriver->SetDimensions(width, height);
 
@@ -48,7 +48,6 @@ void IDVWin32Manager::UpdateApplication() {
 		ProcessInput();
 		m_pApplication->OnInput();
 		m_pApplication->OnUpdate();
-		
 	}
 }
 

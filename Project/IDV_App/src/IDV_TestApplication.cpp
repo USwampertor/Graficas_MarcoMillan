@@ -11,7 +11,7 @@ void IDVTestApplication::InitVars()
 	mainCamera.Update(0.0f);
 	activeCamera = &mainCamera;
 	sceneProp.AddCamera(activeCamera);
-	sceneProp.AddLight(XVECTOR3(0.0f, 0.0f, 0.0f), XVECTOR3(1.0f, 1.0f, 1.0f), true);
+	sceneProp.AddLight(XVECTOR3(0.0f, 1.0f, -8.0f), XVECTOR3(1.0f, 1.0f, 1.0f), true);
 	Light = &sceneProp.Lights[0];
 	firstFrame = true;
 }
@@ -19,16 +19,20 @@ void IDVTestApplication::InitVars()
 void IDVTestApplication::CreateAssets() {
 	IDVPrimitiveMgr = new IDVPrimitiveManager(m_pWindow->m_pVideoDriver->SelectedApi);
 	
-	std::string alfa = "Models/CerdoNuevo.X ";
-	int index = IDVPrimitiveMgr->CreateMesh(alfa);
+	std::string alfa = "Models/Scene.X ";
+	int index = IDVPrimitiveMgr->CreateMesh(alfa,&sceneProp);
 	Mesh[0].CreateInstance(IDVPrimitiveMgr->GetPrimitive(index), &activeCamera->VP);
 	instancesInScene++;
-	/*alfa = "Models/Pig.X ";
-	index = IDVPrimitiveMgr->CreateMesh(alfa);
+	alfa = "Models/CerdoNuevo.X ";
+	index = IDVPrimitiveMgr->CreateMesh(alfa,&sceneProp);
 	Mesh[1].CreateInstance(IDVPrimitiveMgr->GetPrimitive(index), &activeCamera->VP);
-	instancesInScene++;*/
-
+	instancesInScene++;
 	IDVPrimitiveMgr->SetSceneProps(&sceneProp);
+	/*alfa = "Models/CerdoNuevo.X ";
+	index = IDVPrimitiveMgr->CreateMesh(alfa, &sceneProp);
+	Mesh[2].CreateInstance(IDVPrimitiveMgr->GetPrimitive(index), &activeCamera->VP);
+	instancesInScene++;
+	IDVPrimitiveMgr->SetSceneProps(&sceneProp);*/
 
 }
 
@@ -42,18 +46,18 @@ void IDVTestApplication::OnUpdate() {
 	deltaTime = TimeManager.GetDTSecs();
 	OnInput();
 
-	Mesh[0].ScaleAbsolute(4.0f);
-	Mesh[0].RotateXAbsolute(0.0f);
-	Mesh[0].RotateZAbsolute(90.0f);
-	Mesh[0].RotateYAbsolute(90.0f);
-	Mesh[0].Update();
+	Mesh[1].ScaleAbsolute(4.0f);
+	Mesh[1].RotateXAbsolute(0.0f);
+	Mesh[1].RotateZAbsolute(90.0f);
+	Mesh[1].RotateYAbsolute(90.0f);
+	Mesh[1].Update();
 
 	
 
 
 	activeCamera->Update(deltaTime);
-	
-	
+	/*Mesh[0].TranslateAbsolute(Light->Position.x, Light->Position.y, Light->Position.z);
+	Mesh[0].Update();*/
 
 	OnDraw();
 }
@@ -102,23 +106,22 @@ void IDVTestApplication::OnInput() {
 
 
 	if (iManager.PressedKey(T800K_UP))
-		Light->Position.y += 1.0 * deltaTime;
+		Light->Position.y += 10.0 * deltaTime;
 
 	if (iManager.PressedKey(T800K_DOWN))
-		Light->Position.y -= 1.0 * deltaTime;
+		Light->Position.y -= 10.0 * deltaTime;
 
 	if (iManager.PressedKey(T800K_LEFT))
-		Light->Position.x -= 1.0 * deltaTime;
+		Light->Position.x -= 10.0 * deltaTime;
 
 	if (iManager.PressedKey(T800K_RIGHT))
-		Light->Position.x += 1.0 * deltaTime;
+		Light->Position.x += 10.0 * deltaTime;
 
 	if (iManager.PressedKey(T800K_KP1))
-		Light->Position.z -= 1.0 * deltaTime;
+		Light->Position.z -= 10.0 * deltaTime;
 
 	if (iManager.PressedKey(T800K_KP2))
-		Light->Position.z += 1.0 * deltaTime;
-
+		Light->Position.z += 10.0 * deltaTime;
 	float yaw = 0.01f*static_cast<float>(iManager.xDelta);
 	float pitch = 0.01f*static_cast<float>(iManager.yDelta);
 	activeCamera->MovePitch(Deg2Rad(pitch));

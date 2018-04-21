@@ -13,7 +13,6 @@ varying highp vec4 hBinormal;
 uniform highp mat4 WVP;
 uniform highp mat4 World;
 uniform highp mat4 WorldView;
-
 uniform highp vec4 LightPositions;
 
 void main(){
@@ -23,6 +22,5 @@ void main(){
 	hTangent  =  vec4(WorldRot*Tangent.xyz,1.0);
 	hBinormal =  vec4(WorldRot*Binormal.xyz,1.0);
 	hNormal   =  vec4(WorldRot*Normal.xyz,1.0);
-	gl_Position = WVP*Vertex; 
-	//vec3 VectorLight = normalize(PointLight-Pos);
+	gl_Position = WVP*Vertex;
 }

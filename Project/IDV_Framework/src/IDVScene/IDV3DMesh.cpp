@@ -28,7 +28,6 @@ void D3DXMesh::Create(std::string link) {
 	Mesh_Info.reserve(MeshParser.totalmeshes);
 	for (int i = 0; i<MeshParser.totalmeshes;i++)
 	{
-
 		Parser::mesh pactual = MeshParser.meshesTotal[i];
 		MeshInfo tmp;
 		int shaderID = g_pBaseDriver->CreateShader(vstr, fstr, SigBase);
@@ -80,6 +79,8 @@ void D3DXMesh::Create(std::string link) {
 			if (TexId == -1) {
 				delete pTexture;
 			}
+			else
+				textureBuffer.insert(std::make_pair(pactual.txtbuffer[j], (pTexture)));
 
 			hr = D3D11Device->CreateBuffer(&bdesc, &subData, &tmp_subset.IB);
 			if (hr != S_OK) {
@@ -87,7 +88,6 @@ void D3DXMesh::Create(std::string link) {
 				return;
 			}
 			tmp.SubSets.push_back(tmp_subset);
-			textureBuffer.insert(std::make_pair(pactual.txtbuffer[j], (pTexture)));
 		}
 
 		Mesh_Info.push_back(tmp);
@@ -115,7 +115,6 @@ void D3DXMesh::Draw(float *t, float *vp) {
 
 	if (t)
 		transform = t;
-		
 	
 	for (int i =0; i<MeshParser.totalmeshes; i++)
 	{
@@ -123,17 +122,8 @@ void D3DXMesh::Draw(float *t, float *vp) {
 		Parser::mesh pactual = MeshParser.meshesTotal[i];
 		XMATRIX44 VP = static_cast<XMATRIX44>(vp);
 		XMATRIX44 World = static_cast<XMATRIX44>(t);
-		
-		/*XMATRIX44 Scale;
-		XMATRIX44 View;
-		XMATRIX44 Projection;
-		XMatViewLookAtLH(View, XVECTOR3(0.0f, 1.0f, -10.0f), XVECTOR3(0.0f, 10.0f, 1.0f), XVECTOR3(0.0f, 1.0f, 0.0f));
-		XMatPerspectiveLH(Projection, Deg2Rad(140.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
-		XMatScaling(Scale, .5f, .5f, .5f);
-		XMATRIX44 fakeWVP = Scale*View*Projection;*/
 
 		CnstBuffer.World = transform;
-		//CnstBuffer.WVP = fakeWVP;
 		CnstBuffer.WVP = World*VP;
 		CnstBuffer.WorldView = transform;
 		
@@ -158,13 +148,26 @@ void D3DXMesh::Draw(float *t, float *vp) {
 			D3D11DeviceContext->UpdateSubresource(pd3dConstantBuffer.Get(), 0, 0, &CnstBuffer, 0, 0);
 			
 			auto it = this->textureBuffer.find(pactual.txtbuffer[j]);
-			D3DXTexture *texd3d = dynamic_cast<D3DXTexture*>(it->second);
-			D3D11DeviceContext->PSSetShaderResources(0, 1, texd3d->pSRVTex.GetAddressOf());
-			D3D11DeviceContext->PSSetSamplers(0, 1, texd3d->pSampler.GetAddressOf());
+			if (it != textureBuffer.end() || it->first.size() > 3)
+			{
+				D3DXTexture *texd3d = dynamic_cast<D3DXTexture*>(it->second);
+				D3D11DeviceContext->PSSetShaderResources(0, 1, texd3d->pSRVTex.GetAddressOf());
+				D3D11DeviceContext->PSSetSamplers(0, 1, texd3d->pSampler.GetAddressOf());
+
+			}
+
+			/*auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
+			if (nm != textureBuffer.end() || nm->first.size() > 3)
+			{
+				D3DXTexture *nrm3d = dynamic_cast<D3DXTexture*>(nm->second);
+				D3D11DeviceContext->PSSetShaderResources(0, 1, nrm3d->pSRVTex.GetAddressOf());
+				D3D11DeviceContext->PSSetSamplers(0, 1, nrm3d->pSampler.GetAddressOf());
+
+			}*/
 
 			D3D11DeviceContext->VSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
 			D3D11DeviceContext->PSSetConstantBuffers(0, 1, pd3dConstantBuffer.GetAddressOf());
-
+			
 			D3D11DeviceContext->IASetIndexBuffer(subinfo.IB.Get(), DXGI_FORMAT_R16_UINT, 0);
 
 			

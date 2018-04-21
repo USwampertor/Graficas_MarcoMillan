@@ -54,10 +54,12 @@ void XMatTranslation(XMATRIX44 & ToTranslate, const float & dX, const float & dY
 
 void XMatTranslation(XMATRIX44 & ToTranslate, XVECTOR3&Differential)
 {
-	ToTranslate.m11 += Differential.x; ToTranslate.m12 += Differential.x; ToTranslate.m13 += Differential.x; ToTranslate.m14 += Differential.x;
-	ToTranslate.m21 += Differential.y; ToTranslate.m22 += Differential.y; ToTranslate.m23 += Differential.y; ToTranslate.m24 += Differential.y;
-	ToTranslate.m31 += Differential.z; ToTranslate.m32 += Differential.z; ToTranslate.m33 += Differential.z; ToTranslate.m34 += Differential.z;
-
+	//ToTranslate.m11 += Differential.x; ToTranslate.m12 += Differential.x; ToTranslate.m13 += Differential.x; ToTranslate.m14 += Differential.x;
+	//ToTranslate.m21 += Differential.y; ToTranslate.m22 += Differential.y; ToTranslate.m23 += Differential.y; ToTranslate.m24 += Differential.y;
+	//ToTranslate.m31 += Differential.z; ToTranslate.m32 += Differential.z; ToTranslate.m33 += Differential.z; ToTranslate.m34 += Differential.z;
+	ToTranslate.m41 += Differential.x;
+	ToTranslate.m42 += Differential.y;
+	ToTranslate.m43 += Differential.z;
 }
 
 void XMatScaling(XMATRIX44 & ToScale, const float & kX, const float &kY, const float &kZ)

@@ -49,13 +49,17 @@ void GLMesh::Create(std::string link) {
 			TexId = pTexture->LoadTexture(pactual.txtbuffer[j].c_str());
 			if (TexId == -1) {
 				delete pTexture;
-			}//
+			}
+			else
+				textureBuffer.insert(std::make_pair(pactual.txtbuffer[j], (pTexture)));//
 			//normal
 			pNormal = new GLTexture;
 			TexId = pNormal->LoadTexture(pactual.nrmFileBuffer[j].c_str());
 			if (TexId == -1) {
 				delete pNormal;
-			}//
+			}
+			else
+				normalBuffer.insert(std::make_pair(pactual.nrmFileBuffer[j], (pNormal)));//
 			glGenBuffers(1, &tmp_subset.Id);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, tmp_subset.Id);
 			glBufferData(
@@ -66,8 +70,8 @@ void GLMesh::Create(std::string link) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 			tmp.SubSets.push_back(tmp_subset);
-			textureBuffer.insert(std::make_pair(pactual.txtbuffer[j], (pTexture)));
-			normalBuffer.insert(std::make_pair(pactual.nrmFileBuffer[j], (pNormal)));
+			
+			
 		}
 		Mesh_Info.push_back(tmp);
 	}
@@ -87,9 +91,9 @@ void GLMesh::Draw(float *t, float *vp) {
 	{
 		MeshInfo drawinfo = Mesh_Info[i];
 		Parser::mesh pactual = MeshParser.meshesTotal[i];
-		
 		XMATRIX44 World = static_cast<XMATRIX44>(t);
 		XMATRIX44 VP = static_cast<XMATRIX44>(vp);
+
 		XMATRIX44 WV = transform;
 		XMATRIX44 WVP = World*VP;
 
@@ -118,16 +122,23 @@ void GLMesh::Draw(float *t, float *vp) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, subinfo.Id);
 
 			auto it = this->textureBuffer.find(pactual.txtbuffer[j]);
-			GLTexture *texgl = dynamic_cast<GLTexture*>(it->second);
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texgl->id);
-			glUniform1i(s->tex0_loc, 0);
+			if (it != textureBuffer.end()||it->first.size()>3)
+			{
+				GLTexture *texgl = dynamic_cast<GLTexture*>(it->second);
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, texgl->id);
+				glUniform1i(s->tex0_loc, 0);
+			}
 			
 			auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
-			GLTexture *nrmgl = dynamic_cast<GLTexture*>(nm->second);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, nrmgl->id);
-			glUniform1i(s->tex1_loc, 1);
+			if (it != textureBuffer.end() || it->first.size()>3)
+			{
+				GLTexture *nrmgl = dynamic_cast<GLTexture*>(nm->second);
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, nrmgl->id);
+				glUniform1i(s->tex1_loc, 1);
+			}
+			
 
 			glEnableVertexAttribArray(s->vertexAttribLoc);
 			glVertexAttribPointer(s->vertexAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(0));

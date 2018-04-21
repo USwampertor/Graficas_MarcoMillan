@@ -36,7 +36,7 @@ int IDVPrimitiveManager::CreateMesh()
 	primitives.push_back(primitive);
 	return (int)(primitives.size() - 1);
 }
-int IDVPrimitiveManager::CreateMesh(std::string link)
+int IDVPrimitiveManager::CreateMesh(std::string link,IDVSceneProps *prop)
 {
 	IDVPrimitiveBase *primitive = 0;
 
@@ -45,6 +45,7 @@ int IDVPrimitiveManager::CreateMesh(std::string link)
 	else
 		primitive = new D3DXMesh();
 	primitive->Create(link);
+	primitive->SetSceneProps(prop);
 	primitives.push_back(primitive);
 	return (int)(primitives.size() - 1);
 }

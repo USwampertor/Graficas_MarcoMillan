@@ -17,7 +17,7 @@ public:
 	int  CreateQuad();
 	void SetSceneProps(IDVSceneProps *p);
 	int CreateMesh();
-	int CreateMesh(std::string link);
+	int CreateMesh(std::string link,IDVSceneProps *prop);
 	void DrawPrimitives();
 	void DestroyPrimitives();
 	IDVPrimitiveBase*	GetPrimitive(unsigned int);
