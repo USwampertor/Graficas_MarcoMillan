@@ -31,7 +31,6 @@ float4 FS( VS_OUTPUT input ) : SV_TARGET {
 	texnormal.g = -texnormal.g;
 	
 	float4 lightvec = normalize(LightPositions-input.wposition);
-	
 	float3x3 TBN= float3x3(Tan.xyz,Bin.xyz,Norm.xyz);
 	float4 Normal = float4(normalize(mul(texnormal.xyz,TBN)),1.0);
 	float att = clamp(dot(lightvec,Normal),0.0,1.0);

@@ -7,7 +7,7 @@ void IDVGLQuad::Create(){
 
 	pTexture = new GLTexture;
 
-	TexId = pTexture->LoadTexture("cerdo_D.tga");
+	//TexId = pTexture->LoadTexture("cerdo_D.tga");
 
 	if (TexId == -1) {
 		delete pTexture;
@@ -25,10 +25,14 @@ void IDVGLQuad::Create(){
 
 	g_pBaseDriver->CreateShader(vstr, fstr, SigBase);
 
-	vertices[0] = { -1.0f,  1.0f, 0.0f, 1.0f,  0.0f, 0.0f };
-	vertices[1] = { -1.0f, -1.0f, 0.0f, 1.0f,  0.0f, 1.0f };
-	vertices[2] = {  1.0f, -1.0f, 0.0f, 1.0f,  1.0f, 1.0f };
-	vertices[3] = {  1.0f,  1.0f, 0.0f, 1.0f,  1.0f, 0.0f };
+	vertices[0] = { -.05f,  .05f, -.05f, 1.0f,  0.0f, 0.0f };
+	vertices[1] = { -.05f, -.05f, -.05f, 1.0f,  0.0f, 0.5f };
+	vertices[2] = {  .05f, -.05f, -.05f, 1.0f,  0.5f, 0.5f };
+	vertices[3] = {  .05f,  .05f, -.05f, 1.0f,  0.5f, 0.0f };
+	vertices[4] = {  .05f,  .05f,  .05f, 1.0f,  0.5f, 0.0f };
+	vertices[5] = {  .05f, -.05f,  .05f, 1.0f,  0.5f, 0.0f };
+	vertices[6] = { -.05f, -.05f,  .05f, 1.0f,  0.5f, 0.0f };
+	vertices[7] = { -.05f,  .05f,  .05f, 1.0f,  0.5f, 0.0f };
 
 	indices[0] = 2;
 	indices[1] = 1;
@@ -36,15 +40,46 @@ void IDVGLQuad::Create(){
 	indices[3] = 3;
 	indices[4] = 2;
 	indices[5] = 0;
+	indices[6] = 5;
+	indices[7] = 2;
+	indices[8] = 3;
+	indices[9] = 4;
+	indices[10] = 5;
+	indices[11] = 3;
+	indices[12] = 6;
+	indices[13] = 5;
+	indices[14] = 4;
+	indices[15] = 7;
+	indices[16] = 6;
+	indices[17] = 4;
+	indices[18] = 1;
+	indices[19] = 6;
+	indices[20] = 7;
+	indices[21] = 0;
+	indices[22] = 1;
+	indices[23] = 7;
+	indices[24] = 3;
+	indices[25] = 0;
+	indices[26] = 7;
+	indices[27] = 4;
+	indices[28] = 3;
+	indices[29] = 7;
+	indices[30] = 2;
+	indices[31] = 1;
+	indices[32] = 6;
+	indices[33] = 5;
+	indices[34] = 2;
+	indices[35] = 6;
+
 
 	glGenBuffers(1, &VB);
 	glBindBuffer(GL_ARRAY_BUFFER, VB);
-	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(Vert), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(Vert), &vertices[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenBuffers(1, &IB);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned short), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof(unsigned short), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 }

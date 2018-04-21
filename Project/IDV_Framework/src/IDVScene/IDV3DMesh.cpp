@@ -84,6 +84,15 @@ void D3DXMesh::Create(std::string link) {
 			else
 				textureBuffer.insert(std::make_pair(pactual.txtbuffer[j], (pTexture)));
 
+			pNormal = new D3DXTexture;
+			TexId = pNormal->LoadTexture(pactual.nrmFileBuffer[j].c_str());
+
+			if (TexId == -1) {
+				delete pNormal;
+			}
+			else
+				normalBuffer.insert(std::make_pair(pactual.nrmFileBuffer[j], (pNormal)));
+
 			hr = D3D11Device->CreateBuffer(&bdesc, &subData, &tmp_subset.IB);
 			if (hr != S_OK) {
 				printf("Error Creating Index Buffer\n");
@@ -160,7 +169,7 @@ void D3DXMesh::Draw(float *t, float *vp) {
 			}
 
 			auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
-			if (nm != normalBuffer.end())
+			if (nm->first != (std::string)(""))
 			{
 				D3DXTexture *nrm3d = dynamic_cast<D3DXTexture*>(nm->second);
 				D3D11DeviceContext->PSSetShaderResources(1, 1, nrm3d->pSRVTex.GetAddressOf());

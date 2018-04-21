@@ -40,6 +40,8 @@ public:
 	Texture		*pNormal;
 	std::map<std::string, Texture*> textureBuffer;
 	std::map<std::string, Texture*> normalBuffer;
+	std::map<std::string, Texture*>::const_iterator it;
+	std::map<std::string, Texture*>::const_iterator nm;
 };
 
 #endif

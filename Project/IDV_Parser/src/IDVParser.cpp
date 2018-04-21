@@ -65,6 +65,8 @@ bool Parser::Load(std::string filename)
 	std::cout << ".";
 ///se supone que aqui como ya checo cuantos mesh_ hay, sabemos cuantos meshes hay y se va a poner a ciclar
 	mreader.seekg(0, mreader.beg);
+	mreader.seekg(0, mreader.beg);
+
 ///me posiciono al principio de nuevo
 	for (int index = 0; index < totalmeshes; index++)
 	{
@@ -123,7 +125,7 @@ bool Parser::Load(std::string filename)
 
 			}
 		}
-		std::cout << ".";
+		std::cout << "x";
 		mreader >> c >> actual.totalnormals >> c;
 		for (unsigned int i = 0; i < actual.totalnormals; i++)
 		{
@@ -165,26 +167,29 @@ bool Parser::Load(std::string filename)
 		}
 		std::cout << ".";
 		mreader >> c >> actual.totalObjects >> c;
-		for (int i = 0; i < actual.totalObjects; i++)
+		if (actual.totalnormals > 0)
 		{
-			unsigned short type;
-			mreader >> c >> c >> c >> c >> type >> c >> c >> c >> c;
-			actual.objectTypes.push_back(type);
-		}
-		mreader >> actual.totalmeta >> c;
-		actual.MeshMeta.resize(actual.totalmeta);
-		for (unsigned int i = 0; i < actual.totalvert; i++)
-		{
-			for (int j = 0; j < actual.totalObjects; j++)
+			for (int i = 0; i < actual.totalObjects; i++)
 			{
-				metaobject meta;
-				unsigned int m1, m2, m3;
-				mreader >> m1 >> c >> m2 >> c >> m3 >> c;
-				float mx = reinterpret_cast<float&>(m1);
-				float my = reinterpret_cast<float&>(m2);
-				float mz = reinterpret_cast<float&>(m3);
-				meta.mx = mx; meta.my = my; meta.mz = mz;
-				actual.MeshMeta[j].submeta.push_back(meta);
+				unsigned short type;
+				mreader >> c >> c >> c >> c >> type >> c >> c >> c >> c;
+				actual.objectTypes.push_back(type);
+			}
+			mreader >> actual.totalmeta >> c;
+			actual.MeshMeta.resize(actual.totalmeta);
+			for (unsigned int i = 0; i < actual.totalvert; i++)
+			{
+				for (int j = 0; j < actual.totalObjects; j++)
+				{
+					metaobject meta;
+					unsigned int m1, m2, m3;
+					mreader >> m1 >> c >> m2 >> c >> m3 >> c;
+					float mx = reinterpret_cast<float&>(m1);
+					float my = reinterpret_cast<float&>(m2);
+					float mz = reinterpret_cast<float&>(m3);
+					meta.mx = mx; meta.my = my; meta.mz = mz;
+					actual.MeshMeta[j].submeta.push_back(meta);
+				}
 			}
 		}
 		std::cout << ".";
@@ -264,6 +269,7 @@ bool Parser::Load(std::string filename)
 			actual.nrmFileBuffer.push_back(normal);
 		}
 		///Finished to get all shit from a mesh, now going to put all shits in the mesh
+		if(actual.MeshMeta.size()>0)
 		for (itvert = vertexbuffer.begin(),
 			ituv = uvbuffer.begin(),
 			ittan = actual.MeshMeta[0].submeta.begin(),
@@ -296,7 +302,29 @@ bool Parser::Load(std::string filename)
 			vpc.v = (*ituv).v;
 			actual.MeshVec.push_back(vpc);
 		}
-		
+		else
+			for (itvert = vertexbuffer.begin(),
+				ituv = uvbuffer.begin(),
+				itnormals = actual.MeshNorm.begin();
+				itvert != vertexbuffer.end() &&
+				ituv != uvbuffer.end() &&
+				itnormals != actual.MeshNorm.end();
+				itvert++, ituv++, itnormals++
+				)
+			{
+				vertex vpc;
+				vpc.x = (*itvert).x;
+				vpc.y = (*itvert).y;
+				vpc.z = (*itvert).z;
+				vpc.w = (*itvert).w;
+				vpc.nx = (*itnormals).nx;
+				vpc.ny = (*itnormals).ny;
+				vpc.nz = (*itnormals).nz;
+				vpc.nw = (*itnormals).nw;
+				vpc.u = (*ituv).u;
+				vpc.v = (*ituv).v;
+				actual.MeshVec.push_back(vpc);
+			}
 
 
 		meshesTotal.push_back(actual);

@@ -57,6 +57,7 @@ void GLMesh::Create(std::string link) {
 			TexId = pNormal->LoadTexture(pactual.nrmFileBuffer[j].c_str());
 			if (TexId == -1) {
 				delete pNormal;
+				std::cout << "Deleted pNormal" << std::endl;
 			}
 			else
 				normalBuffer.insert(std::make_pair(pactual.nrmFileBuffer[j], (pNormal)));//
@@ -121,8 +122,8 @@ void GLMesh::Draw(float *t, float *vp) {
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, subinfo.Id);
 
-			auto it = this->textureBuffer.find(pactual.txtbuffer[j]);
-			if (it != textureBuffer.end())
+			it = this->textureBuffer.find(pactual.txtbuffer[j]);
+			if (it != textureBuffer.cend())
 			{
 				GLTexture *texgl = dynamic_cast<GLTexture*>(it->second);
 				glActiveTexture(GL_TEXTURE0);
@@ -130,15 +131,14 @@ void GLMesh::Draw(float *t, float *vp) {
 				glUniform1i(s->tex0_loc, 0);
 			}
 			
-			auto nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
-			if (it != textureBuffer.end())
+			nm = this->normalBuffer.find(pactual.nrmFileBuffer[j]);
+			if (nm->first != (std::string)(""))
 			{
 				GLTexture *nrmgl = dynamic_cast<GLTexture*>(nm->second);
 				glActiveTexture(GL_TEXTURE1);
 				glBindTexture(GL_TEXTURE_2D, nrmgl->id);
 				glUniform1i(s->tex1_loc, 1);
 			}
-			
 
 			glEnableVertexAttribArray(s->vertexAttribLoc);
 			glVertexAttribPointer(s->vertexAttribLoc, 4, GL_FLOAT, GL_FALSE, sizeof(Parser::vertex), BUFFER_OFFSET(0));

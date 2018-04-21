@@ -25,8 +25,8 @@ public:
 
 	unsigned int	SigBase;
 
-	Vert			vertices[4];
-	unsigned short	indices[6];
+	Vert			vertices[8];
+	unsigned short	indices[36];
 	unsigned int	VB;
 	unsigned int	IB;
 	XMATRIX44		transform;

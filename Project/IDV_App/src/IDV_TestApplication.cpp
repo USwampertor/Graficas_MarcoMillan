@@ -23,16 +23,19 @@ void IDVTestApplication::CreateAssets() {
 	int index = IDVPrimitiveMgr->CreateMesh(alfa,&sceneProp);
 	Mesh[0].CreateInstance(IDVPrimitiveMgr->GetPrimitive(index), &activeCamera->VP);
 	instancesInScene++;
+	
 	alfa = "Models/CerdoNuevo.X ";
 	index = IDVPrimitiveMgr->CreateMesh(alfa,&sceneProp);
 	Mesh[1].CreateInstance(IDVPrimitiveMgr->GetPrimitive(index), &activeCamera->VP);
 	instancesInScene++;
-	IDVPrimitiveMgr->SetSceneProps(&sceneProp);
-	/*alfa = "Models/CerdoNuevo.X ";
+	
+	//IDVPrimitiveMgr->SetSceneProps(&sceneProp);
+	alfa = "Models/Pig.X ";
 	index = IDVPrimitiveMgr->CreateMesh(alfa, &sceneProp);
+	//index = IDVPrimitiveMgr->CreateQuad();
 	Mesh[2].CreateInstance(IDVPrimitiveMgr->GetPrimitive(index), &activeCamera->VP);
 	instancesInScene++;
-	IDVPrimitiveMgr->SetSceneProps(&sceneProp);*/
+	IDVPrimitiveMgr->SetSceneProps(&sceneProp);
 
 }
 
@@ -56,8 +59,12 @@ void IDVTestApplication::OnUpdate() {
 
 
 	activeCamera->Update(deltaTime);
-	/*Mesh[0].TranslateAbsolute(Light->Position.x, Light->Position.y, Light->Position.z);
-	Mesh[0].Update();*/
+	Mesh[2].ScaleAbsolute(1.0f);
+	Mesh[2].Position.m41 = Light->Position.x;
+	Mesh[2].Position.m42 = Light->Position.y;
+	Mesh[2].Position.m43 = Light->Position.z;
+
+	Mesh[2].Update();
 
 	OnDraw();
 }
