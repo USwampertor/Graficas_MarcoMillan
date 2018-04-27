@@ -54,5 +54,3 @@ float4 FS( VS_OUTPUT input ) : SV_TARGET {
 	color += Specular;
 	return color;
 }
-
-

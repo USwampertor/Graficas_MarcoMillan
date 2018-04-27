@@ -34,4 +34,3 @@ VS_OUTPUT VS( VS_INPUT input ){
     OUT.texture0  = input.texture0;
 	return OUT;
 }
-

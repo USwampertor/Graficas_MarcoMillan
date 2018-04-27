@@ -16,7 +16,9 @@
 extern ComPtr<ID3D11Device>            D3D11Device;
 extern ComPtr<ID3D11DeviceContext>     D3D11DeviceContext;
 #endif
-
+void Cube::Create(std::string link)
+{
+}
 void Cube::Create() {
 #ifdef USING_GL_COMMON
 	tex = new GLTexture;

@@ -47,7 +47,9 @@ public:
 	
 	struct matsubset
 	{
-		//std::map<int, std::string> strBuffer;
+		int tiledB = -1;
+		int lightning = -1;
+		bool usingnormal = false;
 		std::vector<unsigned short> mtlBuffer;
 	};
 	struct mesh
@@ -66,6 +68,7 @@ public:
 			totalvert, totalnormals, totaluv,totalmeta,
 			totalMaterial;
 		unsigned short totalindex, totalObjects,matInMesh;
+		
 	};
 	std::vector<mesh> meshesTotal;
 	std::string

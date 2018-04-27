@@ -15,7 +15,7 @@ public:
 		pVP = vp;
 	}
 	int  CreateQuad();
-	int	 CreateCube();
+	int	 CreateCube(IDVSceneProps *prop);
 	void SetSceneProps(IDVSceneProps *p);
 	int CreateMesh();
 	int CreateMesh(std::string link,IDVSceneProps *prop);

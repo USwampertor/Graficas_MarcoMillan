@@ -47,36 +47,36 @@ void Camera::SetLookAt(XVECTOR3 v)
 }
 void Camera::MoveForward(float dt)
 {
-	/*XVECTOR3 moveDir = Look - Eye;
+	XVECTOR3 moveDir = Look - Eye;
 	moveDir.Normalize();
 	Look += moveDir;
-	Eye += moveDir;*/
-	Velocity.z -= Speed*dt;
+	Eye += moveDir;
+	//Velocity.z -= Speed*dt;
 }
 void Camera::MoveBackward(float dt)
 {
-	/*XVECTOR3 moveDir = Look - Eye;
+	XVECTOR3 moveDir = Look - Eye;
 	moveDir.Normalize();
 	Look -= moveDir;
-	Eye -= moveDir;*/
-	Velocity.z += Speed*dt;
+	Eye -= moveDir;
+	//Velocity.z += Speed*dt;
 
 }
 void Camera::StrafeLeft(float dt)
 {
-	/*XVECTOR3 moveDir = Right;
+	XVECTOR3 moveDir = Right;
 	moveDir.Normalize();
 	Look -= moveDir;
-	Eye -= moveDir;*/
-	Velocity.x += Speed*dt;
+	Eye -= moveDir;
+	//Velocity.x += Speed*dt;
 }
 void Camera::StrafeRight(float dt)
 {
-	/*XVECTOR3 moveDir = Right;
+	XVECTOR3 moveDir = Right;
 	moveDir.Normalize();
 	Look += moveDir;
-	Eye += moveDir;*/
-	Velocity.x -= Speed*dt;
+	Eye += moveDir;
+	//Velocity.x -= Speed*dt;
 
 }
 void Camera::MoveUp(float dt)
@@ -153,7 +153,7 @@ void Camera::Update(float dt)
 	XMATRIX44 X_, Y_, Z_, T_;
 	XMatRotationXLH(X_, -Pitch);
 	XMatRotationYLH(Y_, -Yaw);
-	XMatRotationXLH(Z_, -Roll);
+	XMatRotationZLH(Z_, -Roll);
 	View = Z_*Y_*X_;
 	XMATRIX44 trans;
 	XMatTranspose(trans, View);
@@ -165,16 +165,16 @@ void Camera::Update(float dt)
 	Right.Normalize();
 
 	XVECTOR3 currentvel =
-		Right*Velocity.x + Up*Velocity.y + Look*Velocity.z;
-	Velocity = Velocity - Velocity*Friction;
-	Eye = Eye + currentvel;
+		Velocity.x*Right + Velocity.y*Up + Velocity.z*Look;
+	Velocity -= Velocity*Friction;
+	Eye += currentvel;
 
-	XVECTOR3 teye = Eye*-1;
+	XVECTOR3 teye = -Eye;
 	XMatTranslation(T_, teye);
 	View = T_*View;
 	VP = View*Projection;
 	XMatViewLookAtLH(View, Eye, Look, Up);
-	Right.x = View.m11;
+	/*Right.x = View.m11;
 	Right.y = View.m21;
 	Right.z = View.m31;
 	Up.x = View.m12;
@@ -182,7 +182,7 @@ void Camera::Update(float dt)
 	Up.z = View.m32;
 	Look.x = View.m13;
 	Look.y = View.m23;
-	Look.z = View.m33;
+	Look.z = View.m33;*/
 	
 	/*VP = View*Projection;
 	XMatTranslation(Position, Velocity);

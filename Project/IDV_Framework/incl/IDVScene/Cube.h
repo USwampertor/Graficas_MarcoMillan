@@ -64,6 +64,7 @@ public:
 
 	void Create();
 	void Create(char *) {}
+	void Create(std::string link);
 	void Transform(float *t);
 	void Draw(float *t,float *vp);
 	void Destroy();

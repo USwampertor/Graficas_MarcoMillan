@@ -3,6 +3,7 @@
 #include <IDVScene/IDVD3DQuad.h>
 #include <IDVScene/IDV3DMesh.h>
 #include <IDVScene/IDVGLMesh.h>
+#include <IDVScene/Cube.h>
 #include <string>
 IDVPrimitiveBase*	IDVPrimitiveManager::GetPrimitive(unsigned int index) {
 	if (index >= primitives.size())
@@ -49,13 +50,15 @@ int IDVPrimitiveManager::CreateMesh(std::string link,IDVSceneProps *prop)
 	primitives.push_back(primitive);
 	return (int)(primitives.size() - 1);
 }
-int IDVPrimitiveManager::CreateCube()
+int IDVPrimitiveManager::CreateCube(IDVSceneProps *prop)
 {
-	/*IDVPrimitiveBase *primitive = 0;
-	if (this->SelectedApi == IDVAPI::OPENGL)
-		primitive = new Cube();
-	else
-		primitive = new Cube();*/
+	IDVPrimitiveBase *primitive = 0;
+	primitive = new Cube();
+	primitive->Create();
+	primitive->SetSceneProps(prop);
+	primitives.push_back(primitive);
+	return (int)(primitives.size() - 1);
+
 }
 void IDVPrimitiveManager::SetSceneProps(IDVSceneProps *p) {
 	for (unsigned int i = 0; i < primitives.size(); i++) {

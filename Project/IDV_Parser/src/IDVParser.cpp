@@ -242,9 +242,23 @@ bool Parser::Load(std::string filename)
 						}
 						else
 							normal = a;
+
+						actual.MeshMat[i].usingnormal = true;
 					}
 				}
-
+				if (a == "EffectParamDWord")
+				{
+					mreader >> c >> a;
+					if (a == "\"Tiled\";")
+					{
+						mreader >> actual.MeshMat[i].tiledB;
+						
+					}
+					else if (a == "\"NoLighting\";")
+					{
+						mreader >> actual.MeshMat[i].lightning;
+					}
+				}
 
 				if (a==txtfile)
 				{

@@ -83,15 +83,18 @@ void D3DXMesh::Create(std::string link) {
 			}
 			else
 				textureBuffer.insert(std::make_pair(pactual.txtbuffer[j], (pTexture)));
+			if (pactual.MeshMat[j].usingnormal)
+			{
+				pNormal = new D3DXTexture;
+				TexId = pNormal->LoadTexture(pactual.nrmFileBuffer[j].c_str());
 
-			pNormal = new D3DXTexture;
-			TexId = pNormal->LoadTexture(pactual.nrmFileBuffer[j].c_str());
-
-			if (TexId == -1) {
-				delete pNormal;
+				if (TexId == -1) {
+					delete pNormal;
+				}
+				else
+					normalBuffer.insert(std::make_pair(pactual.nrmFileBuffer[j], (pNormal)));
 			}
-			else
-				normalBuffer.insert(std::make_pair(pactual.nrmFileBuffer[j], (pNormal)));
+			
 
 			hr = D3D11Device->CreateBuffer(&bdesc, &subData, &tmp_subset.IB);
 			if (hr != S_OK) {
