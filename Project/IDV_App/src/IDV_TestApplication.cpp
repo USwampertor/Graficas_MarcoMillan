@@ -37,6 +37,7 @@ void IDVTestApplication::CreateAssets() {
 	instancesInScene++;
 	IDVPrimitiveMgr->SetSceneProps(&sceneProp);
 
+	
 }
 
 void IDVTestApplication::DestroyAssets() {
@@ -129,8 +130,9 @@ void IDVTestApplication::OnInput() {
 
 	if (iManager.PressedKey(T800K_KP2))
 		Light->Position.z += 10.0 * deltaTime;
-	float yaw = 0.01f*static_cast<float>(iManager.xDelta);
-	float pitch = 0.01f*static_cast<float>(iManager.yDelta);
+	float yaw = 0.1f*static_cast<float>(iManager.xDelta);
+	float pitch = 0.1f*static_cast<float>(iManager.yDelta);
 	activeCamera->MovePitch(Deg2Rad(pitch));
+	activeCamera->MoveYaw(Deg2Rad(yaw));
 	
 }

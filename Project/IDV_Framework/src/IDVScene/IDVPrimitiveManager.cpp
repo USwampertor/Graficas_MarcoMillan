@@ -49,6 +49,14 @@ int IDVPrimitiveManager::CreateMesh(std::string link,IDVSceneProps *prop)
 	primitives.push_back(primitive);
 	return (int)(primitives.size() - 1);
 }
+int IDVPrimitiveManager::CreateCube()
+{
+	/*IDVPrimitiveBase *primitive = 0;
+	if (this->SelectedApi == IDVAPI::OPENGL)
+		primitive = new Cube();
+	else
+		primitive = new Cube();*/
+}
 void IDVPrimitiveManager::SetSceneProps(IDVSceneProps *p) {
 	for (unsigned int i = 0; i < primitives.size(); i++) {
 		primitives[i]->SetSceneProps(p);

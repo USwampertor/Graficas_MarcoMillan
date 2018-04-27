@@ -99,6 +99,9 @@
     <ClCompile Include="src\IDVVideo\IDVGLTexture.cpp">
       <Filter>Source Files\IDVVideo</Filter>
     </ClCompile>
+    <ClCompile Include="src\IDVScene\Cube.cpp">
+      <Filter>Source Files\IDVScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="incl\IDVBase\IDVCoreBase.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="incl\IDVUtils\IDVChecker.h">
       <Filter>Header Files\IDVUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\IDVScene\Cube.h">
+      <Filter>Header Files\IDVScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

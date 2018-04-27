@@ -24,6 +24,7 @@ public:
 		XMATRIX44 World;
 		XMATRIX44 WorldView;
 		XVECTOR3 LightPositions;
+		XVECTOR3 CamPos;
 	};
 	struct SubsetInfo {
 		

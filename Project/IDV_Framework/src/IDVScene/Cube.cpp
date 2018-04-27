@@ -10,7 +10,7 @@
 * ** Enjoy, learn and share.
 *********************************************************/
 
-#include <scene/Cube.h>
+#include <IDVScene/Cube.h>
 
 #ifdef USING_D3D11
 extern ComPtr<ID3D11Device>            D3D11Device;

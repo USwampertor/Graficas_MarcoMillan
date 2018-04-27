@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\IDVScene\Cube.cpp" />
     <ClCompile Include="src\IDVScene\IDV3DMesh.cpp" />
     <ClCompile Include="src\IDVScene\IDVD3DQuad.cpp" />
     <ClCompile Include="src\IDVScene\IDVGLMesh.cpp" />
@@ -42,6 +43,7 @@
   <ItemGroup>
     <ClInclude Include="incl\IDVBase\IDVCoreBase.h" />
     <ClInclude Include="incl\IDVDefs.h" />
+    <ClInclude Include="incl\IDVScene\Cube.h" />
     <ClInclude Include="incl\IDVScene\IDV3DMesh.h" />
     <ClInclude Include="incl\IDVScene\IDVD3DQuad.h" />
     <ClInclude Include="incl\IDVScene\IDVGLMesh.h" />

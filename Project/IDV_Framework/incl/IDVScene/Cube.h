@@ -13,9 +13,8 @@
 #ifndef T800_CUBE_GL_H
 #define T800_CUBE_GL_H
 
-#include <Config.h>
 
-#include <utils/Utils.h>
+#include <IDVUtils/IDVUtils.h>
 
 #ifdef USING_OPENGL_ES20
 #include <GLES2/gl2.h>
@@ -35,8 +34,8 @@
 #include <D3Dcompiler.h>
 #endif
 
-#include <utils/xMaths.h>
-#include <scene/PrimitiveBase.h>
+#include <IDVMath.h>
+#include <IDVScene/IDVPrimitive.h>
 
 
 struct CVertex {
@@ -48,7 +47,7 @@ struct CVertex {
 
 
 
-class Cube : public PrimitiveBase {
+class Cube : public IDVPrimitiveBase {
 public:
 	Cube()
 #ifdef USING_GL_COMMON

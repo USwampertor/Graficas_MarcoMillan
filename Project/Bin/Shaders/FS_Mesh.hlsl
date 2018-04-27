@@ -3,6 +3,7 @@ cbuffer ConstantBuffer{
 	float4x4 World;  
 	float4x4 WorldView;
 	float4 LightPositions;
+	float4 CamPos;
 }
 
 SamplerState SS;
@@ -34,7 +35,23 @@ float4 FS( VS_OUTPUT input ) : SV_TARGET {
 	float3x3 TBN= float3x3(Tan.xyz,Bin.xyz,Norm.xyz);
 	float4 Normal = float4(normalize(mul(texnormal.xyz,TBN)),1.0);
 	float att = clamp(dot(lightvec,Normal),0.0,1.0);
+	
+	float4 Specular = float4(1.0,1.0,1.0,1.0);
+	float4 eyevec = normalize(CamPos-input.wposition);
+	//Phong
+	//float4 reflective = normalize(reflect(lightvec,Normal));
+	//float spec = dot(reflective,eyevec);
+	//Blinn
+	float4 reflective = normalize(lightvec+eyevec);
+	float spec = dot(-reflective,Normal);
+	//
+	spec = pow(spec,2.0);
+	spec*=att;
+	Specular *= spec;
+	////Specular *= Specularmap
+	
 	float4 color = att*texcolor;
+	color += Specular;
 	return color;
 }
 

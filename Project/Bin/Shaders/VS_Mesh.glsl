@@ -15,7 +15,7 @@ uniform highp mat4 WVP;
 uniform highp mat4 World;
 uniform highp mat4 WorldView;
 uniform highp vec4 LightPositions;
-
+uniform highp vec4 CamPos;
 void main(){
 	vecUVCoords = UV;
 	Pos = World*Vertex;

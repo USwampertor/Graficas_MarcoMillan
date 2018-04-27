@@ -2,11 +2,15 @@
 //#include <IDVMath.h>
  
 
-
+const XVECTOR3 Camera::RightConstCameraSpace = XVECTOR3{ 1.0f, 0.0f, 0.0f, 0.0f };
+const XVECTOR3 Camera::UpConstCameraSpace = XVECTOR3{ 0.0f, 1.0f, 0.0f, 0.0f };
+const XVECTOR3 Camera::LookConstCameraSpace = XVECTOR3{ 0.0f, 0.0f, 1.0f, 0.0f };
 
 Camera::Camera()
 {
-	
+	LookConstCameraSpace;
+	RightConstCameraSpace;
+
 	Right = XVECTOR3(0, 0, 1);
 	Up = XVECTOR3(0, 1, 0);
 }
@@ -43,95 +47,101 @@ void Camera::SetLookAt(XVECTOR3 v)
 }
 void Camera::MoveForward(float dt)
 {
-	XVECTOR3 moveDir = Look - Eye;
+	/*XVECTOR3 moveDir = Look - Eye;
 	moveDir.Normalize();
 	Look += moveDir;
-	Eye += moveDir;
-	//Velocity.x += Speed*dt;
+	Eye += moveDir;*/
+	Velocity.z -= Speed*dt;
 }
 void Camera::MoveBackward(float dt)
 {
-	XVECTOR3 moveDir = Look - Eye;
+	/*XVECTOR3 moveDir = Look - Eye;
 	moveDir.Normalize();
 	Look -= moveDir;
-	Eye -= moveDir;
+	Eye -= moveDir;*/
+	Velocity.z += Speed*dt;
+
 }
 void Camera::StrafeLeft(float dt)
 {
-	XVECTOR3 moveDir = Right;
+	/*XVECTOR3 moveDir = Right;
 	moveDir.Normalize();
 	Look -= moveDir;
-	Eye -= moveDir;
+	Eye -= moveDir;*/
+	Velocity.x += Speed*dt;
 }
 void Camera::StrafeRight(float dt)
 {
-	XVECTOR3 moveDir = Right;
+	/*XVECTOR3 moveDir = Right;
 	moveDir.Normalize();
 	Look += moveDir;
-	Eye += moveDir;
+	Eye += moveDir;*/
+	Velocity.x -= Speed*dt;
+
 }
-void	Camera::MoveUp(float dt)
+void Camera::MoveUp(float dt)
 {
 	XVECTOR3 moveDir = Up;
 	moveDir.Normalize();
 	Look -= moveDir;
 	Eye -= moveDir;
 }
-void	Camera::MoveDown(float dt)
+void Camera::MoveDown(float dt)
 {
 	XVECTOR3 moveDir = Up;
 	moveDir.Normalize();
 	Look += moveDir;
 	Eye += moveDir;
 }
-void	Camera::TurnLeft(float dt)
+void Camera::TurnLeft(float dt)
 {
-	Velocity -= Right*dt*20;
 }
-void	Camera::TurnRight(float dt)
+void Camera::TurnRight(float dt)
 {
-	Velocity += Right*dt*20;
 }
-void	Camera::TurnUp(float dt)
+void Camera::TurnUp(float dt)
 {
 	Velocity -= Up*dt * 2;
 }
-void	Camera::TurnDown(float dt)
+void Camera::TurnDown(float dt)
 {
 	Velocity += Up*dt * 2;
 }
 void Camera::MoveYaw(float radians)
 {
-	if (radians = 0.0f)
+	if (MaxYaw != 0.0f)
 	{
-		return;
+		if (
+			(Yaw + radians) > MaxYaw ||
+			(Yaw + radians) < -MaxYaw)
+		{
+			return;
+
+		}
+
 	}
-	radians += Yaw;
+	Yaw += radians;
+	/*radians += Yaw;
 	XMATRIX44 rotation;
 	XMatRotationAxisLH(rotation, Up, radians);
 	XVecTransformNormalLH(Right,Right,rotation);
-	XVecTransformNormalLH(Look, Look, rotation);
+	XVecTransformNormalLH(Look, Look, rotation);*/
 	
 }
 void Camera::MovePitch(float radians)
 {
-	if (radians == 0.0f)
+	if (MaxPitch != 0.0f)
 	{
+		if (
+			(Pitch + radians) > MaxPitch ||
+			(Pitch + radians) < -MaxPitch)
 		return;
 	}
-	Pitch -= radians;
-	if (Pitch > MaxPitch)
-	{
-		radians += Pitch - MaxPitch;
-	}
-	else if (Pitch < -MaxPitch)
-	{
-		radians += Pitch + MaxPitch;
-	}
-	XMATRIX44 rotation;
+	Pitch += radians;
+	/*XMATRIX44 rotation;
 	XMatRotationAxisLH(rotation, Right, radians);
 	XVecTransformNormalLH(Up, Up, rotation);
-	XVecTransformNormalLH(Look, Look, rotation);
+	XVecTransformNormalLH(Look, Look, rotation);*/
 	
 }
 void Camera::MoveRoll(float f)
@@ -140,7 +150,41 @@ void Camera::MoveRoll(float f)
 }
 void Camera::Update(float dt)
 {
+	XMATRIX44 X_, Y_, Z_, T_;
+	XMatRotationXLH(X_, -Pitch);
+	XMatRotationYLH(Y_, -Yaw);
+	XMatRotationXLH(Z_, -Roll);
+	View = Z_*Y_*X_;
+	XMATRIX44 trans;
+	XMatTranspose(trans, View);
+	XVecTransformNormalLH(Look, LookConstCameraSpace, trans);
+	XVecTransformNormalLH(Up, UpConstCameraSpace, trans);
+	XVecTransformNormalLH(Right, RightConstCameraSpace, trans);
+	Look.Normalize();
+	Up.Normalize();
+	Right.Normalize();
+
+	XVECTOR3 currentvel =
+		Right*Velocity.x + Up*Velocity.y + Look*Velocity.z;
+	Velocity = Velocity - Velocity*Friction;
+	Eye = Eye + currentvel;
+
+	XVECTOR3 teye = Eye*-1;
+	XMatTranslation(T_, teye);
+	View = T_*View;
 	VP = View*Projection;
+	XMatViewLookAtLH(View, Eye, Look, Up);
+	Right.x = View.m11;
+	Right.y = View.m21;
+	Right.z = View.m31;
+	Up.x = View.m12;
+	Up.y = View.m22;
+	Up.z = View.m32;
+	Look.x = View.m13;
+	Look.y = View.m23;
+	Look.z = View.m33;
+	
+	/*VP = View*Projection;
 	XMatTranslation(Position, Velocity);
 	Eye += Velocity;
 	Velocity = XVECTOR3(0, 0, 0);
@@ -157,7 +201,7 @@ void Camera::Update(float dt)
 
 	float lookLengthOnXZ = sqrtf(Look.z * Look.z + Look.x * Look.x);
 	Pitch = atan2f(Look.y, lookLengthOnXZ);
-	Yaw = atan2f(Look.x, Look.z);
+	Yaw = atan2f(Look.x, Look.z);*/
 }
 void Camera::Reset()
 {
